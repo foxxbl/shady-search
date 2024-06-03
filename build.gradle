@@ -1,0 +1,60 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+plugins {
+    id 'java'
+    alias(libs.plugins.springBoot)
+    alias(libs.plugins.javaFx)
+    alias(libs.plugins.lombok)
+    alias(libs.plugins.jpackage)
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor platform(SpringBootPlugin.BOM_COORDINATES),
+            "org.springframework.boot:spring-boot-configuration-processor"
+
+    implementation platform(SpringBootPlugin.BOM_COORDINATES)
+
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api',
+            libs.javafx.weaver,
+            'org.springframework.boot:spring-boot-starter',
+            'org.springframework.boot:spring-boot-starter-log4j2'
+
+    runtimeOnly 'com.sun.xml.bind:jaxb-impl'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+javafx {
+    version = "21.0.2"
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+
+java {
+    sourceCompatibility = '17'
+}
+
+
+bootRun {
+    if (project.hasProperty('jvmArgs')) {
+        jvmArgs project.jvmArgs.split('\\s+')
+    }
+    //jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"]
+}
+
+bootJar {
+    mainClass = "eu.foxxbl.x4.gameparser.shady.GameParserApplication"
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+configurations.configureEach {
+    exclude(group: 'org.springframework.boot', module: 'spring-boot-starter-logging')
+}

@@ -1,0 +1,7 @@
+shady-search:
+  filtered-stream-search-enabled: false
+  ui-title: "Black Marketeer Search"
+
+spring:
+  main:
+    web-application-type: none
