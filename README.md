@@ -12,13 +12,16 @@ X4: Foundations is the registered trademark of the EGOSOFT GmbH
 
 ## Development notes
 
-## Find Shady Guys with debug
+## Run Shady Search - no debug
 ```bash
-./gradlew clean build :shady-search:bootRun -PjvmArgs="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
+./gradlew clean build bootRun
 ```
 
-## Find Shady Guys normal
+## Run Shady Search  with debug
 ```bash
-./gradlew clean build bootRun -
+./gradlew clean build bootRun -PjvmArgs="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
+```
+```bash
+java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005 -jar .\build\libs\shady-search-0.0.2-SNAPSHOT.jar
 ```
 

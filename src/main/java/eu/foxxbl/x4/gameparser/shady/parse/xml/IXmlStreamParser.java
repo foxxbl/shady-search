@@ -1,6 +1,6 @@
 package eu.foxxbl.x4.gameparser.shady.parse.xml;
 
-import eu.foxxbl.x4.gameparser.shady.model.map.Sector;
+import eu.foxxbl.x4.gameparser.shady.model.entity.MapSectorEntity;
 import eu.foxxbl.x4.gameparser.shady.model.result.ShadyGuy;
 import jakarta.xml.bind.JAXBException;
 import java.io.BufferedReader;
@@ -20,7 +20,7 @@ public interface IXmlStreamParser {
   org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(IXmlStreamParser.class);
   String PROPERTY_FILTERED_ENABLED = "shady-search.filtered-stream-search-enabled";
 
-  default List<ShadyGuy> parseFileStream(File fileToParse, Sector searchedSector) {
+  default List<ShadyGuy> parseFileStream(File fileToParse, MapSectorEntity searchedSector) {
     log.info("Parsing file: {}, searchedSector: {}", fileToParse, searchedSector);
     try (InputStream gzipStream = new GZIPInputStream(new FileInputStream(fileToParse))) {
       Reader decoder = new InputStreamReader(gzipStream, StandardCharsets.UTF_8);
@@ -31,5 +31,5 @@ public interface IXmlStreamParser {
     }
   }
 
-  List<ShadyGuy> parseFileStreamBuffered(BufferedReader buffered, Sector searchedSector) throws XMLStreamException, JAXBException;
+  List<ShadyGuy> parseFileStreamBuffered(BufferedReader buffered, MapSectorEntity searchedSector) throws XMLStreamException, JAXBException;
 }

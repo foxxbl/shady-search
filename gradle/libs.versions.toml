@@ -1,6 +1,6 @@
 [versions]
 fxveawer = "1.3.0"
-springBootPlugin = "3.2.6"
+springBootPlugin = "3.3.1"
 lombokPlugin = "8.6"
 javafxPlugin = "0.1.0"
 jpackagePlugin = "1.6.0"

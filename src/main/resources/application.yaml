@@ -3,5 +3,14 @@ shady-search:
   ui-title: "Black Marketeer Search"
 
 spring:
+  datasource:
+    driverClassName: org.hsqldb.jdbc.JDBCDriver
+    password: x4
+    url: jdbc:hsqldb:res:./db/x4db
+    username: x4
+  jpa:
+    hibernate:
+      ddl-auto: none
+      database-platform: org.hibernate.dialect.HSQLDialect
   main:
     web-application-type: none

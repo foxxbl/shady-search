@@ -1,12 +1,11 @@
 package eu.foxxbl.x4.gameparser.shady.ui.controller;
 
-import eu.foxxbl.x4.gameparser.shady.config.ConfigReader;
-import eu.foxxbl.x4.gameparser.shady.model.map.MapType;
-import eu.foxxbl.x4.gameparser.shady.model.map.Sector;
+import eu.foxxbl.x4.gameparser.shady.model.entity.MapSectorEntity;
+import eu.foxxbl.x4.gameparser.shady.model.entity.MapType;
 import eu.foxxbl.x4.gameparser.shady.model.result.ShadyGuy;
 import eu.foxxbl.x4.gameparser.shady.parse.GameParsingService;
+import eu.foxxbl.x4.gameparser.shady.store.MapSectorStoreService;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +33,7 @@ import org.springframework.stereotype.Component;
 public class MainWindow {
 
   private final FxControllerAndView<ParsedDataDialog, VBox> parsedDataDialog;
-  private final List<Sector> allMapSectors;
+  private final List<MapSectorEntity> allMapSectors;
   private final GameParsingService gameParsingService;
   @FXML
   public Button loadFileButton;
@@ -45,13 +44,11 @@ public class MainWindow {
   @FXML
   public Label selectedFilePathLabel;
   @FXML
-  public TableView<Sector> sectorTable;
+  public TableView<MapSectorEntity> sectorTable;
   @FXML
-  private TableColumn<Sector, String> sectorName;
+  private TableColumn<MapSectorEntity, String> sectorName;
   @FXML
-  private TableColumn<Sector, String> mapType;
-  @FXML
-  private CheckBox defaultCb;
+  private TableColumn<MapSectorEntity, String> mapType;
   @FXML
   private CheckBox splitCb;
   @FXML
@@ -61,14 +58,16 @@ public class MainWindow {
   private CheckBox pirateCb;
   @FXML
   private CheckBox boronCb;
+  @FXML
+  private CheckBox timelinesCb;
 
   private File selectedFile = null;
-  private Sector selectedMapSector = null;
+  private MapSectorEntity selectedMapSector = null;
 
 
-  public MainWindow(FxControllerAndView<ParsedDataDialog, VBox> parsedDataDialog, ConfigReader configReader, GameParsingService gameParsingService) throws IOException {
+  public MainWindow(FxControllerAndView<ParsedDataDialog, VBox> parsedDataDialog, MapSectorStoreService mapSectorStoreService, GameParsingService gameParsingService)  {
     this.parsedDataDialog = parsedDataDialog;
-    this.allMapSectors = configReader.loadSectors();
+    this.allMapSectors = mapSectorStoreService.getAllMapSectors();
     this.gameParsingService = gameParsingService;
 
   }
@@ -86,48 +85,46 @@ public class MainWindow {
     parseSaveGame.setDisable(true);
     parseSaveGame.setOnAction(e -> {
       List<ShadyGuy> blackMarketeersList = gameParsingService.parseGameForBlackMarketeers(selectedFile, selectedMapSector);
-      parsedDataDialog.getController().initialize(blackMarketeersList, selectedMapSector.sectorName());
+      parsedDataDialog.getController().initialize(blackMarketeersList, selectedMapSector.getSectorName());
       parsedDataDialog.getController().show();
     });
   }
 
   private void initializeMapSectorTable() {
 
-    sectorName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().sectorName()));
-    mapType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().mapType().getFullName()));
-    ObservableList<Sector> observableMapSectorList = FXCollections.observableArrayList(allMapSectors);
+    sectorName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getSectorName()));
+    mapType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMapType().getFullName()));
+    ObservableList<MapSectorEntity> observableMapSectorList = FXCollections.observableArrayList(allMapSectors);
     sectorTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-    ObservableList<Sector> selectedItems = sectorTable.getSelectionModel().getSelectedItems();
+    ObservableList<MapSectorEntity> selectedItems = sectorTable.getSelectionModel().getSelectedItems();
 
-    selectedItems.addListener((ListChangeListener<Sector>) change -> {
-      ObservableList<? extends Sector>  sectorList = change.getList();
+    selectedItems.addListener((ListChangeListener<MapSectorEntity>) change -> {
+      ObservableList<? extends MapSectorEntity>  sectorList = change.getList();
       if (!sectorList.isEmpty()) {
-        selectedMapSector = change.getList().get(0);
+        selectedMapSector = change.getList().getFirst();
       }
       if (selectedFile != null) {
         parseSaveGame.setDisable(false);
       }
     });
 
-    defaultCb.setSelected(true);
     splitCb.setSelected(false);
     terranCb.setSelected(false);
     pirateCb.setSelected(false);
     boronCb.setSelected(false);
+    timelinesCb.setSelected(false);
     filterData(observableMapSectorList);
-    defaultCb.setOnAction(event -> filterData(observableMapSectorList));
     splitCb.setOnAction(event -> filterData(observableMapSectorList));
     terranCb.setOnAction(event -> filterData(observableMapSectorList));
     pirateCb.setOnAction(event -> filterData(observableMapSectorList));
     boronCb.setOnAction(event -> filterData(observableMapSectorList));
+    timelinesCb.setOnAction(event -> filterData(observableMapSectorList));
   }
 
-  private void filterData(ObservableList<Sector> observableMapSectorList) {
+  private void filterData(ObservableList<MapSectorEntity> observableMapSectorList) {
     Set<MapType> allowedMapTypes = new HashSet<>();
-    if (defaultCb.isSelected()) {
-      allowedMapTypes.add(MapType.DEFAULT);
-    }
+    allowedMapTypes.add(MapType.DEFAULT);
     if (splitCb.isSelected()) {
       allowedMapTypes.add(MapType.SPLIT);
     }
@@ -140,7 +137,11 @@ public class MainWindow {
     if (boronCb.isSelected()) {
       allowedMapTypes.add(MapType.BORON);
     }
-    SortedList<Sector> sectorSortedList = observableMapSectorList.filtered(Sector -> allowedMapTypes.contains(Sector.mapType())).sorted();
+    if (timelinesCb.isSelected()) {
+      allowedMapTypes.add(MapType.TIMELINES);
+    }
+
+    SortedList<MapSectorEntity> sectorSortedList = observableMapSectorList.filtered(mapSector -> allowedMapTypes.contains(mapSector.getMapType())).sorted();
     sectorTable.setItems(sectorSortedList);
     sectorSortedList.comparatorProperty().bind(sectorTable.comparatorProperty());
     sectorTable.refresh();

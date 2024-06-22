@@ -2,6 +2,7 @@ package eu.foxxbl.x4.gameparser.shady.ui.application;
 
 import eu.foxxbl.x4.gameparser.shady.config.ShadySearchConfig;
 import eu.foxxbl.x4.gameparser.shady.ui.controller.MainWindow;
+import java.util.Objects;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -22,7 +23,7 @@ public class PrimaryStageInitializer implements ApplicationListener<SpringBootJa
   public PrimaryStageInitializer(ShadySearchConfig shadySearchConfig, FxWeaver fxWeaver) {
     this.applicationTitle = shadySearchConfig.uiTitle();
     this.fxWeaver = fxWeaver;
-    this.programIcon =  new Image(getClass().getClassLoader().getResourceAsStream(SHADY_SEARCH_ICO));
+    this.programIcon =  new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(SHADY_SEARCH_ICO)));
   }
 
   @Override

@@ -2,9 +2,9 @@ package eu.foxxbl.x4.gameparser.shady.parse.xml;
 
 import static eu.foxxbl.x4.gameparser.shady.parse.xml.IXmlStreamParser.PROPERTY_FILTERED_ENABLED;
 
+import eu.foxxbl.x4.gameparser.shady.model.entity.MapSectorEntity;
 import eu.foxxbl.x4.gameparser.shady.model.gamesave.Component;
 import eu.foxxbl.x4.gameparser.shady.model.gamesave.ComponentClass;
-import eu.foxxbl.x4.gameparser.shady.model.map.Sector;
 import eu.foxxbl.x4.gameparser.shady.model.result.ShadyGuy;
 import eu.foxxbl.x4.gameparser.shady.parse.xml.filter.ComponentFilter;
 import eu.foxxbl.x4.gameparser.shady.parse.xml.filter.ComponentFilterUtils;
@@ -33,12 +33,12 @@ public class XmlStreamParserFiltered implements IXmlStreamParser {
   private final ShadyGuyParser componentParser;
 
   @Override
-  public List<ShadyGuy> parseFileStreamBuffered(BufferedReader buffered, Sector searchedSector) throws XMLStreamException, JAXBException {
+  public List<ShadyGuy> parseFileStreamBuffered(BufferedReader buffered, MapSectorEntity searchedSector) throws XMLStreamException, JAXBException {
     List<ShadyGuy> shadyGuyList = new ArrayList<>();
     XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
 
     XMLStreamReader xmlStreamReader = xmlInputFactory.createXMLStreamReader(buffered);
-    ComponentFilter sectorZoneFilter = new ComponentFilter(ComponentClass.SECTOR, searchedSector.sectorMacro());
+    ComponentFilter sectorZoneFilter = new ComponentFilter(ComponentClass.SECTOR, searchedSector.getSectorMacro());
 
     xmlStreamReader = xmlInputFactory.createFilteredReader(xmlStreamReader, sectorZoneFilter);
     JAXBContext jc = JAXBContext.newInstance(Component.class);
@@ -51,7 +51,7 @@ public class XmlStreamParserFiltered implements IXmlStreamParser {
         log.info("Found searched sector: {}", searchedSector);
         JAXBElement<Component> jb = unmarshaller.unmarshal(xmlStreamReader, Component.class);
         Component component = jb.getValue();
-        shadyGuyList = componentParser.findShadyGuys(component, searchedSector.sectorName());
+        shadyGuyList = componentParser.findShadyGuys(component, searchedSector.getSectorName());
         break;
       }
     }

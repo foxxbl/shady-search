@@ -39,27 +39,28 @@
         <Font name="System Bold" size="18.0"/>
       </font>
     </Label>
-    <CheckBox fx:id="defaultCb" mnemonicParsing="false" text="X4: Foundations" GridPane.rowIndex="3">
+    <CheckBox fx:id="splitCb" mnemonicParsing="false" text="X4: Split Vendetta" textFill="RED" GridPane.columnIndex="0" GridPane.rowIndex="3">
       <font>
         <Font size="16.0"/>
       </font>
     </CheckBox>
-    <CheckBox fx:id="splitCb" mnemonicParsing="false" text="X4: Split Vendetta" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="3">
+    <CheckBox fx:id="terranCb" mnemonicParsing="false" text="X4: Cradle of Humanity" textFill="BLUE" GridPane.columnIndex="1" GridPane.rowIndex="3">
       <font>
         <Font size="16.0"/>
       </font>
     </CheckBox>
-    <CheckBox fx:id="terranCb" mnemonicParsing="false" text="X4: Cradle of Humanity" textFill="BLUE" GridPane.columnIndex="2" GridPane.rowIndex="3">
+    <CheckBox fx:id="pirateCb" mnemonicParsing="false" text="X4: Tides of Avarice" textFill="GOLDENROD" GridPane.columnIndex="2" GridPane.rowIndex="3">
       <font>
         <Font size="16.0"/>
       </font>
     </CheckBox>
-    <CheckBox fx:id="pirateCb" mnemonicParsing="false" text="X4: Tides of Avarice" textFill="GOLDENROD" GridPane.columnIndex="3" GridPane.rowIndex="3">
+    <CheckBox fx:id="boronCb" layoutX="1150.0" layoutY="47.0" mnemonicParsing="false" text="X4: Kingdom End" textFill="LIGHTSEAGREEN" GridPane.columnIndex="3"
+      GridPane.rowIndex="3">
       <font>
         <Font size="16.0"/>
       </font>
     </CheckBox>
-    <CheckBox fx:id="boronCb" layoutX="1150.0" layoutY="47.0" mnemonicParsing="false" text="X4: Kingdom End" textFill="LIGHTSEAGREEN" GridPane.columnIndex="4"
+    <CheckBox fx:id="timelinesCb" layoutX="1150.0" layoutY="47.0" mnemonicParsing="false" text="X4: Timelines" textFill="DARKRED" GridPane.columnIndex="4"
       GridPane.rowIndex="3">
       <font>
         <Font size="16.0"/>

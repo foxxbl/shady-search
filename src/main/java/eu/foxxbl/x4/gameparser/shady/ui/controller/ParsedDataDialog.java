@@ -4,6 +4,7 @@ import static eu.foxxbl.x4.gameparser.shady.ui.application.PrimaryStageInitializ
 
 import eu.foxxbl.x4.gameparser.shady.model.result.ShadyGuy;
 import java.util.List;
+import java.util.Objects;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -59,7 +60,7 @@ public class ParsedDataDialog {
     if (stage == null) {
       stage = new Stage();
       stage.setScene(new Scene(dialog));
-      stage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream(SHADY_SEARCH_ICO)));
+      stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(SHADY_SEARCH_ICO))));
       stage.setTitle("Found Black Marketeers and voice leaks for sector");
       stage.setAlwaysOnTop(true);
       closeButton.setOnAction(

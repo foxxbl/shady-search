@@ -22,9 +22,11 @@ dependencies {
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api',
             libs.javafx.weaver,
             'org.springframework.boot:spring-boot-starter',
-            'org.springframework.boot:spring-boot-starter-log4j2'
+            'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    runtimeOnly 'com.sun.xml.bind:jaxb-impl'
+    runtimeOnly 'com.sun.xml.bind:jaxb-impl',
+            'org.hsqldb:hsqldb',
+            'org.springframework.boot:spring-boot-starter-log4j2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
@@ -45,11 +47,11 @@ bootRun {
     if (project.hasProperty('jvmArgs')) {
         jvmArgs project.jvmArgs.split('\\s+')
     }
-    //jvmArgs=["-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"]
 }
 
 bootJar {
     mainClass = "eu.foxxbl.x4.gameparser.shady.ShadySearchApplication"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 tasks.named('test') {

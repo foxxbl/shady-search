@@ -1,7 +1,7 @@
 package eu.foxxbl.x4.gameparser.shady.parse;
 
 import eu.foxxbl.x4.gameparser.shady.config.ShadySearchConfig;
-import eu.foxxbl.x4.gameparser.shady.model.map.Sector;
+import eu.foxxbl.x4.gameparser.shady.model.entity.MapSectorEntity;
 import eu.foxxbl.x4.gameparser.shady.model.result.ShadyGuy;
 import eu.foxxbl.x4.gameparser.shady.parse.xml.IXmlStreamParser;
 import java.io.File;
@@ -28,7 +28,7 @@ public class GameParsingService {
    * @param mapSector           - mapSectorObject
    * @return List<BlackMarketeers>
    */
-  public List<ShadyGuy> parseGameForBlackMarketeers(File gameSaveFileToParse, Sector mapSector) {
+  public List<ShadyGuy> parseGameForBlackMarketeers(File gameSaveFileToParse, MapSectorEntity mapSector) {
     try {
       if (!gameSaveFileToParse.exists()) {
         throw new IllegalArgumentException("File " + gameSaveFileToParse.getName() + " doesn't exist!");
@@ -37,7 +37,7 @@ public class GameParsingService {
       log.info("Requested sector: {}, filteredSearch?: {}", mapSector, shadySearchConfig.filteredStreamSearchEnabled());
       Instant start = Instant.now();
       List<ShadyGuy> shadyGuyList = xmlStreamParser.parseFileStream(gameSaveFileToParse, mapSector);
-      logParsing(xmlStreamParser.getClass().getName(), mapSector.sectorMacro(), gameSaveFileToParse, start, Instant.now());
+      logParsing(xmlStreamParser.getClass().getName(), mapSector.getSectorMacro(), gameSaveFileToParse, start, Instant.now());
       return shadyGuyList;
     } catch (Exception e) {
       log.error("Exception {} happened during game parsing! GameSaveFile: {}", e.getLocalizedMessage(), gameSaveFileToParse);
