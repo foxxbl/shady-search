@@ -49,7 +49,7 @@ bootRun {
 }
 
 bootJar {
-    mainClass = "eu.foxxbl.x4.gameparser.shady.GameParserApplication"
+    mainClass = "eu.foxxbl.x4.gameparser.shady.ShadySearchApplication"
 }
 
 tasks.named('test') {

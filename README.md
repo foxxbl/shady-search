@@ -9,3 +9,16 @@ After loading the game save and selecting the sector, tool shows the stations in
 ---
 
 X4: Foundations is the registered trademark of the EGOSOFT GmbH 
+
+## Development notes
+
+## Find Shady Guys with debug
+```bash
+./gradlew clean build :shady-search:bootRun -PjvmArgs="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
+```
+
+## Find Shady Guys normal
+```bash
+./gradlew clean build bootRun -
+```
+
