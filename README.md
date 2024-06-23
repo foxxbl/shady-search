@@ -17,7 +17,7 @@ It is an independent tool created by the game fan, to assist gamers by parsing X
 All trademarks, service marks, and company names are the property of their respective owners.
 ---
 
-## Development notes
+# Development notes
 
 - Application is based on Spring Boot 3.3 and JavaFX
 - It uses JavaFX-Weaver for dependency injection support for JavaFX and FXML
