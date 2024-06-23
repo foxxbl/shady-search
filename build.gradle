@@ -2,10 +2,11 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     id 'java'
-    alias(libs.plugins.springBoot)
+
     alias(libs.plugins.javaFx)
-    alias(libs.plugins.lombok)
     alias(libs.plugins.jpackage)
+    alias(libs.plugins.lombok)
+    alias(libs.plugins.springBoot)
 }
 
 repositories {
@@ -30,17 +31,23 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-javafx {
-    version = "21.0.2"
-    modules = ['javafx.controls', 'javafx.fxml']
+configurations.configureEach {
+    exclude(group: 'org.springframework.boot', module: 'spring-boot-starter-logging')
 }
 
+tasks.named('test', Test) {
+    useJUnitPlatform()
+}
 
 java {
     sourceCompatibility = '21'
     targetCompatibility = '21'
 }
 
+javafx {
+    version = javaFxVersion
+    modules = ['javafx.controls', 'javafx.fxml']
+}
 
 bootRun {
     mainClass = mainAppClass
@@ -60,14 +67,6 @@ bootJar {
     }
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
-configurations.configureEach {
-    exclude(group: 'org.springframework.boot', module: 'spring-boot-starter-logging')
-}
-
 // Not required but useful if you want to configure a little more.
 def os = org.gradle.internal.os.OperatingSystem.current()
 
@@ -84,7 +83,6 @@ jpackage {
     copyright = packageCopyright
     runtimeImage = System.getProperty("java.home")
 
-
     windows {
         icon = layout.projectDirectory.file('src/main/resources/shady-search.ico')
         // Enable adding the application to the system menu.
@@ -96,10 +94,15 @@ jpackage {
     }
 
     linux {
+        icon = layout.projectDirectory.file('src/main/resources/shady-search.png')
         // Group value of the RPM name.spec file or Section value of DEB control file.
         linuxAppCategory = packageLinuxAppCategory
         // Maintainer for .deb package (email)
         linuxDebMaintainer = packageLinuxDebMaintainer
+        // Creates a shortcut for the application.
+        linuxShortcut=true
+        // Menu group this application is placed in
+        linuxMenuGroup=packageAppName
     }
 }
 

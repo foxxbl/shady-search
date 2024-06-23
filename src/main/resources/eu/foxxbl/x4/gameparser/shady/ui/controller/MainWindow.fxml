@@ -36,7 +36,7 @@
     <Label fx:id="selectedFilePathLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
       minWidth="-Infinity" textFill="BLUE" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
       <font>
-        <Font name="System Bold" size="18.0"/>
+        <Font name="Regular" size="15.0"/>
       </font>
     </Label>
     <CheckBox fx:id="splitCb" mnemonicParsing="false" text="X4: Split Vendetta" textFill="RED" GridPane.columnIndex="0" GridPane.rowIndex="3">
