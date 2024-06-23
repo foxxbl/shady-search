@@ -2,7 +2,7 @@ package eu.foxxbl.x4.gameparser.shady.ui.controller;
 
 import eu.foxxbl.x4.gameparser.shady.model.entity.MapSectorEntity;
 import eu.foxxbl.x4.gameparser.shady.model.entity.MapType;
-import eu.foxxbl.x4.gameparser.shady.model.result.ShadyGuy;
+import eu.foxxbl.x4.gameparser.shady.model.result.BlackMarketeer;
 import eu.foxxbl.x4.gameparser.shady.parse.GameParsingService;
 import eu.foxxbl.x4.gameparser.shady.store.MapSectorStoreService;
 import java.io.File;
@@ -84,7 +84,7 @@ public class MainWindow {
   private void initializeParseSaveGameButton() {
     parseSaveGame.setDisable(true);
     parseSaveGame.setOnAction(e -> {
-      List<ShadyGuy> blackMarketeersList = gameParsingService.parseGameForBlackMarketeers(selectedFile, selectedMapSector);
+      List<BlackMarketeer> blackMarketeersList = gameParsingService.parseGameForBlackMarketeers(selectedFile, selectedMapSector);
       parsedDataDialog.getController().initialize(blackMarketeersList, selectedMapSector.getSectorName());
       parsedDataDialog.getController().show();
     });

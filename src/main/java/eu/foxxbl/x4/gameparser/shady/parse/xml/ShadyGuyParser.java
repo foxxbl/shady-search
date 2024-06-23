@@ -8,7 +8,7 @@ import eu.foxxbl.x4.gameparser.shady.model.gamesave.ConnectionType;
 import eu.foxxbl.x4.gameparser.shady.model.gamesave.Post;
 import eu.foxxbl.x4.gameparser.shady.model.gamesave.Source;
 import eu.foxxbl.x4.gameparser.shady.model.gamesave.Traits;
-import eu.foxxbl.x4.gameparser.shady.model.result.ShadyGuy;
+import eu.foxxbl.x4.gameparser.shady.model.result.BlackMarketeer;
 import eu.foxxbl.x4.gameparser.shady.model.result.ShadyGuyStatus;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,77 +26,78 @@ public class ShadyGuyParser {
   private static final String TRADES_VISIBLE_TRAIT = "tradesvisible";
   private static final String N_A = "N/A";
 
-  public List<ShadyGuy> findShadyGuys(Component component, String sectorName) {
-    List<ShadyGuy> shadyGuyList = new ArrayList<>();
+  public List<BlackMarketeer> findShadyGuys(Component component, String sectorName) {
+    List<BlackMarketeer> blackMarketeerList = new ArrayList<>();
     //Parsing sector
     for (Connection connectionZones : component.getConnections().getConnection()) {
       for (Component probableZoneComponent : connectionZones.getComponent()) {
         if (probableZoneComponent != null && probableZoneComponent.getClazz() == ComponentClass.ZONE) {
           // Parsing zone
-          shadyGuyList.addAll(parseZone(probableZoneComponent));
+          blackMarketeerList.addAll(parseZone(probableZoneComponent));
         }
 
       }
     }
-    long shadyGuysTotal = shadyGuyList.stream().filter(shadyGuy -> shadyGuy.getStatus() != ShadyGuyStatus.NONE).count();
-    log.info("Total number of shady guys in sector {} is {} from total number of stations: {}", sectorName, shadyGuysTotal, shadyGuyList.size());
-    return shadyGuyList;
+    long shadyGuysTotal = blackMarketeerList.stream().filter(shadyGuy -> shadyGuy.getStatus() != ShadyGuyStatus.NONE).count();
+    log.info("Total number of shady guys in sector {} is {} from total number of stations: {}", sectorName, shadyGuysTotal, blackMarketeerList.size());
+    return blackMarketeerList;
   }
 
-  private List<ShadyGuy> parseZone(Component zoneComponent) {
-    List<ShadyGuy> shadyGuyList = new ArrayList<>();
+  private List<BlackMarketeer> parseZone(Component zoneComponent) {
+    List<BlackMarketeer> blackMarketeerList = new ArrayList<>();
     if (zoneComponent.getConnections() != null) {
       for (Connection connection : zoneComponent.getConnections().getConnection()) {
         if (ConnectionType.fromString(connection.getConnectionName()) == ConnectionType.STATIONS) {
 
           for (Component probableStationComponent : connection.getComponent()) {
             if (probableStationComponent.getClazz() == ComponentClass.STATION && !probableStationComponent.getOwner().equals(PLAYER_OWNER)) {
-              shadyGuyList.add(parseStation(probableStationComponent));
+              blackMarketeerList.add(parseStation(probableStationComponent));
             }
           }
         }
       }
     }
-    return shadyGuyList;
+    return blackMarketeerList;
   }
 
   /**
    * Parses a station and searches for the black marketeer / shady guy
    */
-  private ShadyGuy parseStation(Component stationComponent) {
+  private BlackMarketeer parseStation(Component stationComponent) {
     String stationName = getStationName(stationComponent);
 
-    ShadyGuy shadyGuy = new ShadyGuy(stationComponent.getCode(), stationName);
-    shadyGuy.setName(N_A);
-    shadyGuy.setStatus(ShadyGuyStatus.NONE);
+    BlackMarketeer blackMarketeer = new BlackMarketeer(stationComponent.getCode(), stationName);
+    blackMarketeer.setName(N_A);
+    blackMarketeer.setStatus(ShadyGuyStatus.NONE);
 
     if (stationComponent.getControl() != null) {
       for (Post post : stationComponent.getControl().getPost()) {
         //postComponent is not null -> exists 100%
         if (post.isShadyGuy() && StringUtils.hasText(post.getPostComponent())) {
-          shadyGuy.setComponentId(post.getPostComponent());
+          blackMarketeer.setComponentId(post.getPostComponent());
           break;
         }
       }
     }
 
     //parse if shady guy/black marketeer is already active for player
-    if (StringUtils.hasText(shadyGuy.getComponentId())) {
-      parseShadyGuyData(stationComponent, stationComponent.getCode(), shadyGuy);
+    if (StringUtils.hasText(blackMarketeer.getComponentId())) {
+      parseShadyGuyData(stationComponent, stationComponent.getCode(), blackMarketeer);
 
       //parse voice leaks in case of potential shady guy inactive
-      if (shadyGuy.getStatus() == ShadyGuyStatus.INACTIVE) {
+      if (blackMarketeer.getStatus() == ShadyGuyStatus.INACTIVE) {
         List<String> voiceLeaks = new ArrayList<>();
         parseRecursivelyForLeaks(stationComponent, stationComponent.getCode(), voiceLeaks);
-        shadyGuy.setVoiceLeaks(voiceLeaks.size());
+        blackMarketeer.setVoiceLeaks(voiceLeaks.size());
       }
     }
 
-    return shadyGuy;
+    return blackMarketeer;
   }
 
   /**
-   * This is TODO - not sure how to get a station name as ingame
+   * This is TODO - not sure how to get a station name as in-game
+   * For now - based  on the station macro or if station has source entry value -> taking that as the name
    */
   private static String getStationName(Component stationComponent) {
     String stationName = Optional.ofNullable(stationComponent.getSource()).orElse(new Source("")).getEntry();
@@ -106,16 +107,16 @@ public class ShadyGuyParser {
   /**
    * Parses the shady guy/black marketeer data - name and if it is active for player
    */
-  private static void parseShadyGuyData(Component component, String stationCode, ShadyGuy shadyGuy) {
-    if (component.getClazz() == ComponentClass.NPC && component.getId().equals(shadyGuy.getComponentId())) {
-      shadyGuy.setStatus(isShadyGuyActive(component) ? ShadyGuyStatus.ACTIVE : ShadyGuyStatus.INACTIVE);
-      shadyGuy.setName(component.getName());
-      log.info("->Station {} Found Shady guy: {} traits: {}", stationCode, component.getName(), component.getTraits());
+  private static void parseShadyGuyData(Component component, String stationCode, BlackMarketeer blackMarketeer) {
+    if (component.getClazz() == ComponentClass.NPC && component.getId().equals(blackMarketeer.getComponentId())) {
+      blackMarketeer.setStatus(isShadyGuyActive(component) ? ShadyGuyStatus.ACTIVE : ShadyGuyStatus.INACTIVE);
+      blackMarketeer.setName(component.getName());
+      log.info("->Station {} Found Black Marketeer: {} traits: {}", stationCode, component.getName(), component.getTraits());
     } else {
       if (component.getConnections() != null) {
         for (Connection connection : component.getConnections().getConnection()) {
           for (Component childConnection : connection.getComponent()) {
-            parseShadyGuyData(childConnection, stationCode, shadyGuy);
+            parseShadyGuyData(childConnection, stationCode, blackMarketeer);
           }
         }
       }
