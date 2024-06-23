@@ -15,6 +15,7 @@ This project is not affiliated with, endorsed by, or in any way officially conne
 It is an independent tool created by the game fan, to assist gamers by parsing X4 Foundation Game saves.
 
 All trademarks, service marks, and company names are the property of their respective owners.
+
 ---
 
 # Development notes
