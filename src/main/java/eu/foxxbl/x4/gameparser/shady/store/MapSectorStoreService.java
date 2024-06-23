@@ -4,14 +4,14 @@ package eu.foxxbl.x4.gameparser.shady.store;
 import eu.foxxbl.x4.gameparser.shady.model.entity.MapSectorEntity;
 import eu.foxxbl.x4.gameparser.shady.repository.MapSectorRepository;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class MapSectorStoreService {
 
-  @Autowired
-  private MapSectorRepository mapSectorRepository;
+  private final MapSectorRepository mapSectorRepository;
 
   public List<MapSectorEntity> getAllMapSectors() {
     return mapSectorRepository.findAll();

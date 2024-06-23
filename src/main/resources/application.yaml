@@ -1,6 +1,6 @@
 shady-search:
   filtered-stream-search-enabled: false
-  ui-title: "Black Marketeer Search"
+  ui-title: X4 Black Marketeer Finder
 
 spring:
   datasource:

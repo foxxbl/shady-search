@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.jpackage)
 }
 
-
 repositories {
     mavenCentral()
 }
@@ -44,14 +43,21 @@ java {
 
 
 bootRun {
+    mainClass = mainAppClass
     if (project.hasProperty('jvmArgs')) {
         jvmArgs project.jvmArgs.split('\\s+')
     }
 }
 
+
 bootJar {
-    mainClass = "eu.foxxbl.x4.gameparser.shady.ShadySearchApplication"
+    mainClass = mainAppClass
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveFileName = bootJarFilename
+    manifest {
+        attributes 'Implementation-Version': "${project.version}"
+        attributes 'Implementation-Title': packageAppName
+    }
 }
 
 tasks.named('test') {
@@ -61,3 +67,41 @@ tasks.named('test') {
 configurations.configureEach {
     exclude(group: 'org.springframework.boot', module: 'spring-boot-starter-logging')
 }
+
+// Not required but useful if you want to configure a little more.
+def os = org.gradle.internal.os.OperatingSystem.current()
+
+jpackage {
+
+    input = layout.buildDirectory.dir('libs').get()
+    type = os.windows ? 'msi' : os.linux ? 'deb' : 'pkg'
+    destination = layout.buildDirectory.dir('dist').get().asFile
+    mainJar = bootJar.archiveFileName.get()
+
+    appName = packageAppName
+    appVersion = packageVersion
+    vendor = packageVendor
+    copyright = packageCopyright
+    runtimeImage = System.getProperty("java.home")
+
+
+    windows {
+        icon = layout.projectDirectory.file('src/main/resources/shady-search.ico')
+        // Enable adding the application to the system menu.
+        winMenu = true
+        // Enable adding a dialog to choose a directory in which the product is installed.
+        winDirChooser = true
+        // Enable creating a console launcher for the application, should be specified for application which requires console interactions.
+        winConsole = false
+    }
+
+    linux {
+        // Group value of the RPM name.spec file or Section value of DEB control file.
+        linuxAppCategory = packageLinuxAppCategory
+        // Maintainer for .deb package (email)
+        linuxDebMaintainer = packageLinuxDebMaintainer
+    }
+}
+
+
+tasks.jpackage.dependsOn(bootJar)
