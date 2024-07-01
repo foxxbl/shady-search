@@ -1,84 +1,53 @@
-# X4 Black Marketeer Finder
-GUI for parsing the X4: Foundations Game Save to allow easier search for Black Marketer vendors.
+ # X4 Black Marketeer Finder
+UI for parsing the X4: Foundations game saves to allow easier search for Black Marketer vendors to unlock Black market deals (selling Spaceweed, Maja Dust and Spacefuel)
 
-After loading the game save and selecting the sector, tool shows the stations in the sector and the status of black marketeers on them:
-- Active (black marketeer unlocked)
-- Inactive (black marketeer still locked)
-- N/A (black marketeer not available on the station)
+## Instructions
+
+### Install the .msi (Windows) or .deb (Linux Debian/Ubuntu/Mint) installation package
+
+### Run X4 Black Marketeer Finder
+
+* Load X4 save game (it's useful to link the save directory to the root of the drive for easier access )
+* Select the sector to search for Black Marketeers (enables "Parse Save Game" button)
+   * If sector is part of any DLC, enable the DLC via the checkbox.
+   * Sectors can be sorted by name or Gametype
+
+![X4 Black Markeeer Finder main](images/X4 Black Marketeer Finder-Main.png)
+
+* After parsing the game for the sector, tool shows the stations in the sector, names and the status of black marketeers on them:
+- None - shaded in grey - black marketeer not available on the station.
+- Active - shaded in light green - black marketeer unlocked.
+- Inactive (black marketeer still locked). If the player is near enough to the station, parser also shows number of voice (comm) leaks on the station.
+
+![X4 Black Markeeer Finder Parsed](images/X4 Black Marketeer Finder-Parsed.png)
+
+## Types of signal leaks
+* Data leak (red glowing orb) - scanning it provides discounts and blueprints 
+
+![Data leak](images/SignalLeak.png)
+ 
+* Comm leak (sparks flying out of it, static and voice talking ) - activating it provides Black Market mission and other illicit missions (boarding, hacking) and transport.
+
+![Comm leak](images/CommLeak.png)
+## Tips
+- Enabling 'Signal Leak Indicator' in Accessibility Settings is very useful when searching for the leaks
+- When a leak (either data or comm leak) is scanned, it doesn't appear anymore at the indicator.
+- There is a possibility that station has unlocked black marketeer, but there are no comm leaks. This happens for unfinished stations and some special, plot related stations.
+
+## Useful forum posts
+- Spawning of Black Marketeers https://forum.egosoft.com/viewtopic.php?f=146&t=447260&start=20#p5133697
+- Drug Plex adventures: https://forum.egosoft.com/viewtopic.php?f=146&t=428569
 
 ---
 # Disclaimer
-X4: Foundations and its DLCS (X4 DLCs:  X4: Split Vendetta, X4: Cradle of Humanity, X4: Tides of Avarice,X4: Kingdom End, X4: Timelines) are the registered trademarks of the EGOSOFT GmbH (https://www.egosoft.com/).
+X4: Foundations and its DLCs (X4: Split Vendetta, X4: Cradle of Humanity, X4: Tides of Avarice,X4: Kingdom End, X4: Timelines) are the registered trademarks of the EGOSOFT GmbH (https://www.egosoft.com/).
 
 This project is not affiliated with, endorsed by, or in any way officially connected to Egosoft GmbH. 
 
-It is an independent tool created by the game fan, to assist gamers by parsing X4 Foundation Game saves.
+It is an independent tool created by the game fan, to assist gamers by parsing X4: Foundations game saves.
 
 All trademarks, service marks, and company names are the property of their respective owners.
 
 ---
-
-# Development notes
-
-- Application is based on Spring Boot 3.3 and JavaFX
-- It uses JavaFX-Weaver for dependency injection support for JavaFX and FXML
-- javafx plugin adds required JavaFx dependencies to the created boot jar based on the current os platform
-- jpackage plugin creates the installation package
-
-## Build and Run - no debug
-```bash
-./gradlew clean bootRun
-```
-
-## Run with debug
-```bash
-./gradlew clean bootRun -PjvmArgs="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
-```
-```bash
-java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005 -jar .\build\libs\shady-search-0.0.2-SNAPSHOT.jar
-```
-
-## Package
- Note - increase the version each time as update won't rewrite existing version 
-```bash
-./gradlew clean jpackage -i
-```
-
-### jpackage dry-run
-```bash
-./gradlew jpackage  -i -PjvmArgs="-Djpackage.dryRun=true"
-```
-
-
-## Add support for Github LFS
-### Install the LFS package (https://git-lfs.com/)
-```bash
-git lfs install
-cd dist
-git lfs track "*.msi" "*.deb"
-git add .gitattributes
-```
-
-### Adding new large files
-```bash
-git lfs migrate import --include="*.msi, *.deb"
-```
-# Links
-
-JWeaver:
-- https://github.com/rgielen/javafx-weaver
-
-JavaFx Gradle plugin:
-- https://github.com/openjfx/javafx-gradle-plugin
-
-JPackage:
-- https://github.com/petr-panteleyev/jpackage-gradle-plugin
-- https://docs.oracle.com/en/java/javase/21/jpackage/packaging-tool-user-guide.pdf
-
-Windows installer package (required for JPackage on Windows):
-- https://github.com/wixtoolset/wix3/releases
-
-JavaFx Scene builder:
-https://gluonhq.com/products/scene-builder/
 
 

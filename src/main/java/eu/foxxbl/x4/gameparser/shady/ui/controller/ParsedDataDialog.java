@@ -2,7 +2,7 @@ package eu.foxxbl.x4.gameparser.shady.ui.controller;
 
 import static eu.foxxbl.x4.gameparser.shady.ui.application.PrimaryStageInitializer.SHADY_SEARCH_ICO;
 
-import eu.foxxbl.x4.gameparser.shady.model.result.ShadyGuy;
+import eu.foxxbl.x4.gameparser.shady.model.result.BlackMarketeer;
 import java.util.List;
 import java.util.Objects;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -35,28 +35,28 @@ public class ParsedDataDialog {
   private VBox dialog;
 
   @FXML
-  public TableView<ShadyGuy> blackMarketeerTable;
+  public TableView<BlackMarketeer> blackMarketeerTable;
 
   @FXML
-  private TableColumn<ShadyGuy, String> stationCode;
+  private TableColumn<BlackMarketeer, String> stationCode;
   @FXML
-  private TableColumn<ShadyGuy, String> stationMacro;
+  private TableColumn<BlackMarketeer, String> stationMacro;
 
   @FXML
-  private TableColumn<ShadyGuy, String> blackMarketeerName;
+  private TableColumn<BlackMarketeer, String> blackMarketeerName;
 
   @FXML
-  private TableColumn<ShadyGuy, Number> voiceLeaks;
+  private TableColumn<BlackMarketeer, Number> voiceLeaks;
 
   @FXML
-  private TableColumn<ShadyGuy, String> status;
+  private TableColumn<BlackMarketeer, String> status;
 
   @FXML
   private Label sectorName;
 
 
   @FXML
-  public void initialize(List<ShadyGuy> shadyGuyList, String sector) {
+  public void initialize(List<BlackMarketeer> blackMarketeerList, String sector) {
     if (stage == null) {
       stage = new Stage();
       stage.setScene(new Scene(dialog));
@@ -67,32 +67,32 @@ public class ParsedDataDialog {
           actionEvent -> stage.close()
       );
     }
-    updateAndShow(shadyGuyList, sector);
+    updateAndShow(blackMarketeerList, sector);
   }
 
-  public void updateAndShow(List<ShadyGuy> shadyGuyList, String sector) {
+  public void updateAndShow(List<BlackMarketeer> blackMarketeerList, String sector) {
 
     sectorName.setText(sector);
-    initializeBlackMarketeerTable(shadyGuyList);
+    initializeBlackMarketeerTable(blackMarketeerList);
     stage.show();
   }
 
-  private void initializeBlackMarketeerTable(List<ShadyGuy> shadyGuyList) {
+  private void initializeBlackMarketeerTable(List<BlackMarketeer> blackMarketeerList) {
     stationCode.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStationCode()));
     stationMacro.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStationMacro()));
     blackMarketeerName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
     voiceLeaks.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getVoiceLeaks()));
     status.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatus().getValue()));
-    ObservableList<ShadyGuy> observableMapSectorList = FXCollections.observableArrayList(shadyGuyList);
+    ObservableList<BlackMarketeer> observableMapSectorList = FXCollections.observableArrayList(blackMarketeerList);
     blackMarketeerTable.setItems(observableMapSectorList);
     blackMarketeerTable.setRowFactory(tv -> new TableRow<>() {
       @Override
-      protected void updateItem(ShadyGuy shadyGuy, boolean empty) {
-        super.updateItem(shadyGuy, empty);
-        if (shadyGuy == null || empty) {
+      protected void updateItem(BlackMarketeer blackMarketeer, boolean empty) {
+        super.updateItem(blackMarketeer, empty);
+        if (blackMarketeer == null || empty) {
           setStyle("");
         } else {
-          setStyle(switch (shadyGuy.getStatus()) {
+          setStyle(switch (blackMarketeer.getStatus()) {
             case ACTIVE -> "-fx-background-color: lightcyan;";
             case INACTIVE -> "-fx-background-color: lightgreen;";
             case NONE -> "-fx-background-color: lightgray;";

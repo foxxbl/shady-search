@@ -3,9 +3,12 @@ package eu.foxxbl.x4.gameparser.shady.model.result;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Station and black marketeer name and status
+ */
 @RequiredArgsConstructor
 @Data
-public class ShadyGuy {
+public class BlackMarketeer {
 
   private final String stationCode;
   private final String stationMacro;
@@ -13,6 +16,5 @@ public class ShadyGuy {
   private ShadyGuyStatus status;
   private int voiceLeaks;
   private String name;
-
 
 }

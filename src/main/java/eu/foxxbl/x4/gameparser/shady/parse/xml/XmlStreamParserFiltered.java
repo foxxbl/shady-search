@@ -5,7 +5,7 @@ import static eu.foxxbl.x4.gameparser.shady.parse.xml.IXmlStreamParser.PROPERTY_
 import eu.foxxbl.x4.gameparser.shady.model.entity.MapSectorEntity;
 import eu.foxxbl.x4.gameparser.shady.model.gamesave.Component;
 import eu.foxxbl.x4.gameparser.shady.model.gamesave.ComponentClass;
-import eu.foxxbl.x4.gameparser.shady.model.result.ShadyGuy;
+import eu.foxxbl.x4.gameparser.shady.model.result.BlackMarketeer;
 import eu.foxxbl.x4.gameparser.shady.parse.xml.filter.ComponentFilter;
 import eu.foxxbl.x4.gameparser.shady.parse.xml.filter.ComponentFilterUtils;
 import jakarta.xml.bind.JAXBContext;
@@ -33,8 +33,8 @@ public class XmlStreamParserFiltered implements IXmlStreamParser {
   private final ShadyGuyParser componentParser;
 
   @Override
-  public List<ShadyGuy> parseFileStreamBuffered(BufferedReader buffered, MapSectorEntity searchedSector) throws XMLStreamException, JAXBException {
-    List<ShadyGuy> shadyGuyList = new ArrayList<>();
+  public List<BlackMarketeer> parseFileStreamBuffered(BufferedReader buffered, MapSectorEntity searchedSector) throws XMLStreamException, JAXBException {
+    List<BlackMarketeer> blackMarketeerList = new ArrayList<>();
     XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
 
     XMLStreamReader xmlStreamReader = xmlInputFactory.createXMLStreamReader(buffered);
@@ -51,10 +51,10 @@ public class XmlStreamParserFiltered implements IXmlStreamParser {
         log.info("Found searched sector: {}", searchedSector);
         JAXBElement<Component> jb = unmarshaller.unmarshal(xmlStreamReader, Component.class);
         Component component = jb.getValue();
-        shadyGuyList = componentParser.findShadyGuys(component, searchedSector.getSectorName());
+        blackMarketeerList = componentParser.findShadyGuys(component, searchedSector.getSectorName());
         break;
       }
     }
-    return shadyGuyList;
+    return blackMarketeerList;
   }
 }

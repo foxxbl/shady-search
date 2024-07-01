@@ -1,5 +1,5 @@
 shady-search:
-  filtered-stream-search-enabled: false
+  filtered-stream-search-enabled: true
   ui-title: X4 Black Marketeer Finder
 
 spring:
