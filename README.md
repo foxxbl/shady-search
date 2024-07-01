@@ -12,14 +12,14 @@ UI for parsing the X4: Foundations game saves to allow easier search for Black M
    * If sector is part of any DLC, enable the DLC via the checkbox.
    * Sectors can be sorted by name or Gametype
 
-![X4 Black Markeeer Finder main](images/X4 Black Marketeer Finder-Main.png)
+![X4 Black Markeeer Finder main](images/X4BlackMarketeerFinder-Main.png)
 
 * After parsing the game for the sector, tool shows the stations in the sector, names and the status of black marketeers on them:
 - None - shaded in grey - black marketeer not available on the station.
 - Active - shaded in light green - black marketeer unlocked.
 - Inactive (black marketeer still locked). If the player is near enough to the station, parser also shows number of voice (comm) leaks on the station.
 
-![X4 Black Markeeer Finder Parsed](images/X4 Black Marketeer Finder-Parsed.png)
+![X4 Black Markeeer Finder Parsed](images/X4BlackMarketeerFinder-Parsed.png)
 
 ## Types of signal leaks
 * Data leak (red glowing orb) - scanning it provides discounts and blueprints 
