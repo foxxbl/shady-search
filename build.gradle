@@ -70,6 +70,10 @@ bootJar {
 // Not required but useful if you want to configure a little more.
 def os = org.gradle.internal.os.OperatingSystem.current()
 
+String getVersion() {
+    return "${project.version}".replaceAll("-SNAPSHOT","")
+}
+
 jpackage {
 
     input = layout.buildDirectory.dir('libs').get()
@@ -78,7 +82,7 @@ jpackage {
     mainJar = bootJar.archiveFileName.get()
 
     appName = packageAppName
-    appVersion = packageVersion
+    appVersion = getVersion()
     vendor = packageVendor
     copyright = packageCopyright
     runtimeImage = System.getProperty("java.home")
