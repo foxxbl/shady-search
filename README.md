@@ -15,9 +15,9 @@ UI for parsing the X4: Foundations game saves to allow easier search for Black M
 ![X4 Black Markeeer Finder main](images/X4BlackMarketeerFinder-Main.png)
 
 * After parsing the game for the sector, tool shows the stations in the sector, names and the status of black marketeers on them:
-- None - shaded in grey - black marketeer not available on the station.
-- Active - shaded in light green - black marketeer unlocked.
-- Inactive (black marketeer still locked). If the player is near enough to the station, parser also shows number of voice (comm) leaks on the station.
+   * None - shaded in grey - black marketeer not available on the station.
+   * Active - shaded in light green - black marketeer unlocked.
+   * Inactive (black marketeer still locked). If the player is near enough to the station, parser also shows number of voice (comm) leaks on the station.
 
 ![X4 Black Markeeer Finder Parsed](images/X4BlackMarketeerFinder-Parsed.png)
 
