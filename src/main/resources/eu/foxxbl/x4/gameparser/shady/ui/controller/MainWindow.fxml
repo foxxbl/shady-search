@@ -10,72 +10,68 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<VBox prefHeight="1080.0" prefWidth="1200.0" spacing="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="eu.foxxbl.x4.gameparser.shady.ui.controller.MainWindow">
+
+<VBox prefHeight="1080.0" prefWidth="1200.0" spacing="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.foxxbl.x4.gameparser.shady.ui.controller.MainWindow">
   <GridPane>
     <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0"/>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0"/>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0"/>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0"/>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0"/>
+      <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
     </columnConstraints>
     <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
-    <Button fx:id="loadFileButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Load Save Game"
-      GridPane.rowIndex="1">
+    <Button fx:id="loadFileButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Load Save Game" GridPane.rowIndex="1">
       <font>
-        <Font size="16.0"/>
+        <Font size="16.0" />
       </font>
     </Button>
-    <Label fx:id="selectedFilePathLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
-      minWidth="-Infinity" textFill="BLUE" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
+    <Label fx:id="selectedFilePathLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" textFill="BLUE" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
       <font>
-        <Font name="Regular" size="15.0"/>
+        <Font name="Regular" size="15.0" />
       </font>
     </Label>
     <CheckBox fx:id="splitCb" mnemonicParsing="false" text="X4: Split Vendetta" textFill="RED" GridPane.columnIndex="0" GridPane.rowIndex="3">
       <font>
-        <Font size="16.0"/>
+        <Font size="16.0" />
       </font>
     </CheckBox>
     <CheckBox fx:id="terranCb" mnemonicParsing="false" text="X4: Cradle of Humanity" textFill="BLUE" GridPane.columnIndex="1" GridPane.rowIndex="3">
       <font>
-        <Font size="16.0"/>
+        <Font size="16.0" />
       </font>
     </CheckBox>
     <CheckBox fx:id="pirateCb" mnemonicParsing="false" text="X4: Tides of Avarice" textFill="GOLDENROD" GridPane.columnIndex="2" GridPane.rowIndex="3">
       <font>
-        <Font size="16.0"/>
+        <Font size="16.0" />
       </font>
     </CheckBox>
-    <CheckBox fx:id="boronCb" layoutX="1150.0" layoutY="47.0" mnemonicParsing="false" text="X4: Kingdom End" textFill="LIGHTSEAGREEN" GridPane.columnIndex="3"
-      GridPane.rowIndex="3">
+    <CheckBox fx:id="boronCb" layoutX="1150.0" layoutY="47.0" mnemonicParsing="false" text="X4: Kingdom End" textFill="LIGHTSEAGREEN" GridPane.columnIndex="3" GridPane.rowIndex="3">
       <font>
-        <Font size="16.0"/>
+        <Font size="16.0" />
       </font>
     </CheckBox>
-    <CheckBox fx:id="timelinesCb" layoutX="1150.0" layoutY="47.0" mnemonicParsing="false" text="X4: Timelines" textFill="DARKRED" GridPane.columnIndex="4"
-      GridPane.rowIndex="3">
+    <CheckBox fx:id="timelinesCb" layoutX="1150.0" layoutY="47.0" mnemonicParsing="false" text="X4: Timelines" textFill="DARKRED" GridPane.columnIndex="4" GridPane.rowIndex="3">
       <font>
-        <Font size="16.0"/>
+        <Font size="16.0" />
       </font>
     </CheckBox>
     <Button fx:id="parseSaveGame" prefHeight="70.0" prefWidth="300.0" text="Parse Save Game" GridPane.columnIndex="4" GridPane.rowIndex="1">
       <font>
-        <Font size="16.0"/>
+        <Font size="16.0" />
       </font>
     </Button>
   </GridPane>
-  <TableView fx:id="sectorTable" prefHeight="1019.0" prefWidth="1200.0">
+  <TableView fx:id="sectorTable" prefHeight="1019.0" prefWidth="1200.0" VBox.vgrow="ALWAYS">
     <columns>
-      <TableColumn fx:id="sectorName" prefWidth="635.0" text="Sector"/>
-      <TableColumn fx:id="mapType" prefWidth="563.0" text="Gametype"/>
+      <TableColumn fx:id="sectorName" prefWidth="635.0" text="Sector" />
+      <TableColumn fx:id="mapType" prefWidth="563.0" text="Gametype" />
     </columns>
   </TableView>
 

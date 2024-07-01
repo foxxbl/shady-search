@@ -13,7 +13,7 @@
       <Font name="System Bold" size="16.0"/>
     </font>
   </Label>
-  <TableView fx:id="blackMarketeerTable" prefHeight="400.0" prefWidth="1200.0">
+  <TableView fx:id="blackMarketeerTable" prefHeight="400.0" prefWidth="1200.0" VBox.vgrow="ALWAYS">
     <columns>
       <TableColumn fx:id="stationCode" prefWidth="200.0" text="StationCode"/>
       <TableColumn fx:id="stationMacro" prefWidth="400.0" text="StationMacro"/>
