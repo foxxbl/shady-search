@@ -39,6 +39,9 @@ UI for parsing the X4: Foundations game saves to allow easier search for Black M
 - Spawning of Black Marketeers https://forum.egosoft.com/viewtopic.php?f=146&t=447260&start=20#p5133697
 - Drug Plex adventures: https://forum.egosoft.com/viewtopic.php?f=146&t=428569
 
+## Common issues
+- Black Marketeers not generated for the base game sectors: https://forum.egosoft.com/viewtopic.php?t=463823
+
 ---
 # Disclaimer
 X4: Foundations and its DLCs (X4: Split Vendetta, X4: Cradle of Humanity, X4: Tides of Avarice,X4: Kingdom End, X4: Timelines) are the registered trademarks of the EGOSOFT GmbH (https://www.egosoft.com/).
