@@ -40,7 +40,7 @@ UI for parsing the X4: Foundations game saves to allow easier search for Black M
 - Drug Plex adventures: https://forum.egosoft.com/viewtopic.php?f=146&t=428569
 
 ## Common issues
-- Black Marketeers not generated for the base game sectors: https://forum.egosoft.com/viewtopic.php?t=463823
+- Black Marketeers not generated for the base game sectors, in some specific circumstances: https://forum.egosoft.com/viewtopic.php?t=463823
 
 ---
 # Disclaimer
