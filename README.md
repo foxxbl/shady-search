@@ -33,7 +33,7 @@ UI for parsing the X4: Foundations game saves to allow easier search for Black M
 ## Tips
 - Enabling 'Signal Leak Indicator' in Accessibility Settings is very useful when searching for the leaks
 - When a leak (either data or comm leak) is scanned, it doesn't appear anymore at the indicator.
-- There is a possibility that station has unlocked black marketeer, but there are no comm leaks. This happens for unfinished stations and some special, plot related stations.
+- There is a possibility that station has a black marketeer to unlock, but there are no comm leaks. This happens for unfinished stations and some special, plot related stations.
 
 ## Useful forum posts
 - Spawning of Black Marketeers https://forum.egosoft.com/viewtopic.php?f=146&t=447260&start=20#p5133697
