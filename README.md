@@ -8,17 +8,23 @@ UI for parsing the X4: Foundations game saves to allow easier search for Black M
 ### Run X4 Black Marketeer Finder
 
 * Load X4 save game (it's useful to link the save directory to the root of the drive for easier access )
-* Select the sector to search for Black Marketeers (enables "Parse Save Game" button)
-   * If sector is part of any DLC, enable the DLC via the checkbox.
-   * Sectors can be sorted by name or Gametype
+* On loading the save game, progress dialog will be shown while the tool parses the save game and then updates the table with all sectors stored in the save game, having the:
+   * Sector name (atm only supported English translation)
+   * Game type (base game or DLC)
+   * Number of stations in sector
+   * Total number of black marketeers in the sector
+   * Number of unlocked black marketeer vendors
+* Enable sectors coming from DLCs with the corresponding checkboxes.
+* Sector table can be sorted by all columns.
 
 ![X4 Black Markeeer Finder main](images/X4BlackMarketeerFinder-Main.png)
 
-* After parsing the game for the sector, tool shows the stations in the sector, names and the status of black marketeers on them:
+* To display the detailed information about the stations and Black Market vendors, select the sector to display the data and click on the "Show Sector" button, or just double-click on the row.
+* In the displayed dialog, tool shows the stations in the sector, names and the status of black marketeers on them:
    * None - shaded in <span style="color:grey">grey</span> - black marketeer not available on the station.
    * Active - shaded in <span style="color:cyan">cyan</span> - black marketeer unlocked.
    * Inactive - shaded in <span style="color:lightgreen">light green</span> - black marketeer still locked.
-     *  If the player is near enough to the station, parser also shows number of voice (comm) leaks on the station.
+     *  If the player is near enough to the station -  there could be also generated voice leaks, so dialog also shows number of voice (comm) leaks on the station.
 
 ![X4 Black Markeeer Finder Parsed](images/X4BlackMarketeerFinder-Parsed.png)
 

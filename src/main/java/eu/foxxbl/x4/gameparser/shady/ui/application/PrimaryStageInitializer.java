@@ -17,20 +17,23 @@ public class PrimaryStageInitializer implements ApplicationListener<SpringBootJa
   public static final String SHADY_SEARCH_ICO = "shady-search.png";
   private final Image programIcon;
   private final String applicationTitle;
-
   private final FxWeaver fxWeaver;
+  private final int width;
+  private final int height;
 
   public PrimaryStageInitializer(ShadySearchConfig shadySearchConfig, FxWeaver fxWeaver) {
-    this.applicationTitle = shadySearchConfig.uiTitle();
+    this.applicationTitle = shadySearchConfig.ui().title();
+    this.width = shadySearchConfig.ui().width();
+    this.height = shadySearchConfig.ui().height();
     this.fxWeaver = fxWeaver;
-    this.programIcon =  new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(SHADY_SEARCH_ICO)));
+    this.programIcon = new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(SHADY_SEARCH_ICO)));
   }
 
   @Override
   public void onApplicationEvent(SpringBootJavaFxApplication.StageReadyEvent event) {
     Stage stage = event.getStage();
     Parent root = fxWeaver.loadView(MainWindow.class);
-    Scene scene = new Scene(root, 1200, 1080);
+    Scene scene = new Scene(root, width, height);
 
     stage.setScene(scene);
     stage.getIcons().add(programIcon);

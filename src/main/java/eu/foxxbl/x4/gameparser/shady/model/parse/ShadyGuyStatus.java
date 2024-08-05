@@ -1,4 +1,4 @@
-package eu.foxxbl.x4.gameparser.shady.model.result;
+package eu.foxxbl.x4.gameparser.shady.model.parse;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

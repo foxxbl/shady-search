@@ -2,7 +2,7 @@ package eu.foxxbl.x4.gameparser.shady.ui.controller;
 
 import static eu.foxxbl.x4.gameparser.shady.ui.application.PrimaryStageInitializer.SHADY_SEARCH_ICO;
 
-import eu.foxxbl.x4.gameparser.shady.model.result.BlackMarketeer;
+import eu.foxxbl.x4.gameparser.shady.model.parse.BlackMarketeer;
 import java.util.List;
 import java.util.Objects;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @FxmlView
-public class ParsedDataDialog {
+public class SectorDialog {
 
   private Stage stage;
 

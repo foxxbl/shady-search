@@ -15,9 +15,10 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.StreamFilter;
 import javax.xml.stream.XMLStreamReader;
 
-public record ComponentFilter(ComponentClass filteredComponentClass, String filteredComponentMacro) implements StreamFilter {
+public record SectorFilter() implements StreamFilter {
 
-  private static final Set<String> ALWAYS_ALLOWED_TAGS = Set.of(Connections.TAG_NAME, Connection.TAG_NAME, Control.TAG_NAME, Post.TAG_NAME, Source.TAG_NAME, Traits.TAG_NAME);
+  private static final Set<String> ALWAYS_ALLOWED_TAGS = Set.of(Component.TAG_NAME, Connections.TAG_NAME, Connection.TAG_NAME, Control.TAG_NAME, Post.TAG_NAME, Source.TAG_NAME,
+      Traits.TAG_NAME);
 
   @Override
   public boolean accept(XMLStreamReader xmlStreamReader) {
@@ -27,23 +28,24 @@ public record ComponentFilter(ComponentClass filteredComponentClass, String filt
       tagName = xmlStreamReader.getLocalName();
       if (ALWAYS_ALLOWED_TAGS.contains(tagName)) {
         accept = true;
-      } else if (Component.TAG_NAME.equalsIgnoreCase(tagName) && allowedComponent(xmlStreamReader)) {
+     /* } else if (Component.TAG_NAME.equalsIgnoreCase(tagName) && allowedComponent(xmlStreamReader)) {
         accept = true;
-      } /*else if (Connection.TAG_NAME.equalsIgnoreCase(tagName) && allowedConnection(xmlStreamReader)) {
-        accept = true;
-      }*/
+      } else if (Connection.TAG_NAME.equalsIgnoreCase(tagName) && allowedConnection(xmlStreamReader)) {
+        accept = true;*/
+      }
     } else if (xmlStreamReader.isEndElement()) {
       tagName = xmlStreamReader.getLocalName();
       if (ALWAYS_ALLOWED_TAGS.contains(tagName)) {
         accept = true;
-      } else if (Component.TAG_NAME.equalsIgnoreCase(tagName)) {
+     /* } else if (Component.TAG_NAME.equalsIgnoreCase(tagName)) {
         accept = true;
-      }/* else if (Connection.TAG_NAME.equalsIgnoreCase(tagName)) {
-        accept = true;
-      }*/
+      } else if (Connection.TAG_NAME.equalsIgnoreCase(tagName)) {
+        accept = true;*/
+      }
     }
     return accept;
   }
+
 
   private boolean allowedConnection(XMLStreamReader xmlStreamReader) {
     boolean allowed = false;
@@ -67,21 +69,11 @@ public record ComponentFilter(ComponentClass filteredComponentClass, String filt
     return allowed;
   }
 
+  /**
+   * Somehow this doesn't work at all - cannot find stations if filter "OTHERS"
+   */
   private boolean allowedComponent(XMLStreamReader xmlStreamReader) {
-    boolean allowed = false;
-    ComponentClass currentComponentClass = getComponentClass(xmlStreamReader);
-    if (currentComponentClass.getOrder() < filteredComponentClass.getOrder()) {
-      allowed = true;
-    } else if (currentComponentClass.getOrder() == filteredComponentClass.getOrder()) {
-      if (getComponentMacro(xmlStreamReader).equalsIgnoreCase(filteredComponentMacro)) {
-        allowed = true;
-      }
-
-    } else {
-      allowed = true;
-    }
-
-    return allowed;
+    return !ComponentClass.OTHER.equals(getComponentClass(xmlStreamReader));
   }
 
   private Optional<String> getConnectionName(XMLStreamReader xmlStreamReader) {
@@ -112,6 +104,9 @@ public record ComponentFilter(ComponentClass filteredComponentClass, String filt
     return componentClass;
   }
 
+  /**
+   * need better filtering - doesn't work so far
+   */
   private String getComponentMacro(XMLStreamReader xmlStreamReader) {
     String componentMacro = "";
     for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
