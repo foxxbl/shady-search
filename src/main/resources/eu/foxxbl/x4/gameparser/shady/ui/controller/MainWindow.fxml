@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -21,22 +22,30 @@
       <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
     </columnConstraints>
     <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
-    <Button fx:id="loadFileButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Load Save Game" GridPane.rowIndex="1">
+    <Button fx:id="loadFileButton" prefWidth="300.0"  text="Load Save Game" GridPane.columnIndex="0" GridPane.rowIndex="0" >
       <font>
         <Font size="16.0" />
       </font>
     </Button>
-    <Label fx:id="selectedFilePathLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" textFill="BLUE" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
+    <Label fx:id="selectedFilePathLabel" alignment="CENTER" contentDisplay="CENTER" textFill="BLUE" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="0">
       <font>
         <Font name="Regular" size="15.0" />
       </font>
     </Label>
+    <Button fx:id="showSector" prefWidth="300.0" text="Show Sector" GridPane.columnIndex="4" GridPane.rowIndex="0">
+      <font>
+        <Font size="16.0" />
+      </font>
+    </Button>
+
+    <ProgressBar fx:id="progressBar" accessibleText="Loading save" prefWidth="300.0" prefHeight="30.0"  progress="0.0" GridPane.columnIndex="0" GridPane.rowIndex="1"  visible="false" />
+
     <CheckBox fx:id="splitCb" mnemonicParsing="false" text="X4: Split Vendetta" textFill="RED" GridPane.columnIndex="0" GridPane.rowIndex="3">
       <font>
         <Font size="16.0" />
@@ -52,26 +61,26 @@
         <Font size="16.0" />
       </font>
     </CheckBox>
-    <CheckBox fx:id="boronCb" layoutX="1150.0" layoutY="47.0" mnemonicParsing="false" text="X4: Kingdom End" textFill="LIGHTSEAGREEN" GridPane.columnIndex="3" GridPane.rowIndex="3">
+    <CheckBox fx:id="boronCb" mnemonicParsing="false"  layoutX="1150.0" layoutY="47.0" text="X4: Kingdom End" textFill="LIGHTSEAGREEN" GridPane.columnIndex="3" GridPane.rowIndex="3">
       <font>
         <Font size="16.0" />
       </font>
     </CheckBox>
-    <CheckBox fx:id="timelinesCb" layoutX="1150.0" layoutY="47.0" mnemonicParsing="false" text="X4: Timelines" textFill="DARKRED" GridPane.columnIndex="4" GridPane.rowIndex="3">
+    <CheckBox fx:id="timelinesCb" mnemonicParsing="false" layoutX="1150.0" layoutY="47.0" text="X4: Timelines" textFill="DARKRED" GridPane.columnIndex="4" GridPane.rowIndex="3">
       <font>
         <Font size="16.0" />
       </font>
     </CheckBox>
-    <Button fx:id="parseSaveGame" prefHeight="70.0" prefWidth="300.0" text="Parse Save Game" GridPane.columnIndex="4" GridPane.rowIndex="1">
-      <font>
-        <Font size="16.0" />
-      </font>
-    </Button>
+
+
   </GridPane>
-  <TableView fx:id="sectorTable" prefHeight="1019.0" prefWidth="1200.0" VBox.vgrow="ALWAYS">
+  <TableView fx:id="sectorTableView" prefHeight="1019.0" prefWidth="1400.0" VBox.vgrow="ALWAYS">
     <columns>
-      <TableColumn fx:id="sectorName" prefWidth="635.0" text="Sector" />
-      <TableColumn fx:id="mapType" prefWidth="563.0" text="Gametype" />
+      <TableColumn fx:id="sectorNameTableCol" prefWidth="400.0" text="Sector" />
+      <TableColumn fx:id="mapTypeTableCol" prefWidth="400.0" text="Gametype" />
+      <TableColumn fx:id="stationNrTableCol" prefWidth="200.0" text="Stations" />
+      <TableColumn fx:id="shadyGuysTotalTableCol" prefWidth="200.0" text="BlackMarketeersTotal" />
+      <TableColumn fx:id="shadyGuysUnlockedTableCol" prefWidth="200.0" text="BlackMarketeersUnlocked" />
     </columns>
   </TableView>
 

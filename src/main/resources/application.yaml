@@ -1,6 +1,9 @@
 shady-search:
-  filtered-stream-search-enabled: true
-  ui-title: X4 Black Marketeer Finder
+  maxSectors: 144
+  ui:
+    height: 1080
+    title: X4 Black Marketeer Finder
+    width: 1400
 
 spring:
   datasource:
