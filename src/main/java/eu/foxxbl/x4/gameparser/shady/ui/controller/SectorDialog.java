@@ -3,6 +3,7 @@ package eu.foxxbl.x4.gameparser.shady.ui.controller;
 import static eu.foxxbl.x4.gameparser.shady.ui.application.PrimaryStageInitializer.SHADY_SEARCH_ICO;
 
 import eu.foxxbl.x4.gameparser.shady.model.parse.BlackMarketeer;
+import eu.foxxbl.x4.gameparser.shady.model.ui.MapSector;
 import java.util.List;
 import java.util.Objects;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -56,7 +57,7 @@ public class SectorDialog {
 
 
   @FXML
-  public void initialize(List<BlackMarketeer> blackMarketeerList, String sector) {
+  public void initialize(MapSector mapSector) {
     if (stage == null) {
       stage = new Stage();
       stage.setScene(new Scene(dialog));
@@ -67,13 +68,13 @@ public class SectorDialog {
           actionEvent -> stage.close()
       );
     }
-    updateAndShow(blackMarketeerList, sector);
+    updateAndShow(mapSector);
   }
 
-  public void updateAndShow(List<BlackMarketeer> blackMarketeerList, String sector) {
+  public void updateAndShow(MapSector mapSector) {
 
-    sectorName.setText(sector);
-    initializeBlackMarketeerTable(blackMarketeerList);
+    sectorName.setText(mapSector.sectorName());
+    initializeBlackMarketeerTable(mapSector.blackMarketeerList());
     stage.show();
   }
 

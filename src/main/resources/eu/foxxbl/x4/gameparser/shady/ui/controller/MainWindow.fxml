@@ -76,8 +76,9 @@
   </GridPane>
   <TableView fx:id="sectorTableView" prefHeight="1019.0" prefWidth="1400.0" VBox.vgrow="ALWAYS">
     <columns>
-      <TableColumn fx:id="sectorNameTableCol" prefWidth="400.0" text="Sector" />
-      <TableColumn fx:id="mapTypeTableCol" prefWidth="400.0" text="Gametype" />
+      <TableColumn fx:id="sectorNameTableCol" prefWidth="300.0" text="Sector" />
+      <TableColumn fx:id="sectorOwnerTableCol" prefWidth="300.0" text="Sector Owner" />
+      <TableColumn fx:id="mapTypeTableCol" prefWidth="200.0" text="Gametype" />
       <TableColumn fx:id="stationNrTableCol" prefWidth="200.0" text="Stations" />
       <TableColumn fx:id="shadyGuysTotalTableCol" prefWidth="200.0" text="BlackMarketeersTotal" />
       <TableColumn fx:id="shadyGuysUnlockedTableCol" prefWidth="200.0" text="BlackMarketeersUnlocked" />

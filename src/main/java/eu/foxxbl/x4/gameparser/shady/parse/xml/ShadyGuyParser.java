@@ -8,7 +8,7 @@ import eu.foxxbl.x4.gameparser.shady.model.gamesave.Post;
 import eu.foxxbl.x4.gameparser.shady.model.gamesave.Source;
 import eu.foxxbl.x4.gameparser.shady.model.gamesave.Traits;
 import eu.foxxbl.x4.gameparser.shady.model.parse.BlackMarketeer;
-import eu.foxxbl.x4.gameparser.shady.model.parse.BlackMarketeers;
+import eu.foxxbl.x4.gameparser.shady.model.parse.ParsedMapSector;
 import eu.foxxbl.x4.gameparser.shady.model.parse.ShadyGuyStatus;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +26,11 @@ public class ShadyGuyParser {
   private static final String TRADES_VISIBLE_TRAIT = "tradesvisible";
   private static final String N_A = "N/A";
 
-  public BlackMarketeers findShadyGuys(Component component, String sectorMacro) {
+  public ParsedMapSector findShadyGuys(Component component, String sectorMacro, String sectorOwner) {
     List<BlackMarketeer> blackMarketeerList = new ArrayList<>();
     if (component.getConnections() == null) {
       log.warn("Sector: {} - no connections!", sectorMacro);
-      return BlackMarketeers.builder().blackMarketeerList(blackMarketeerList).build();
+      return ParsedMapSector.builder().blackMarketeerList(blackMarketeerList).build();
     }
     //Parsing sector
     for (Connection connectionZones : component.getConnections().getConnection()) {
@@ -45,7 +45,7 @@ public class ShadyGuyParser {
     int shadyGuysUnlocked = Math.toIntExact(blackMarketeerList.stream().filter(shadyGuy -> shadyGuy.getStatus() == ShadyGuyStatus.ACTIVE).count());
     int nrOfStations = blackMarketeerList.size();
     log.info("Total number of shady guys in sector {} is {} (unlocked: {})  from total number of stations: {}", sectorMacro, shadyGuysTotal, shadyGuysUnlocked, nrOfStations);
-    return BlackMarketeers.builder().sectorMacro(sectorMacro).blackMarketeerList(blackMarketeerList).stationTotal(nrOfStations).blackMarketeersTotal(shadyGuysTotal)
+    return ParsedMapSector.builder().sectorMacro(sectorMacro).sectorOwner(sectorOwner).blackMarketeerList(blackMarketeerList).stationTotal(nrOfStations).blackMarketeersTotal(shadyGuysTotal)
         .blackMarketeersUnlocked(shadyGuysUnlocked).build();
   }
 
