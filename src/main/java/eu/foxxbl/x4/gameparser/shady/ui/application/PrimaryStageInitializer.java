@@ -1,8 +1,10 @@
 package eu.foxxbl.x4.gameparser.shady.ui.application;
 
+import atlantafx.base.theme.PrimerLight;
 import eu.foxxbl.x4.gameparser.shady.config.ShadySearchConfig;
 import eu.foxxbl.x4.gameparser.shady.ui.controller.MainWindow;
 import java.util.Objects;
+import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -31,6 +33,8 @@ public class PrimaryStageInitializer implements ApplicationListener<SpringBootJa
 
   @Override
   public void onApplicationEvent(SpringBootJavaFxApplication.StageReadyEvent event) {
+    Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
+
     Stage stage = event.getStage();
     Parent root = fxWeaver.loadView(MainWindow.class);
     Scene scene = new Scene(root, width, height);

@@ -15,11 +15,11 @@
   </Label>
   <TableView fx:id="blackMarketeerTable" prefHeight="400.0" prefWidth="1200.0" VBox.vgrow="ALWAYS">
     <columns>
-      <TableColumn fx:id="stationCode" prefWidth="200.0" text="StationCode"/>
+      <TableColumn fx:id="stationCode" prefWidth="100.0" text="StationCode"/>
       <TableColumn fx:id="stationMacro" prefWidth="400.0" text="StationMacro"/>
       <TableColumn fx:id="blackMarketeerName" prefWidth="400.0" text="Black Marketeer Name"/>
-      <TableColumn fx:id="status" prefWidth="50.0" text="Status"/>
-      <TableColumn fx:id="voiceLeaks" prefWidth="200.0" text="VoiceLeaks"/>
+      <TableColumn fx:id="status" prefWidth="150.0" text="Status"/>
+      <TableColumn fx:id="voiceLeaks" prefWidth="150.0" text="VoiceLeaks"/>
     </columns>
   </TableView>
   <Button fx:id="closeButton" mnemonicParsing="false" text="Close"/>
