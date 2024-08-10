@@ -25,7 +25,7 @@ public class ParseSaveGameTask extends Task<List<MapSector>> {
   protected List<MapSector> call() {
     try {
       List<ParsedMapSector> parsedMapSectorList = gameParsingService.parseGameForBlackMarketeers(this);
-      return mapSectorService.populateSectors(parsedMapSectorList, fileToParse.toString());
+      return mapSectorService.populateSectors(parsedMapSectorList);
     } catch (Exception ex) {
       throw new RuntimeException("Error '" + ex.getLocalizedMessage() + "' happened during parsing " + fileToParse, ex);
     }

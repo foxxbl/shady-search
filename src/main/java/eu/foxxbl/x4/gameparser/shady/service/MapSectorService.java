@@ -22,7 +22,7 @@ public class MapSectorService {
 
   private final FactionRepository factionRepository;
 
-  public List<MapSector> populateSectors(List<ParsedMapSector> parsedMapSectorList, String saveFileName) {
+  public List<MapSector> populateSectors(List<ParsedMapSector> parsedMapSectorList) {
     Map<String, MapSectorEntity> mapSectorMapByMacro = createMapSectorMap();
     Map<String, FactionEntity> factionMapByOwner = createFactionMap();
 
