@@ -2,7 +2,7 @@ package eu.foxxbl.x4.gameparser.shady.parse.xml;
 
 import eu.foxxbl.x4.gameparser.shady.model.gamesave.Component;
 import eu.foxxbl.x4.gameparser.shady.model.gamesave.ComponentClass;
-import eu.foxxbl.x4.gameparser.shady.model.parse.BlackMarketeers;
+import eu.foxxbl.x4.gameparser.shady.model.parse.ParsedMapSector;
 import eu.foxxbl.x4.gameparser.shady.parse.xml.filter.SectorFilter;
 import eu.foxxbl.x4.gameparser.shady.ui.controller.ParseSaveGameTask;
 import jakarta.xml.bind.JAXBContext;
@@ -17,8 +17,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
@@ -36,21 +36,19 @@ public class X4SaveGameParser {
 
   private final ShadyGuyParser shadyGuyParser;
 
-  public Map<String, BlackMarketeers> parseFileStream(ParseSaveGameTask parsingTask) {
+  public List<ParsedMapSector> parseFileStream(ParseSaveGameTask parsingTask) throws XMLStreamException, JAXBException, IOException {
     File fileToParse = parsingTask.getFileToParse();
     log.info("Parsing file: {}, ", fileToParse);
     try (InputStream gzipStream = new GZIPInputStream(new FileInputStream(fileToParse))) {
       Reader decoder = new InputStreamReader(gzipStream, StandardCharsets.UTF_8);
       BufferedReader buffered = new BufferedReader(decoder);
       return parseFileStreamBuffered(buffered, parsingTask);
-    } catch (IOException | XMLStreamException | JAXBException e) {
-      throw new RuntimeException("Exception happened during parsing " + fileToParse, e);
     }
   }
 
-  public Map<String, BlackMarketeers> parseFileStreamBuffered(BufferedReader buffered, ParseSaveGameTask parsingTask) throws XMLStreamException, JAXBException {
+  public List<ParsedMapSector> parseFileStreamBuffered(BufferedReader buffered, ParseSaveGameTask parsingTask) throws XMLStreamException, JAXBException {
     int sectorNumber = 0;
-    Map<String, BlackMarketeers> blackMarketeerListUniverse = new HashMap<>();
+    List<ParsedMapSector> parsedMapSectorList = new ArrayList<>();
 
     XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
 
@@ -66,13 +64,11 @@ public class X4SaveGameParser {
         sectorNumber++;
         JAXBElement<Component> jb = unmarshaller.unmarshal(xmlStreamReader, Component.class);
         Component component = jb.getValue();
-        String sectorMacro = component.getMacro();
-        log.info("Found sector: {}", sectorMacro);
-        blackMarketeerListUniverse.put(sectorMacro, shadyGuyParser.findShadyGuys(component, sectorMacro));
+        parsedMapSectorList.add(shadyGuyParser.findShadyGuys(component, component.getMacro(), component.getOwner()));
         parsingTask.externalUpdateProgress(sectorNumber);
       }
     }
-    return blackMarketeerListUniverse;
+    return parsedMapSectorList;
   }
 
   public static boolean isComponent(XMLStreamReader xmlStreamReader) {

@@ -1,27 +1,23 @@
 package eu.foxxbl.x4.gameparser.shady.ui.controller;
 
 import eu.foxxbl.x4.gameparser.shady.config.ShadySearchConfig;
-import eu.foxxbl.x4.gameparser.shady.model.entity.MapSectorEntity;
 import eu.foxxbl.x4.gameparser.shady.model.entity.MapType;
-import eu.foxxbl.x4.gameparser.shady.model.parse.BlackMarketeer;
-import eu.foxxbl.x4.gameparser.shady.model.parse.BlackMarketeers;
 import eu.foxxbl.x4.gameparser.shady.model.ui.MapSector;
-import eu.foxxbl.x4.gameparser.shady.parse.GameParsingService;
-import eu.foxxbl.x4.gameparser.shady.store.MapSectorStoreService;
+import eu.foxxbl.x4.gameparser.shady.service.GameParsingService;
+import eu.foxxbl.x4.gameparser.shady.service.MapSectorService;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -47,17 +43,15 @@ public class MainWindow {
 
   private final GameParsingService gameParsingService;
 
-  private final MapSectorStoreService mapSectorStoreService;
+  private final MapSectorService mapSectorService;
 
   private final ShadySearchConfig shadySearchConfig;
 
-  private List<MapSector> allMapSectors = new ArrayList<>();
+  private List<MapSector> mapSectorList = new ArrayList<>();
 
   private File selectedFile = null;
 
   private MapSector selectedMapSector = null;
-
-  private Map<String, BlackMarketeers> blackMarketeersResult;
 
   @FXML
   public Button loadFileButton;
@@ -73,6 +67,8 @@ public class MainWindow {
   public TableView<MapSector> sectorTableView;
   @FXML
   private TableColumn<MapSector, String> sectorNameTableCol;
+  @FXML
+  private TableColumn<MapSector, String> sectorOwnerTableCol;
   @FXML
   private TableColumn<MapSector, String> mapTypeTableCol;
   @FXML
@@ -111,12 +107,13 @@ public class MainWindow {
   private void initializeMapSectorTable() {
 
     sectorNameTableCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().sectorName()));
+    sectorOwnerTableCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().sectorOwnerName()));
     mapTypeTableCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().mapType().getFullName()));
     stationNrTableCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().stationTotal()).asObject());
     shadyGuysTotalTableCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().blackMarketeersTotal()).asObject());
     shadyGuysUnlockedTableCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().blackMarketeersUnlocked()).asObject());
 
-    observableMapSectorList = FXCollections.observableArrayList(allMapSectors);
+    observableMapSectorList = FXCollections.observableArrayList(mapSectorList);
     sectorTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
     sectorTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -197,31 +194,38 @@ public class MainWindow {
   }
 
   private ParseSaveGameTask createParseSaveGameTask(File selectedFile) {
-    ParseSaveGameTask parseSaveGameTask = new ParseSaveGameTask(gameParsingService, selectedFile, shadySearchConfig.maxSectors());
+    ParseSaveGameTask parseSaveGameTask = new ParseSaveGameTask(gameParsingService, mapSectorService, selectedFile, shadySearchConfig.maxSectors());
 
     parseSaveGameTask.setOnSucceeded(e -> {
-      blackMarketeersResult = parseSaveGameTask.getValue();
-      allMapSectors = populateSectors(blackMarketeersResult);
-      observableMapSectorList = FXCollections.observableArrayList(allMapSectors);
+      mapSectorList = parseSaveGameTask.getValue();
+      observableMapSectorList = FXCollections.observableArrayList(mapSectorList);
       filterData();
       showSector.setDisable(true);
       progressBar.setVisible(false);
     });
+
+    parseSaveGameTask.setOnFailed(e -> {
+      progressBar.setVisible(false);
+      showSector.setDisable(true);
+      showErrorDialog(parseSaveGameTask.getException());
+    });
     return parseSaveGameTask;
   }
 
-  private List<MapSector> populateSectors(Map<String, BlackMarketeers> blackMarketeersMap) {
-    Map<String, MapSectorEntity> mapSectorByMacro = mapSectorStoreService.getAllMapSectors().stream()
-        .collect(Collectors.toMap(mapSectorEntity -> mapSectorEntity.getSectorMacro().toLowerCase(), Function.identity()));
-
-    return blackMarketeersMap.values().stream().map(blackMarketeers -> MapSector.createMapSector(blackMarketeers, mapSectorByMacro.get(blackMarketeers.sectorMacro())))
-        .collect(Collectors.toList());
+  private void showSectorDialog() {
+    parsedDataDialog.getController().initialize(selectedMapSector);
+    parsedDataDialog.getController().show();
   }
 
-  private void showSectorDialog() {
-    List<BlackMarketeer> blackMarketeerList = blackMarketeersResult.get(selectedMapSector.sectorMacro()).blackMarketeerList();
-    parsedDataDialog.getController().initialize(blackMarketeerList, selectedMapSector.sectorName());
-    parsedDataDialog.getController().show();
+  private void showErrorDialog(Throwable throwable) {
+    // Create an error dialog
+    Alert errorAlert = new Alert(AlertType.ERROR);
+    errorAlert.setTitle("Error happened");
+    errorAlert.setHeaderText("An error occurred while parsing game save");
+    errorAlert.setContentText("Something went wrong: " + throwable.getLocalizedMessage());
+
+    // Display the error dialog and wait for a response
+    errorAlert.showAndWait();
   }
 
 
