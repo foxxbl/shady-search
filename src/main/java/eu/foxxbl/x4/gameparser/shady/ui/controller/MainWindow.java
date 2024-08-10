@@ -108,7 +108,7 @@ public class MainWindow {
 
     sectorNameTableCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().sectorName()));
     sectorOwnerTableCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().sectorOwnerName()));
-    mapTypeTableCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().mapType().getFullName()));
+    mapTypeTableCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMapTypeFullName()));
     stationNrTableCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().stationTotal()).asObject());
     shadyGuysTotalTableCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().blackMarketeersTotal()).asObject());
     shadyGuysUnlockedTableCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().blackMarketeersUnlocked()).asObject());

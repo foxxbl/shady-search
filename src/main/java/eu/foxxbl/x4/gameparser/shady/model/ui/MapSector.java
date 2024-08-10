@@ -33,4 +33,8 @@ public record MapSector(String sectorName, MapType mapType, String sectorOwnerNa
         .blackMarketeersUnlocked(parsedMapSector.blackMarketeersUnlocked()).build();
   }
 
+  public String getMapTypeFullName() {
+    return mapType.getFullName();
+  }
+
 }
