@@ -4,20 +4,21 @@ import static eu.foxxbl.x4.gameparser.shady.ui.application.PrimaryStageInitializ
 
 import eu.foxxbl.x4.gameparser.shady.model.parse.BlackMarketeer;
 import eu.foxxbl.x4.gameparser.shady.model.ui.MapSector;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXTableColumn;
+import io.github.palexdev.materialfx.controls.MFXTableRow;
+import io.github.palexdev.materialfx.controls.MFXTableView;
+import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxmlView;
@@ -31,29 +32,29 @@ public class SectorDialog {
   private Stage stage;
 
   @FXML
-  private Button closeButton;
+  private MFXButton closeButton;
   @FXML
   private VBox dialog;
 
   @FXML
-  public TableView<BlackMarketeer> blackMarketeerTable;
+  public MFXTableView<BlackMarketeer> blackMarketeerTable;
 
   @FXML
-  private TableColumn<BlackMarketeer, String> stationCode;
+  private MFXTableColumn<BlackMarketeer> stationCode;
   @FXML
-  private TableColumn<BlackMarketeer, String> stationMacro;
+  private MFXTableColumn<BlackMarketeer> stationMacro;
 
   @FXML
-  private TableColumn<BlackMarketeer, String> blackMarketeerName;
+  private MFXTableColumn<BlackMarketeer> blackMarketeerName;
 
   @FXML
-  private TableColumn<BlackMarketeer, Number> voiceLeaks;
+  private MFXTableColumn<BlackMarketeer> voiceLeaks;
 
   @FXML
-  private TableColumn<BlackMarketeer, String> status;
+  private MFXTableColumn<BlackMarketeer> status;
 
   @FXML
-  private Label sectorName;
+  private MFXTextField sectorName;
 
 
   @FXML
@@ -74,23 +75,32 @@ public class SectorDialog {
   public void updateAndShow(MapSector mapSector) {
 
     sectorName.setText(mapSector.sectorName());
+    sectorName.setBorder(Border.EMPTY);
     initializeBlackMarketeerTable(mapSector.blackMarketeerList());
     stage.show();
   }
 
   private void initializeBlackMarketeerTable(List<BlackMarketeer> blackMarketeerList) {
-    stationCode.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStationCode()));
-    stationMacro.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStationMacro()));
-    blackMarketeerName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-    voiceLeaks.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getVoiceLeaks()));
-    status.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatus().getValue()));
+    stationCode.setComparator(Comparator.comparing(BlackMarketeer::getStationCode));
+    stationMacro.setComparator(Comparator.comparing(BlackMarketeer::getStationMacro));
+    blackMarketeerName.setComparator(Comparator.comparing(BlackMarketeer::getName));
+    voiceLeaks.setComparator(Comparator.comparing(BlackMarketeer::getVoiceLeaks));
+    status.setComparator(Comparator.comparing(BlackMarketeer::getStatus));
+
+    stationCode.setRowCellFactory(mapSector -> new MFXTableRowCell<>(BlackMarketeer::getStationCode));
+    stationMacro.setRowCellFactory(mapSector -> new MFXTableRowCell<>(BlackMarketeer::getStationMacro));
+    blackMarketeerName.setRowCellFactory(mapSector -> new MFXTableRowCell<>(BlackMarketeer::getName));
+    voiceLeaks.setRowCellFactory(mapSector -> new MFXTableRowCell<>(BlackMarketeer::getVoiceLeaks));
+    status.setRowCellFactory(mapSector -> new MFXTableRowCell<>(BlackMarketeer::getStatus));
+
     ObservableList<BlackMarketeer> observableMapSectorList = FXCollections.observableArrayList(blackMarketeerList);
     blackMarketeerTable.setItems(observableMapSectorList);
-    blackMarketeerTable.setRowFactory(tv -> new TableRow<>() {
+
+    blackMarketeerTable.setTableRowFactory(shadyGuy -> new MFXTableRow<>(blackMarketeerTable, shadyGuy) {
       @Override
-      protected void updateItem(BlackMarketeer blackMarketeer, boolean empty) {
-        super.updateItem(blackMarketeer, empty);
-        if (blackMarketeer == null || empty) {
+      protected void updateRow(BlackMarketeer blackMarketeer) {
+        super.updateRow(blackMarketeer);
+        if (blackMarketeer == null) {
           setStyle("");
         } else {
           setStyle(switch (blackMarketeer.getStatus()) {
@@ -100,6 +110,8 @@ public class SectorDialog {
           });
         }
       }
+
+
     });
 
   }

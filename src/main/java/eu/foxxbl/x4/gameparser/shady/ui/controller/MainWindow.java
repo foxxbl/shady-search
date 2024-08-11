@@ -5,27 +5,30 @@ import eu.foxxbl.x4.gameparser.shady.model.entity.MapType;
 import eu.foxxbl.x4.gameparser.shady.model.ui.MapSector;
 import eu.foxxbl.x4.gameparser.shady.service.GameParsingService;
 import eu.foxxbl.x4.gameparser.shady.service.MapSectorService;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXCheckbox;
+import io.github.palexdev.materialfx.controls.MFXProgressBar;
+import io.github.palexdev.materialfx.controls.MFXTableColumn;
+import io.github.palexdev.materialfx.controls.MFXTableRow;
+import io.github.palexdev.materialfx.controls.MFXTableView;
+import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
+import io.github.palexdev.materialfx.filter.IntegerFilter;
+import io.github.palexdev.materialfx.filter.StringFilter;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
@@ -54,39 +57,39 @@ public class MainWindow {
   private MapSector selectedMapSector = null;
 
   @FXML
-  public Button loadFileButton;
+  public MFXButton loadFileButton;
   @FXML
-  public Button showSector;
+  public MFXButton showSector;
   @FXML
-  public ProgressBar progressBar;
+  public MFXProgressBar progressBar;
   @FXML
   public Window window;
   @FXML
-  public Label selectedFilePathLabel;
+  public MFXTextField selectedFilePathLabel;
   @FXML
-  public TableView<MapSector> sectorTableView;
+  public MFXTableView<MapSector> sectorTableView;
   @FXML
-  private TableColumn<MapSector, String> sectorNameTableCol;
+  private MFXTableColumn<MapSector> sectorNameTableCol;
   @FXML
-  private TableColumn<MapSector, String> sectorOwnerTableCol;
+  private MFXTableColumn<MapSector> sectorOwnerTableCol;
   @FXML
-  private TableColumn<MapSector, String> mapTypeTableCol;
+  private MFXTableColumn<MapSector> mapTypeTableCol;
   @FXML
-  private TableColumn<MapSector, Integer> stationNrTableCol;
+  private MFXTableColumn<MapSector> stationNrTableCol;
   @FXML
-  private TableColumn<MapSector, Integer> shadyGuysTotalTableCol;
+  private MFXTableColumn<MapSector> shadyGuysTotalTableCol;
   @FXML
-  private TableColumn<MapSector, Integer> shadyGuysUnlockedTableCol;
+  private MFXTableColumn<MapSector> shadyGuysUnlockedTableCol;
   @FXML
-  private CheckBox splitCb;
+  private MFXCheckbox splitCb;
   @FXML
-  private CheckBox terranCb;
+  private MFXCheckbox terranCb;
   @FXML
-  private CheckBox pirateCb;
+  private MFXCheckbox pirateCb;
   @FXML
-  private CheckBox boronCb;
+  private MFXCheckbox boronCb;
   @FXML
-  private CheckBox timelinesCb;
+  private MFXCheckbox timelinesCb;
 
   private ObservableList<MapSector> observableMapSectorList;
 
@@ -106,26 +109,44 @@ public class MainWindow {
 
   private void initializeMapSectorTable() {
 
-    sectorNameTableCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().sectorName()));
-    sectorOwnerTableCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().sectorOwnerName()));
-    mapTypeTableCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getMapTypeFullName()));
-    stationNrTableCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().stationTotal()).asObject());
-    shadyGuysTotalTableCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().blackMarketeersTotal()).asObject());
-    shadyGuysUnlockedTableCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().blackMarketeersUnlocked()).asObject());
+    sectorNameTableCol.setComparator(Comparator.comparing(MapSector::sectorName));
+    sectorOwnerTableCol.setComparator(Comparator.comparing(MapSector::sectorOwnerName));
+    mapTypeTableCol.setComparator(Comparator.comparing(MapSector::getMapTypeFullName));
+    stationNrTableCol.setComparator(Comparator.comparing(MapSector::stationTotal));
+    shadyGuysTotalTableCol.setComparator(Comparator.comparing(MapSector::blackMarketeersTotal));
+    shadyGuysUnlockedTableCol.setComparator(Comparator.comparing(MapSector::blackMarketeersUnlocked));
+
+    sectorNameTableCol.setRowCellFactory(mapSector -> new MFXTableRowCell<>(MapSector::sectorName));
+    sectorOwnerTableCol.setRowCellFactory(mapSector -> new MFXTableRowCell<>(MapSector::sectorOwnerName));
+    mapTypeTableCol.setRowCellFactory(mapSector -> new MFXTableRowCell<>(MapSector::getMapTypeFullName));
+    stationNrTableCol.setRowCellFactory(mapSector -> new MFXTableRowCell<>(MapSector::stationTotal));
+    shadyGuysTotalTableCol.setRowCellFactory(mapSector -> new MFXTableRowCell<>(MapSector::blackMarketeersTotal));
+    shadyGuysUnlockedTableCol.setRowCellFactory(mapSector -> new MFXTableRowCell<>(MapSector::blackMarketeersUnlocked));
+
 
     observableMapSectorList = FXCollections.observableArrayList(mapSectorList);
-    sectorTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-    sectorTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+    sectorTableView.getSelectionModel().setAllowsMultipleSelection(false);
+    sectorTableView.getSelectionModel().selectionProperty().addListener((observable, oldValue, newValue) -> {
       showSector.setDisable(newValue == null);
-      selectedMapSector = newValue;
+      if (newValue != null && !newValue.isEmpty()) {
+        selectedMapSector = newValue.values().stream().findFirst().get();
+      }
     });
+    sectorTableView.setFooterVisible(false);
+    sectorTableView.getFilters().addAll(
+        new StringFilter<>("Sector name", MapSector::sectorName),
+        new StringFilter<>("Sector owner", MapSector::sectorOwnerName),
+        new IntegerFilter<>("Nr of stations", MapSector::stationTotal),
+        new IntegerFilter<>("Nr of black marketeers", MapSector::blackMarketeersTotal),
+        new IntegerFilter<>("Unlocked black marketeers", MapSector::blackMarketeersUnlocked)
 
-    sectorTableView.setRowFactory(param -> {
-      TableRow<MapSector> row = new TableRow<>();
-      row.setOnMouseClicked(event -> {
-        if (event.getClickCount() == 2 && (!row.isEmpty())) {
-          selectedMapSector = row.getItem();
+    );
+
+    sectorTableView.setTableRowFactory( resource -> {
+      MFXTableRow<MapSector> row = new MFXTableRow<>(sectorTableView, resource);
+      row.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+        if (event.getClickCount() == 2) {
+          selectedMapSector = row.getData();
           showSectorDialog();
         }
       });
@@ -168,8 +189,8 @@ public class MainWindow {
 
     SortedList<MapSector> sectorSortedList = observableMapSectorList.filtered(mapSector -> allowedMapTypes.contains(mapSector.mapType())).sorted();
     sectorTableView.setItems(sectorSortedList);
-    sectorSortedList.comparatorProperty().bind(sectorTableView.comparatorProperty());
-    sectorTableView.refresh();
+    sectorTableView.setFooterVisible(!sectorSortedList.isEmpty());
+    sectorTableView.update();
   }
 
   private void initializeLoadFileButton() {
@@ -184,11 +205,13 @@ public class MainWindow {
         progressBar.progressProperty().bind(task.progressProperty());
         progressBar.setVisible(true);
         selectedFilePathLabel.setText(" Game save: " + selectedFile.getAbsolutePath());
+        selectedFilePathLabel.setBorder(Border.EMPTY);
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
       } else {
         selectedFilePathLabel.setText("No file selected");
+        selectedFilePathLabel.setBorder(Border.EMPTY);
       }
     });
   }

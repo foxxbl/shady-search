@@ -1,15 +1,18 @@
 [versions]
-fxveawer = "2.0.0"
-springBootPlugin = "3.3.2"
-lombokPlugin = "8.6"
-javafxPlugin = "0.1.0"
-jpackagePlugin = "1.6.0"
+fxveawer = '2.0.0'
+materialfx = '11.17.0'
+javafxPlugin = '0.1.0'
+
+lombokPlugin = '8.6'
+jpackagePlugin = '1.6.0'
+springBootPlugin = '3.3.2'
 
 [libraries]
-javafx-weaver = { module = 'net.rgielen:javafx-weaver-spring-boot-starter', version.ref = "fxveawer" }
+javafx-weaver = { module = 'net.rgielen:javafx-weaver-spring-boot-starter', version.ref = 'fxveawer' }
+material-fx = { module = 'io.github.palexdev:materialfx', version.ref = 'materialfx'}
 
 [plugins]
-springBoot = { id = 'org.springframework.boot', version.ref = "springBootPlugin" }
-lombok = { id = 'io.freefair.lombok', version.ref = "lombokPlugin" }
-javaFx = { id = 'org.openjfx.javafxplugin', version.ref = "javafxPlugin" }
-jpackage = { id = 'org.panteleyev.jpackageplugin', version.ref = "jpackagePlugin" }
+springBoot = { id = 'org.springframework.boot', version.ref = 'springBootPlugin' }
+lombok = { id = 'io.freefair.lombok', version.ref = 'lombokPlugin' }
+javaFx = { id = 'org.openjfx.javafxplugin', version.ref = 'javafxPlugin' }
+jpackage = { id = 'org.panteleyev.jpackageplugin', version.ref = 'jpackagePlugin' }

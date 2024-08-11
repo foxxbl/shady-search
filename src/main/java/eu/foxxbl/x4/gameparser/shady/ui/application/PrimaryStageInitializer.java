@@ -2,6 +2,9 @@ package eu.foxxbl.x4.gameparser.shady.ui.application;
 
 import eu.foxxbl.x4.gameparser.shady.config.ShadySearchConfig;
 import eu.foxxbl.x4.gameparser.shady.ui.controller.MainWindow;
+import io.github.palexdev.materialfx.theming.JavaFXThemes;
+import io.github.palexdev.materialfx.theming.MaterialFXStylesheets;
+import io.github.palexdev.materialfx.theming.UserAgentBuilder;
 import java.util.Objects;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,6 +34,15 @@ public class PrimaryStageInitializer implements ApplicationListener<SpringBootJa
 
   @Override
   public void onApplicationEvent(SpringBootJavaFxApplication.StageReadyEvent event) {
+
+    UserAgentBuilder.builder()
+        .themes(JavaFXThemes.MODENA)
+        .themes(MaterialFXStylesheets.forAssemble(true))
+        .setDeploy(true)
+        .setResolveAssets(true)
+        .build()
+        .setGlobal();
+
     Stage stage = event.getStage();
     Parent root = fxWeaver.loadView(MainWindow.class);
     Scene scene = new Scene(root, width, height);
