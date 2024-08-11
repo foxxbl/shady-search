@@ -21,6 +21,7 @@ dependencies {
 
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api',
             libs.javafx.weaver,
+            libs.material.fx,
             'org.springframework.boot:spring-boot-starter',
             'org.springframework.boot:spring-boot-starter-data-jpa'
 
@@ -71,7 +72,7 @@ bootJar {
 def os = org.gradle.internal.os.OperatingSystem.current()
 
 String getVersion() {
-    return "${project.version}".replaceAll("-SNAPSHOT","")
+    return "${project.version}".replaceAll("-SNAPSHOT", "")
 }
 
 jpackage {
@@ -104,9 +105,9 @@ jpackage {
         // Maintainer for .deb package (email)
         linuxDebMaintainer = packageLinuxDebMaintainer
         // Creates a shortcut for the application.
-        linuxShortcut=true
+        linuxShortcut = true
         // Menu group this application is placed in
-        linuxMenuGroup=packageAppName
+        linuxMenuGroup = packageAppName
     }
 }
 
