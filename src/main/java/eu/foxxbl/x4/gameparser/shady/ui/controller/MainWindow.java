@@ -7,14 +7,17 @@ import eu.foxxbl.x4.gameparser.shady.service.GameParsingService;
 import eu.foxxbl.x4.gameparser.shady.service.MapSectorService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
+import io.github.palexdev.materialfx.controls.MFXListView;
 import io.github.palexdev.materialfx.controls.MFXProgressBar;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.MFXTableRow;
 import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.cell.MFXListCell;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.IntegerFilter;
 import io.github.palexdev.materialfx.filter.StringFilter;
+import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -142,8 +145,46 @@ public class MainWindow {
 
     );
 
-    sectorTableView.setTableRowFactory( resource -> {
-      MFXTableRow<MapSector> row = new MFXTableRow<>(sectorTableView, resource);
+    sectorTableView.setTableRowFactory( mapSector -> {
+      MFXTableRow<MapSector> row = new MFXTableRow<>(sectorTableView, mapSector) {
+        @Override
+        public void updateItem(MapSector mapSector) {
+          super.updateItem(mapSector);
+          if (mapSector == null) {
+            setStyle("");
+          } else {
+            setStyle(switch (mapSector.mapType()) {
+
+              case DEFAULT -> "-fx-text-fill: black;";
+              case SPLIT -> "-fx-text-fill: red;";
+              case TERRAN -> "-fx-text-fill: blue;";
+              case PIRATE -> "-fx-text-fill: goldenrod;";
+              case BORON -> "-fx-text-fill: lightseagreen;";
+              case TIMELINES -> "-fx-text-fill: darkred;";
+            });
+          }
+        }
+
+         @Override
+        protected void updateRow(MapSector mapSector) {
+          super.updateRow(mapSector);
+
+          if (mapSector == null) {
+            setStyle("");
+          } else {
+            setStyle(switch (mapSector.mapType()) {
+
+              case DEFAULT -> "-fx-text-fill: black;";
+              case SPLIT -> "-fx-text-fill: red;";
+              case TERRAN -> "-fx-text-fill: blue;";
+              case PIRATE -> "-fx-text-fill: goldenrod;";
+              case BORON -> "-fx-text-fill: lightseagreen;";
+              case TIMELINES -> "-fx-text-fill: darkred;";
+            });
+          }
+        }
+      };
+
       row.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
         if (event.getClickCount() == 2) {
           selectedMapSector = row.getData();
@@ -251,5 +292,22 @@ public class MainWindow {
     errorAlert.showAndWait();
   }
 
+  private static class MapSectorCellFactory extends MFXListCell<MapSector> {
+    private final MFXFontIcon userIcon;
+
+    public MapSectorCellFactory(MFXListView<MapSector> listView, MapSector data) {
+      super(listView, data);
+
+      userIcon = new MFXFontIcon("fas-user", 18);
+      userIcon.getStyleClass().add("user-icon");
+      render(data);
+    }
+
+    @Override
+    protected void render(MapSector data) {
+      super.render(data);
+      if (userIcon != null) getChildren().add(0, userIcon);
+    }
+  }
 
 }
