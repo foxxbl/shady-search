@@ -76,7 +76,7 @@
 
 
   </GridPane>
-  <MFXTableView fx:id="sectorTableView" prefHeight="1019.0" prefWidth="1400.0" VBox.vgrow="ALWAYS" >
+  <MFXTableView fx:id="sectorTableView" prefHeight="1019.0" prefWidth="1400.0" VBox.vgrow="ALWAYS" maxHeight="+Infinity" maxWidth="+Infinity">
     <tableColumns>
       <MFXTableColumn fx:id="sectorNameTableCol" prefWidth="300.0" text="Sector" />
       <MFXTableColumn fx:id="sectorOwnerTableCol" prefWidth="300.0" text="Sector Owner" />

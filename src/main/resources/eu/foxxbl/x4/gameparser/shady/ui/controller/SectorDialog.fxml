@@ -13,7 +13,8 @@
       <Font name="System Bold" size="16.0"/>
     </font>
   </MFXTextField>
-  <MFXTableView footerVisible="false" fx:id="blackMarketeerTable" prefHeight="400.0" prefWidth="1200.0" VBox.vgrow="ALWAYS">
+  <MFXTableView footerVisible="false" fx:id="blackMarketeerTable" prefHeight="400.0" prefWidth="1200.0" VBox.vgrow="ALWAYS"
+    maxHeight="+Infinity" maxWidth="+Infinity">
     <tableColumns>
       <MFXTableColumn fx:id="stationCode" prefWidth="200.0" text="StationCode"/>
       <MFXTableColumn fx:id="stationMacro" prefWidth="400.0" text="StationMacro"/>
@@ -22,6 +23,6 @@
       <MFXTableColumn fx:id="voiceLeaks" prefWidth="200.0" text="VoiceLeaks"/>
     </tableColumns>
   </MFXTableView>
-  <MFXButton fx:id="closeButton" text="Close" styleClass="outline-button" buttonType="RAISED" />
+  <MFXButton fx:id="closeButton" text="Close" prefWidth="100" prefHeight="30.0" styleClass="outline-button" buttonType="RAISED" />
 
 </VBox>

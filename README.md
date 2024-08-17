@@ -14,10 +14,13 @@ UI for parsing the X4: Foundations game saves to allow easier search for Black M
    * Number of stations in sector
    * Total number of black marketeers in the sector
    * Number of unlocked black marketeer vendors
-* Enable sectors coming from DLCs with the corresponding checkboxes.
-* Sector table can be sorted by all columns.
+* To show DLC sectors, enable it with the corresponding checkboxes.
 
-![X4 Black Markeeer Finder main](images/X4BlackMarketeerFinder-Main.png)
+   ![X4 Black Markeeer Finder main](images/X4BlackMarketeerFinder-Main.png)
+
+* Sector table can be sorted by all columns and filtered with the controls on the bottom left side of the table:
+  ![X4 Black Markeeer Finder filter](images/X4BlackMarketeerFinder-Filtering.png)
+
 
 * To display the detailed information about the stations and Black Market vendors, select the sector to display the data and click on the "Show Sector" button, or just double-click on the row.
 * In the displayed dialog, tool shows the stations in the sector, names and the status of black marketeers on them:

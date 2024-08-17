@@ -2,6 +2,7 @@
 
 - Application is based on Spring Boot 3.3, Java and JavaFX 21
 - It uses JavaFX-Weaver for dependency injection support for JavaFX and FXML
+- Themed using material design from MaterialFX
 - javafx plugin adds required JavaFx dependencies to the created boot jar based on the current os platform
 - jpackage plugin creates the installation package(s)
 - sector names and macros are stored into HSQLDB embedded databases (a bit overkill atm but will be required if application will support translation).
@@ -47,6 +48,9 @@ Note - increase the version each time as update won't rewrite existing version
 JWeaver:
 - https://github.com/rgielen/javafx-weaver
 
+MaterialFX:
+- https://github.com/palexdev/MaterialFX
+
 JavaFx Gradle plugin:
 - https://github.com/openjfx/javafx-gradle-plugin
 
@@ -59,3 +63,4 @@ Windows installer package (required for JPackage on Windows):
 
 JavaFx Scene builder:
 - https://gluonhq.com/products/scene-builder/
+

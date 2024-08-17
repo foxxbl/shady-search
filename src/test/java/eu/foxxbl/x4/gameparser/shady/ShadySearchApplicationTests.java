@@ -8,6 +8,7 @@ class ShadySearchApplicationTests {
 
   @Test
   void contextLoads() {
+    //ignore
   }
 
 }

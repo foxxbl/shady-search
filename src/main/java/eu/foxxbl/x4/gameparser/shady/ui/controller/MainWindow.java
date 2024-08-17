@@ -7,14 +7,17 @@ import eu.foxxbl.x4.gameparser.shady.service.GameParsingService;
 import eu.foxxbl.x4.gameparser.shady.service.MapSectorService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
+import io.github.palexdev.materialfx.controls.MFXListView;
 import io.github.palexdev.materialfx.controls.MFXProgressBar;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.MFXTableRow;
 import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.cell.MFXListCell;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.IntegerFilter;
 import io.github.palexdev.materialfx.filter.StringFilter;
+import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -96,10 +99,34 @@ public class MainWindow {
   @FXML
   public void initialize() {
     initializeLoadFileButton();
-
-    initializeMapSectorTable();
-
     initializeShowSectorButton();
+    initializeCheckboxes();
+    initializeTableColumns();
+    initializeTableView();
+    observableMapSectorList = FXCollections.observableArrayList(mapSectorList);
+    filterData();
+  }
+
+  private void initializeLoadFileButton() {
+    loadFileButton.setOnAction(e -> {
+      FileChooser fileChooser = new FileChooser();
+      fileChooser.setTitle("Open Save Game File");
+      fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("X4 Game Save", "*.xml.gz"));
+      this.selectedFile = fileChooser.showOpenDialog(window);
+      if (selectedFile != null) {
+        ParseSaveGameTask task = createParseSaveGameTask(selectedFile);
+        progressBar.progressProperty().bind(task.progressProperty());
+        progressBar.setVisible(true);
+        selectedFilePathLabel.setText(" Game save: " + selectedFile.getAbsolutePath());
+        selectedFilePathLabel.setBorder(Border.EMPTY);
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+      } else {
+        selectedFilePathLabel.setText("No file selected");
+        selectedFilePathLabel.setBorder(Border.EMPTY);
+      }
+    });
   }
 
   private void initializeShowSectorButton() {
@@ -107,8 +134,20 @@ public class MainWindow {
     showSector.setOnAction(e -> showSectorDialog());
   }
 
-  private void initializeMapSectorTable() {
+  private void initializeCheckboxes() {
+    splitCb.setSelected(false);
+    terranCb.setSelected(false);
+    pirateCb.setSelected(false);
+    boronCb.setSelected(false);
+    timelinesCb.setSelected(false);
+    splitCb.setOnAction(event -> filterData());
+    terranCb.setOnAction(event -> filterData());
+    pirateCb.setOnAction(event -> filterData());
+    boronCb.setOnAction(event -> filterData());
+    timelinesCb.setOnAction(event -> filterData());
+  }
 
+  private void initializeTableColumns() {
     sectorNameTableCol.setComparator(Comparator.comparing(MapSector::sectorName));
     sectorOwnerTableCol.setComparator(Comparator.comparing(MapSector::sectorOwnerName));
     mapTypeTableCol.setComparator(Comparator.comparing(MapSector::getMapTypeFullName));
@@ -122,9 +161,9 @@ public class MainWindow {
     stationNrTableCol.setRowCellFactory(mapSector -> new MFXTableRowCell<>(MapSector::stationTotal));
     shadyGuysTotalTableCol.setRowCellFactory(mapSector -> new MFXTableRowCell<>(MapSector::blackMarketeersTotal));
     shadyGuysUnlockedTableCol.setRowCellFactory(mapSector -> new MFXTableRowCell<>(MapSector::blackMarketeersUnlocked));
+  }
 
-
-    observableMapSectorList = FXCollections.observableArrayList(mapSectorList);
+  private void initializeTableView() {
     sectorTableView.getSelectionModel().setAllowsMultipleSelection(false);
     sectorTableView.getSelectionModel().selectionProperty().addListener((observable, oldValue, newValue) -> {
       showSector.setDisable(newValue == null);
@@ -132,18 +171,51 @@ public class MainWindow {
         selectedMapSector = newValue.values().stream().findFirst().get();
       }
     });
+    var filters = List.of(new StringFilter<>("Sector name", MapSector::sectorName), new StringFilter<>("Sector owner", MapSector::sectorOwnerName),
+        new IntegerFilter<>("Nr of stations", MapSector::stationTotal), new IntegerFilter<>("Nr of black marketeers", MapSector::blackMarketeersTotal),
+        new IntegerFilter<>("Unlocked black marketeers", MapSector::blackMarketeersUnlocked));
     sectorTableView.setFooterVisible(false);
-    sectorTableView.getFilters().addAll(
-        new StringFilter<>("Sector name", MapSector::sectorName),
-        new StringFilter<>("Sector owner", MapSector::sectorOwnerName),
-        new IntegerFilter<>("Nr of stations", MapSector::stationTotal),
-        new IntegerFilter<>("Nr of black marketeers", MapSector::blackMarketeersTotal),
-        new IntegerFilter<>("Unlocked black marketeers", MapSector::blackMarketeersUnlocked)
+    sectorTableView.getFilters().addAll(filters);
+    sectorTableView.setTableRowFactory(mapSector -> {
+      MFXTableRow<MapSector> row = new MFXTableRow<>(sectorTableView, mapSector) {
+        @Override
+        public void updateItem(MapSector mapSector) {
+          super.updateItem(mapSector);
+          if (mapSector == null) {
+            setStyle("");
+          } else {
+            setStyle(switch (mapSector.mapType()) {
 
-    );
+              case DEFAULT -> "-fx-text-fill: black;";
+              case SPLIT -> "-fx-text-fill: red;";
+              case TERRAN -> "-fx-text-fill: blue;";
+              case PIRATE -> "-fx-text-fill: goldenrod;";
+              case BORON -> "-fx-text-fill: lightseagreen;";
+              case TIMELINES -> "-fx-text-fill: darkred;";
+            });
+          }
+        }
 
-    sectorTableView.setTableRowFactory( resource -> {
-      MFXTableRow<MapSector> row = new MFXTableRow<>(sectorTableView, resource);
+        @Override
+        protected void updateRow(MapSector mapSector) {
+          super.updateRow(mapSector);
+
+          if (mapSector == null) {
+            setStyle("");
+          } else {
+            setStyle(switch (mapSector.mapType()) {
+
+              case DEFAULT -> "-fx-text-fill: black;";
+              case SPLIT -> "-fx-text-fill: red;";
+              case TERRAN -> "-fx-text-fill: blue;";
+              case PIRATE -> "-fx-text-fill: goldenrod;";
+              case BORON -> "-fx-text-fill: lightseagreen;";
+              case TIMELINES -> "-fx-text-fill: darkred;";
+            });
+          }
+        }
+      };
+
       row.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
         if (event.getClickCount() == 2) {
           selectedMapSector = row.getData();
@@ -152,21 +224,8 @@ public class MainWindow {
       });
       return row;
     });
-
-    splitCb.setSelected(false);
-    terranCb.setSelected(false);
-    pirateCb.setSelected(false);
-    boronCb.setSelected(false);
-    timelinesCb.setSelected(false);
-    filterData();
-    splitCb.setOnAction(event -> filterData());
-    terranCb.setOnAction(event -> filterData());
-    pirateCb.setOnAction(event -> filterData());
-    boronCb.setOnAction(event -> filterData());
-    timelinesCb.setOnAction(event -> filterData());
-    progressBar.setVisible(false);
-
   }
+
 
   private void filterData() {
     Set<MapType> allowedMapTypes = new HashSet<>();
@@ -193,28 +252,7 @@ public class MainWindow {
     sectorTableView.update();
   }
 
-  private void initializeLoadFileButton() {
 
-    loadFileButton.setOnAction(e -> {
-      FileChooser fileChooser = new FileChooser();
-      fileChooser.setTitle("Open Save Game File");
-      fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("X4 Game Save", "*.xml.gz"));
-      this.selectedFile = fileChooser.showOpenDialog(window);
-      if (selectedFile != null) {
-        ParseSaveGameTask task = createParseSaveGameTask(selectedFile);
-        progressBar.progressProperty().bind(task.progressProperty());
-        progressBar.setVisible(true);
-        selectedFilePathLabel.setText(" Game save: " + selectedFile.getAbsolutePath());
-        selectedFilePathLabel.setBorder(Border.EMPTY);
-        Thread thread = new Thread(task);
-        thread.setDaemon(true);
-        thread.start();
-      } else {
-        selectedFilePathLabel.setText("No file selected");
-        selectedFilePathLabel.setBorder(Border.EMPTY);
-      }
-    });
-  }
 
   private ParseSaveGameTask createParseSaveGameTask(File selectedFile) {
     ParseSaveGameTask parseSaveGameTask = new ParseSaveGameTask(gameParsingService, mapSectorService, selectedFile, shadySearchConfig.maxSectors());
@@ -251,5 +289,25 @@ public class MainWindow {
     errorAlert.showAndWait();
   }
 
+  private static class MapSectorCellFactory extends MFXListCell<MapSector> {
+
+    private final MFXFontIcon userIcon;
+
+    public MapSectorCellFactory(MFXListView<MapSector> listView, MapSector data) {
+      super(listView, data);
+
+      userIcon = new MFXFontIcon("fas-user", 18);
+      userIcon.getStyleClass().add("user-icon");
+      render(data);
+    }
+
+    @Override
+    protected void render(MapSector data) {
+      super.render(data);
+      if (userIcon != null) {
+        getChildren().addFirst(userIcon);
+      }
+    }
+  }
 
 }
