@@ -91,7 +91,7 @@ public class SectorDialog {
     stationMacro.setRowCellFactory(mapSector -> new MFXTableRowCell<>(BlackMarketeer::getStationMacro));
     blackMarketeerName.setRowCellFactory(mapSector -> new MFXTableRowCell<>(BlackMarketeer::getName));
     voiceLeaks.setRowCellFactory(mapSector -> new MFXTableRowCell<>(BlackMarketeer::getVoiceLeaks));
-    status.setRowCellFactory(mapSector -> new MFXTableRowCell<>(BlackMarketeer::getStatus));
+    status.setRowCellFactory(mapSector -> new MFXTableRowCell<>(BlackMarketeer::getStatusName));
 
     ObservableList<BlackMarketeer> observableMapSectorList = FXCollections.observableArrayList(blackMarketeerList);
     blackMarketeerTable.setItems(observableMapSectorList);

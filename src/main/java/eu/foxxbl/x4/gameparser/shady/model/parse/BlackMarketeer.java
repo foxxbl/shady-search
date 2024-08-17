@@ -17,4 +17,8 @@ public class BlackMarketeer {
   private int voiceLeaks;
   private String name;
 
+  public String getStatusName() {
+    return status.getValue();
+  }
+
 }
