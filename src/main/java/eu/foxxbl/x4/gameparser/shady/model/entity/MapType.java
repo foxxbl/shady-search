@@ -11,10 +11,10 @@ public enum MapType {
   TERRAN("X4: Cradle of Humanity", true),
   PIRATE("X4: Tides of Avarice", true),
   BORON("X4: Kingdom End", true),
-  TIMELINES("X4: Timelines", true);
+  TIMELINES("X4: Timelines", true),
+  UNKNOWN("unknown", false);
 
   private final String fullName;
   private final boolean isDLC;
 
 }
-

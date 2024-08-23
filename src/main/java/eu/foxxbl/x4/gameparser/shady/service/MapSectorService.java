@@ -3,6 +3,7 @@ package eu.foxxbl.x4.gameparser.shady.service;
 
 import eu.foxxbl.x4.gameparser.shady.model.entity.FactionEntity;
 import eu.foxxbl.x4.gameparser.shady.model.entity.MapSectorEntity;
+import eu.foxxbl.x4.gameparser.shady.model.entity.MapType;
 import eu.foxxbl.x4.gameparser.shady.model.parse.ParsedMapSector;
 import eu.foxxbl.x4.gameparser.shady.model.ui.MapSector;
 import eu.foxxbl.x4.gameparser.shady.repository.FactionRepository;
@@ -41,9 +42,11 @@ public class MapSectorService {
   }
 
   private MapSectorEntity getMapSectorEntity(ParsedMapSector parsedMapSector, Map<String, MapSectorEntity> mapSectorMapByMacro) {
-    MapSectorEntity mapSectorEntity = mapSectorMapByMacro.get(parsedMapSector.sectorMacro());
+    String sectorMacro = parsedMapSector.sectorMacro();
+    MapSectorEntity mapSectorEntity = mapSectorMapByMacro.get(sectorMacro);
     if (mapSectorEntity == null) {
-      throw new RuntimeException("Cannot find translation for sector macro " + parsedMapSector.sectorMacro());
+        mapSectorEntity = new MapSectorEntity(sectorMacro, MapType.UNKNOWN, sectorMacro);
+        mapSectorMapByMacro.put(sectorMacro, mapSectorEntity);
     }
     return mapSectorEntity;
   }

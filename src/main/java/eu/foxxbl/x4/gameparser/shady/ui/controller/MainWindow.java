@@ -185,8 +185,8 @@ public class MainWindow {
             setStyle("");
           } else {
             setStyle(switch (mapSector.mapType()) {
-
               case DEFAULT -> "-fx-text-fill: black;";
+              case UNKNOWN -> "-fx-text-fill: black;";
               case SPLIT -> "-fx-text-fill: red;";
               case TERRAN -> "-fx-text-fill: blue;";
               case PIRATE -> "-fx-text-fill: goldenrod;";
@@ -204,8 +204,8 @@ public class MainWindow {
             setStyle("");
           } else {
             setStyle(switch (mapSector.mapType()) {
-
               case DEFAULT -> "-fx-text-fill: black;";
+              case UNKNOWN -> "-fx-text-fill: black;";
               case SPLIT -> "-fx-text-fill: red;";
               case TERRAN -> "-fx-text-fill: blue;";
               case PIRATE -> "-fx-text-fill: goldenrod;";
@@ -230,6 +230,7 @@ public class MainWindow {
   private void filterData() {
     Set<MapType> allowedMapTypes = new HashSet<>();
     allowedMapTypes.add(MapType.DEFAULT);
+    allowedMapTypes.add(MapType.UNKNOWN);
     if (splitCb.isSelected()) {
       allowedMapTypes.add(MapType.SPLIT);
     }
