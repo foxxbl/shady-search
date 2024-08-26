@@ -13,8 +13,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MapSectorService {
@@ -45,6 +47,7 @@ public class MapSectorService {
     String sectorMacro = parsedMapSector.sectorMacro();
     MapSectorEntity mapSectorEntity = mapSectorMapByMacro.get(sectorMacro);
     if (mapSectorEntity == null) {
+        log.warn("Cannot find translation for sector macro {}", sectorMacro);
         mapSectorEntity = new MapSectorEntity(sectorMacro, MapType.UNKNOWN, sectorMacro);
         mapSectorMapByMacro.put(sectorMacro, mapSectorEntity);
     }
