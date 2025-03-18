@@ -74,6 +74,12 @@
       </font>
     </MFXCheckbox>
 
+    <MFXCheckbox fx:id="hyperionCb" text="X4: Hyperion Pack" textFill="#a85f29" GridPane.columnIndex="0" GridPane.rowIndex="4">
+      <font>
+        <Font size="14.0" />
+      </font>
+    </MFXCheckbox>
+
 
   </GridPane>
   <MFXTableView fx:id="sectorTableView" prefHeight="1019.0" prefWidth="1400.0" VBox.vgrow="ALWAYS" maxHeight="+Infinity" maxWidth="+Infinity">

@@ -12,6 +12,7 @@ public enum MapType {
   PIRATE("X4: Tides of Avarice", true),
   BORON("X4: Kingdom End", true),
   TIMELINES("X4: Timelines", true),
+  MINI_01("X4: Hyperion Pack", true),
   UNKNOWN("unknown", false);
 
   private final String fullName;

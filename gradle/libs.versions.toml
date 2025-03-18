@@ -1,10 +1,10 @@
 [versions]
-fxveawer = '2.0.0'
+fxveawer = '2.0.1'
 materialfx = '11.17.0'
 javafxPlugin = '0.1.0'
 
-lombokPlugin = '8.6'
-jpackagePlugin = '1.6.0'
+lombokPlugin = '8.13'
+jpackagePlugin = '1.6.1'
 springBootPlugin = '3.3.2'
 
 [libraries]
