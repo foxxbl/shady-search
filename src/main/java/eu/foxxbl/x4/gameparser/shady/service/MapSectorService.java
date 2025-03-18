@@ -8,13 +8,14 @@ import eu.foxxbl.x4.gameparser.shady.model.parse.ParsedMapSector;
 import eu.foxxbl.x4.gameparser.shady.model.ui.MapSector;
 import eu.foxxbl.x4.gameparser.shady.repository.FactionRepository;
 import eu.foxxbl.x4.gameparser.shady.repository.MapSectorRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -38,7 +39,10 @@ public class MapSectorService {
   private FactionEntity getFactionEntity(ParsedMapSector parsedMapSector, Map<String, FactionEntity> factionMapByOwner) {
     FactionEntity factionEntity = factionMapByOwner.get(parsedMapSector.sectorOwner());
     if (factionEntity == null) {
-      throw new RuntimeException("Cannot find translation for owner faction " + parsedMapSector.sectorOwner());
+      String unknownSectorOwner = parsedMapSector.sectorOwner();
+      String unknownSectorOwnerShort = parsedMapSector.sectorOwner().toUpperCase().substring(0,Math.min(unknownSectorOwner.length(), 3));
+      factionEntity = FactionEntity.builder().id(unknownSectorOwner).name(unknownSectorOwner).shortName(unknownSectorOwnerShort).mapType(MapType.UNKNOWN).build();
+      log.warn("Cannot find translation for owner faction {} - created a new faction entity: {} ",  unknownSectorOwner, factionEntity);
     }
     return factionEntity;
   }
