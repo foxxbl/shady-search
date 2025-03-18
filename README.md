@@ -53,7 +53,7 @@ UI for parsing the X4: Foundations game saves to allow easier search for Black M
 
 ---
 # Disclaimer
-X4: Foundations and its DLCs (X4: Split Vendetta, X4: Cradle of Humanity, X4: Tides of Avarice,X4: Kingdom End, X4: Timelines) are the registered trademarks of the EGOSOFT GmbH (https://www.egosoft.com/).
+X4: Foundations and its DLCs (X4: Split Vendetta, X4: Cradle of Humanity, X4: Tides of Avarice,X4: Kingdom End, X4: Timelines, X4: Hyperion Pack) are the registered trademarks of the EGOSOFT GmbH (https://www.egosoft.com/).
 
 This project is not affiliated with, endorsed by, or in any way officially connected to Egosoft GmbH. 
 

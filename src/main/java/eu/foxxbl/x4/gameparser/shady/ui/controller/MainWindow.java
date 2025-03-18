@@ -18,12 +18,6 @@ import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.IntegerFilter;
 import io.github.palexdev.materialfx.filter.StringFilter;
 import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -39,6 +33,13 @@ import lombok.RequiredArgsConstructor;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Component
 @FxmlView // equal to: @FxmlView("MainWindow.fxml")
@@ -93,6 +94,8 @@ public class MainWindow {
   private MFXCheckbox boronCb;
   @FXML
   private MFXCheckbox timelinesCb;
+  @FXML
+  private MFXCheckbox hyperionCb;
 
   private ObservableList<MapSector> observableMapSectorList;
 
@@ -140,11 +143,13 @@ public class MainWindow {
     pirateCb.setSelected(false);
     boronCb.setSelected(false);
     timelinesCb.setSelected(false);
+    hyperionCb.setSelected(false);
     splitCb.setOnAction(event -> filterData());
     terranCb.setOnAction(event -> filterData());
     pirateCb.setOnAction(event -> filterData());
     boronCb.setOnAction(event -> filterData());
     timelinesCb.setOnAction(event -> filterData());
+    hyperionCb.setOnAction(event -> filterData());
   }
 
   private void initializeTableColumns() {
@@ -192,6 +197,7 @@ public class MainWindow {
               case PIRATE -> "-fx-text-fill: goldenrod;";
               case BORON -> "-fx-text-fill: lightseagreen;";
               case TIMELINES -> "-fx-text-fill: darkred;";
+              case MINI_01 -> "-fx-text-fill: #a85f29;";
             });
           }
         }
@@ -211,6 +217,7 @@ public class MainWindow {
               case PIRATE -> "-fx-text-fill: goldenrod;";
               case BORON -> "-fx-text-fill: lightseagreen;";
               case TIMELINES -> "-fx-text-fill: darkred;";
+              case MINI_01 -> "-fx-text-fill: #a85f29;";
             });
           }
         }
@@ -245,6 +252,9 @@ public class MainWindow {
     }
     if (timelinesCb.isSelected()) {
       allowedMapTypes.add(MapType.TIMELINES);
+    }
+    if (hyperionCb.isSelected()) {
+      allowedMapTypes.add(MapType.MINI_01);
     }
 
     SortedList<MapSector> sectorSortedList = observableMapSectorList.filtered(mapSector -> allowedMapTypes.contains(mapSector.mapType())).sorted();
