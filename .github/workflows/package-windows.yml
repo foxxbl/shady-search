@@ -1,0 +1,39 @@
+name: Build and Package Windows Distribution
+
+on:
+  workflow_call:
+
+jobs:
+  package-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Azul Zulu JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Install WixToolset
+        run: choco install wixtoolset
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build and package
+        run: ./gradlew clean jpackage -i
+
+      - name: Get Gradle version (Windows, must be run after jpackage)
+        id: get_version
+        run: |
+          $version = & .\gradlew.bat -q printVersion
+          echo "VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: shady-search-windows-${{ env.VERSION }}
+          path: build/dist
