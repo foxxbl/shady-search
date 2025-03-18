@@ -5,7 +5,7 @@ javafxPlugin = '0.1.0'
 
 lombokPlugin = '8.13'
 jpackagePlugin = '1.6.1'
-springBootPlugin = '3.3.2'
+springBootPlugin = '3.3.9'
 
 [libraries]
 javafx-weaver = { module = 'net.rgielen:javafx-weaver-spring-boot-starter', version.ref = 'fxveawer' }
