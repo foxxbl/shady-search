@@ -1,4 +1,4 @@
-name: Build, Package and Release
+name: Release Packages
 
 on:
   release:
@@ -20,10 +20,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Get version
+        run: echo "VERSION=$(./gradlew printVersion -q)" >> $GITHUB_ENV
+
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
+
+      - name: Extract artifacts
+        run: |
+          cd artifacts
+          unzip "shady-search-linux-${{ env.VERSION }}.zip"
+          unzip "shady-search-windows-${{ env.VERSION }}.zip"
 
       - name: Upload Linux Package
         uses: actions/upload-release-asset@v1
@@ -31,9 +40,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: artifacts/shady-search-linux-${{ env.VERSION }}
-          asset_name: shady-search-linux-${{ env.VERSION }}
-          asset_content_type: application/zip
+          asset_path: ./artifacts/shady-search-linux-${{ env.VERSION }}/build/dist/*.deb
+          asset_name: shady-search-linux-${{ env.VERSION }}.deb
+          asset_content_type: application/x-debian-package
 
       - name: Upload Windows Package
         uses: actions/upload-release-asset@v1
@@ -41,6 +50,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: artifacts/shady-search-windows-${{ env.VERSION }}
-          asset_name: shady-search-windows-${{ env.VERSION }}
-          asset_content_type: application/zip
+          asset_path: ./artifacts/shady-search-windows-${{ env.VERSION }}/build/dist/*.msi
+          asset_name: shady-search-windows-${{ env.VERSION }}.msi
+          asset_content_type: application/x-msi
