@@ -23,9 +23,8 @@ jobs:
       - name: Build and package
         run: ./gradlew clean jpackage -i
 
-      - name: Get Gradle version (Linux, must be run after jpackage)
-        id: get_version
-        run: echo "VERSION=$(./gradlew printVersion -q| tr -d '[:space:]')" >> $GITHUB_ENV
+      - name: Get release version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
       - name: Upload package
         uses: actions/upload-artifact@v4
