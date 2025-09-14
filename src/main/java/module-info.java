@@ -11,5 +11,6 @@ module shady.search {
   requires spring.boot.autoconfigure;
   requires spring.context;
   requires static lombok;
+  requires spring.core;
 
 }
