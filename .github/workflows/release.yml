@@ -40,7 +40,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifacts/shady-search-linux-${{ env.VERSION }}/build/dist/*.deb
+          asset_path: ./artifacts/*.deb
           asset_name: shady-search-linux-${{ env.VERSION }}.deb
           asset_content_type: application/x-debian-package
 
@@ -50,6 +50,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifacts/shady-search-windows-${{ env.VERSION }}/build/dist/*.msi
+          asset_path: ./artifacts/*.msi
           asset_name: shady-search-windows-${{ env.VERSION }}.msi
           asset_content_type: application/x-msi
