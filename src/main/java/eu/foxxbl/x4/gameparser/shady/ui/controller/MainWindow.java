@@ -96,6 +96,8 @@ public class MainWindow {
   private MFXCheckbox timelinesCb;
   @FXML
   private MFXCheckbox hyperionCb;
+  @FXML
+  private MFXCheckbox envoyCb;
 
   private ObservableList<MapSector> observableMapSectorList;
 
@@ -138,18 +140,20 @@ public class MainWindow {
   }
 
   private void initializeCheckboxes() {
-    splitCb.setSelected(false);
-    terranCb.setSelected(false);
-    pirateCb.setSelected(false);
-    boronCb.setSelected(false);
-    timelinesCb.setSelected(false);
-    hyperionCb.setSelected(false);
+    splitCb.setSelected(true);
+    terranCb.setSelected(true);
+    pirateCb.setSelected(true);
+    boronCb.setSelected(true);
+    timelinesCb.setSelected(true);
+    hyperionCb.setSelected(true);
+    envoyCb.setSelected(true);
     splitCb.setOnAction(event -> filterData());
     terranCb.setOnAction(event -> filterData());
     pirateCb.setOnAction(event -> filterData());
     boronCb.setOnAction(event -> filterData());
     timelinesCb.setOnAction(event -> filterData());
     hyperionCb.setOnAction(event -> filterData());
+    envoyCb.setOnAction(event -> filterData());
   }
 
   private void initializeTableColumns() {
@@ -177,8 +181,8 @@ public class MainWindow {
       }
     });
     var filters = List.of(new StringFilter<>("Sector name", MapSector::sectorName), new StringFilter<>("Sector owner", MapSector::sectorOwnerName),
-        new IntegerFilter<>("Nr of stations", MapSector::stationTotal), new IntegerFilter<>("Nr of black marketeers", MapSector::blackMarketeersTotal),
-        new IntegerFilter<>("Unlocked black marketeers", MapSector::blackMarketeersUnlocked));
+            new IntegerFilter<>("Nr of stations", MapSector::stationTotal), new IntegerFilter<>("Nr of black marketeers", MapSector::blackMarketeersTotal),
+            new IntegerFilter<>("Unlocked black marketeers", MapSector::blackMarketeersUnlocked));
     sectorTableView.setFooterVisible(false);
     sectorTableView.getFilters().addAll(filters);
     sectorTableView.setTableRowFactory(mapSector -> {
@@ -189,16 +193,7 @@ public class MainWindow {
           if (mapSector == null) {
             setStyle("");
           } else {
-            setStyle(switch (mapSector.mapType()) {
-              case DEFAULT -> "-fx-text-fill: black;";
-              case UNKNOWN -> "-fx-text-fill: black;";
-              case SPLIT -> "-fx-text-fill: red;";
-              case TERRAN -> "-fx-text-fill: blue;";
-              case PIRATE -> "-fx-text-fill: goldenrod;";
-              case BORON -> "-fx-text-fill: lightseagreen;";
-              case TIMELINES -> "-fx-text-fill: darkred;";
-              case MINI_01 -> "-fx-text-fill: #a85f29;";
-            });
+            setStyle("-fx-text-fill: " + mapSector.mapType().getColor() + ";");
           }
         }
 
@@ -209,16 +204,7 @@ public class MainWindow {
           if (mapSector == null) {
             setStyle("");
           } else {
-            setStyle(switch (mapSector.mapType()) {
-              case DEFAULT -> "-fx-text-fill: black;";
-              case UNKNOWN -> "-fx-text-fill: black;";
-              case SPLIT -> "-fx-text-fill: red;";
-              case TERRAN -> "-fx-text-fill: blue;";
-              case PIRATE -> "-fx-text-fill: goldenrod;";
-              case BORON -> "-fx-text-fill: lightseagreen;";
-              case TIMELINES -> "-fx-text-fill: darkred;";
-              case MINI_01 -> "-fx-text-fill: #a85f29;";
-            });
+            setStyle("-fx-text-fill: " + mapSector.mapType().getColor() + ";");
           }
         }
       };
@@ -256,13 +242,15 @@ public class MainWindow {
     if (hyperionCb.isSelected()) {
       allowedMapTypes.add(MapType.MINI_01);
     }
+    if (envoyCb.isSelected()) {
+      allowedMapTypes.add(MapType.MINI_02);
+    }
 
     SortedList<MapSector> sectorSortedList = observableMapSectorList.filtered(mapSector -> allowedMapTypes.contains(mapSector.mapType())).sorted();
     sectorTableView.setItems(sectorSortedList);
     sectorTableView.setFooterVisible(!sectorSortedList.isEmpty());
     sectorTableView.update();
   }
-
 
 
   private ParseSaveGameTask createParseSaveGameTask(File selectedFile) {
