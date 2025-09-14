@@ -28,11 +28,15 @@ jobs:
         with:
           path: artifacts
 
+      - name: List artifacts
+        run: ls -R artifacts
+        shell: bash
+
       - name: Extract artifacts
         run: |
           cd artifacts
-          unzip "shady-search-linux-${{ env.VERSION }}.zip"
-          unzip "shady-search-windows-${{ env.VERSION }}.zip"
+          unzip "shady-search-linux-${{ env.VERSION }}/shady-search-linux-${{ env.VERSION }}.zip"
+          unzip "shady-search-windows-${{ env.VERSION }}/shady-search-windows-${{ env.VERSION }}.zip"
 
       - name: Upload Linux Package
         uses: actions/upload-release-asset@v1
