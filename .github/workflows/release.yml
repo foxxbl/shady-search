@@ -20,8 +20,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Get version
-        run: echo "VERSION=$(./gradlew printVersion -q)" >> $GITHUB_ENV
+      - name: Get release version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -53,3 +53,19 @@ jobs:
           asset_path: ./artifacts/*.msi
           asset_name: shady-search-windows-${{ env.VERSION }}.msi
           asset_content_type: application/x-msi
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Update version for next development
+        run: |
+          # Increment patch version
+          NEXT_VERSION=$(echo ${{ env.VERSION }} | awk -F. '{$NF+=1;}1' OFS=.)
+          # Update the file with SNAPSHOT suffix
+          sed -i "s/version=.*/version=$NEXT_VERSION-SNAPSHOT/" gradle.properties
+
+          git add gradle.properties
+          git commit -m "Bump version to $NEXT_VERSION-SNAPSHOT"
+          git push origin main

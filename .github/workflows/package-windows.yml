@@ -26,10 +26,9 @@ jobs:
       - name: Build and package
         run: ./gradlew clean jpackage -i
 
-      - name: Get Gradle version (Windows, must be run after jpackage)
-        id: get_version
+      - name: Get release version
         run: |
-          $version = & .\gradlew.bat -q printVersion
+          $version = $env:GITHUB_REF -replace 'refs/tags/', ''
           echo "VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Upload package
