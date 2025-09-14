@@ -80,6 +80,11 @@
       </font>
     </MFXCheckbox>
 
+      <MFXCheckbox fx:id="envoyCb" text="X4: Envoy Pack" textFill="#9abf01" GridPane.columnIndex="1" GridPane.rowIndex="4">
+          <font>
+              <Font size="14.0" />
+          </font>
+      </MFXCheckbox>
 
   </GridPane>
   <MFXTableView fx:id="sectorTableView" prefHeight="1019.0" prefWidth="1400.0" VBox.vgrow="ALWAYS" maxHeight="+Infinity" maxWidth="+Infinity">

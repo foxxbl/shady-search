@@ -86,7 +86,7 @@ jpackage {
     appVersion = getVersion()
     vendor = packageVendor
     copyright = packageCopyright
-    runtimeImage = System.getProperty("java.home")
+    runtimeImage = file(System.getProperty("java.home"))
 
     windows {
         icon = layout.projectDirectory.file('src/main/resources/shady-search.ico')
