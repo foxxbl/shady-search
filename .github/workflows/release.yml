@@ -32,19 +32,13 @@ jobs:
         run: ls -R artifacts
         shell: bash
 
-      - name: Extract artifacts
-        run: |
-          cd artifacts
-          unzip "shady-search-linux-${{ env.VERSION }}/shady-search-linux-${{ env.VERSION }}.zip"
-          unzip "shady-search-windows-${{ env.VERSION }}/shady-search-windows-${{ env.VERSION }}.zip"
-
       - name: Upload Linux Package
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifacts/*.deb
+          asset_path: ./artifacts/shady-search-linux-${{ env.VERSION }}/*.deb
           asset_name: shady-search-linux-${{ env.VERSION }}.deb
           asset_content_type: application/x-debian-package
 
@@ -54,7 +48,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifacts/*.msi
+          asset_path: ./artifacts/shady-search-windows-${{ env.VERSION }}/*.msi
           asset_name: shady-search-windows-${{ env.VERSION }}.msi
           asset_content_type: application/x-msi
 
