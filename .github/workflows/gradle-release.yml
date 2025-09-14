@@ -11,33 +11,27 @@ jobs:
   build-windows:
     uses: ./.github/workflows/package-windows.yml
 
-  create-release:
+  upload-assets:
     needs: [build-linux, build-windows]
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Add this permission block
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
         with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release $${{ github.ref_name }}
-          draft: false
-          prerelease: false
+          path: artifacts
 
       - name: Upload Linux Package
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/dist/shady-search-linux-${{ env.VERSION }}
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: artifacts/shady-search-linux-${{ env.VERSION }}
           asset_name: shady-search-linux-${{ env.VERSION }}
           asset_content_type: application/zip
 
@@ -46,7 +40,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/dist/shady-search-windows-${{ env.VERSION }}
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: artifacts/shady-search-windows-${{ env.VERSION }}
           asset_name: shady-search-windows-${{ env.VERSION }}
           asset_content_type: application/zip
