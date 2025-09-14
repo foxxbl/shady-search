@@ -38,7 +38,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifacts/shady-search-linux-${{ env.VERSION }}/*.deb
+          asset_path: ./artifacts/shady-search-linux-${{ env.VERSION }}/x4-black-marketeer-finder_${{ env.VERSION }}_amd64.deb
           asset_name: shady-search-linux-${{ env.VERSION }}.deb
           asset_content_type: application/x-debian-package
 
@@ -48,7 +48,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./artifacts/shady-search-windows-${{ env.VERSION }}/*.msi
+          asset_path: ./artifacts/shady-search-windows-${{ env.VERSION }}/X4 Black Marketeer Finder-${{ env.VERSION }}.msi
           asset_name: shady-search-windows-${{ env.VERSION }}.msi
           asset_content_type: application/x-msi
 
