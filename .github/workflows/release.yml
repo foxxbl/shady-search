@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Fetch all history
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASE_TOKEN }}
 
       - name: Get release version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
@@ -56,6 +56,8 @@ jobs:
           asset_content_type: application/x-msi
 
       - name: Configure Git and Update Version
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}  # Use same PAT here
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
