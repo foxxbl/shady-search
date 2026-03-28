@@ -1,3 +1,4 @@
+import org.panteleyev.jpackage.ImageType
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
@@ -41,8 +42,10 @@ tasks.named('test', Test) {
 }
 
 java {
-    sourceCompatibility = '21'
-    targetCompatibility = '21'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+        vendor = JvmVendorSpec.AZUL
+    }
 }
 
 javafx {
@@ -68,8 +71,6 @@ bootJar {
     }
 }
 
-// Not required but useful if you want to configure a little more.
-def os = org.gradle.internal.os.OperatingSystem.current()
 
 String getVersion() {
     return "${project.version}".replaceAll("-SNAPSHOT", "")
@@ -77,37 +78,43 @@ String getVersion() {
 
 jpackage {
 
-    input = layout.buildDirectory.dir('libs').get()
-    type = os.windows ? 'msi' : os.linux ? 'deb' : 'pkg'
-    destination = layout.buildDirectory.dir('dist').get().asFile
-    mainJar = bootJar.archiveFileName.get()
+    input.set(layout.buildDirectory.dir('libs'))
+    destination.set(layout.buildDirectory.dir('dist'))
+    mainJar.set(bootJar.archiveFileName)
 
-    appName = packageAppName
-    appVersion = getVersion()
-    vendor = packageVendor
-    copyright = packageCopyright
-    runtimeImage = file(System.getProperty("java.home"))
+    appName.set(packageAppName)
+    appVersion.set(getVersion())
+    vendor.set(packageVendor)
+    copyright.set(packageCopyright)
+    runtimeImage.set(file(System.getProperty("java.home")))
 
     windows {
-        icon = layout.projectDirectory.file('src/main/resources/shady-search.ico')
+        type.set(ImageType.MSI)
+        icon.set(layout.projectDirectory.file('src/main/resources/shady-search.ico'))
         // Enable adding the application to the system menu.
-        winMenu = true
+        winMenu.set(true)
         // Enable adding a dialog to choose a directory in which the product is installed.
-        winDirChooser = true
+        winDirChooser.set(true)
         // Enable creating a console launcher for the application, should be specified for application which requires console interactions.
-        winConsole = false
+        winConsole.set(false)
     }
 
     linux {
-        icon = layout.projectDirectory.file('src/main/resources/shady-search.png')
+        type.set(ImageType.DEB)
+        icon.set(layout.projectDirectory.file('src/main/resources/shady-search.png'))
         // Group value of the RPM name.spec file or Section value of DEB control file.
-        linuxAppCategory = packageLinuxAppCategory
+        linuxAppCategory.set(packageLinuxAppCategory)
         // Maintainer for .deb package (email)
-        linuxDebMaintainer = packageLinuxDebMaintainer
+        linuxDebMaintainer.set(packageLinuxDebMaintainer)
         // Creates a shortcut for the application.
-        linuxShortcut = true
+        linuxShortcut.set(true)
         // Menu group this application is placed in
-        linuxMenuGroup = packageAppName
+        linuxMenuGroup.set(packageAppName)
+    }
+
+    mac {
+        type.set(ImageType.PKG)
+        icon.set(layout.projectDirectory.file('src/main/resources/shady-search.png'))
     }
 }
 
