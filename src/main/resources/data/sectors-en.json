@@ -1,0 +1,685 @@
+[ {
+  "sectorMacro" : "Cluster_01_Sector001_macro",
+  "sun" : 1.23,
+  "sectorName" : "Grand Exchange I"
+}, {
+  "sectorMacro" : "Cluster_01_Sector002_macro",
+  "sun" : 1.35,
+  "sectorName" : "Grand Exchange III"
+}, {
+  "sectorMacro" : "Cluster_01_Sector003_macro",
+  "sun" : 1.29,
+  "sectorName" : "Grand Exchange IV"
+}, {
+  "sectorMacro" : "Cluster_02_Sector001_macro",
+  "sun" : 0.9,
+  "sectorName" : "Eighteen Billion"
+}, {
+  "sectorMacro" : "Cluster_03_Sector001_macro",
+  "sun" : 1.15,
+  "sectorName" : "Memory of Profit IX"
+}, {
+  "sectorMacro" : "Cluster_04_Sector001_macro",
+  "sun" : 0.82,
+  "sectorName" : "Nopileos' Fortune II"
+}, {
+  "sectorMacro" : "Cluster_04_Sector002_macro",
+  "sun" : 0.78,
+  "sectorName" : "Nopileos' Fortune VI"
+}, {
+  "sectorMacro" : "Cluster_05_Sector001_macro",
+  "sun" : 1.43,
+  "sectorName" : "Path to Profit"
+}, {
+  "sectorMacro" : "Cluster_06_Sector001_macro",
+  "sun" : 1.16,
+  "sectorName" : "Black Hole Sun IV"
+}, {
+  "sectorMacro" : "Cluster_06_Sector002_macro",
+  "sun" : 1.19,
+  "sectorName" : "Black Hole Sun V"
+}, {
+  "sectorMacro" : "Cluster_07_Sector001_macro",
+  "sun" : 3.67,
+  "sectorName" : "The Reach"
+}, {
+  "sectorMacro" : "Cluster_08_Sector001_macro",
+  "sun" : 0.98,
+  "sectorName" : "Silent Witness I"
+}, {
+  "sectorMacro" : "Cluster_09_Sector001_macro",
+  "sun" : 2.04,
+  "sectorName" : "Bright Promise"
+}, {
+  "sectorMacro" : "Cluster_100_Sector001_macro",
+  "sun" : 0.13,
+  "extension" : "TERRAN",
+  "sectorName" : "Asteroid Belt"
+}, {
+  "sectorMacro" : "Cluster_101_Sector001_macro",
+  "sun" : 0.44,
+  "extension" : "TERRAN",
+  "sectorName" : "Mars"
+}, {
+  "sectorMacro" : "Cluster_102_Sector001_macro",
+  "sun" : 1.89,
+  "extension" : "TERRAN",
+  "sectorName" : "Venus"
+}, {
+  "sectorMacro" : "Cluster_104_Sector001_macro",
+  "sun" : 1.0,
+  "extension" : "TERRAN",
+  "sectorName" : "Earth"
+}, {
+  "sectorMacro" : "Cluster_104_Sector002_macro",
+  "sun" : 1.05,
+  "extension" : "TERRAN",
+  "sectorName" : "The Moon"
+}, {
+  "sectorMacro" : "Cluster_106_Sector001_macro",
+  "sun" : 7.14,
+  "extension" : "TERRAN",
+  "sectorName" : "Mercury"
+}, {
+  "sectorMacro" : "Cluster_107_Sector001_macro",
+  "sun" : 0.1,
+  "extension" : "TERRAN",
+  "sectorName" : "Jupiter"
+}, {
+  "sectorMacro" : "Cluster_108_Sector001_macro",
+  "sun" : 0.08,
+  "extension" : "TERRAN",
+  "sectorName" : "Saturn 1"
+}, {
+  "sectorMacro" : "Cluster_108_Sector002_macro",
+  "sun" : 0.08,
+  "extension" : "TERRAN",
+  "sectorName" : "Titan"
+}, {
+  "sectorMacro" : "Cluster_108_Sector003_macro",
+  "sun" : 0.08,
+  "extension" : "TERRAN",
+  "sectorName" : "Saturn 2"
+}, {
+  "sectorMacro" : "Cluster_109_Sector001_macro",
+  "sun" : 0.07,
+  "extension" : "TERRAN",
+  "sectorName" : "Uranus"
+}, {
+  "sectorMacro" : "Cluster_10_Sector001_macro",
+  "sun" : 1.63,
+  "sectorName" : "Unholy Retribution"
+}, {
+  "sectorMacro" : "Cluster_110_Sector001_macro",
+  "sun" : 0.06,
+  "extension" : "TERRAN",
+  "sectorName" : "Neptune"
+}, {
+  "sectorMacro" : "Cluster_111_Sector001_macro",
+  "sun" : 0.05,
+  "extension" : "TERRAN",
+  "sectorName" : "Pluto"
+}, {
+  "sectorMacro" : "Cluster_112_Sector001_macro",
+  "sun" : 1.17,
+  "extension" : "TERRAN",
+  "sectorName" : "Savage Spur I"
+}, {
+  "sectorMacro" : "Cluster_112_Sector002_macro",
+  "sun" : 1.25,
+  "extension" : "TERRAN",
+  "sectorName" : "Savage Spur II"
+}, {
+  "sectorMacro" : "Cluster_113_Sector001_macro",
+  "sun" : 1.87,
+  "extension" : "TERRAN",
+  "sectorName" : "Segaris"
+}, {
+  "sectorMacro" : "Cluster_114_Sector001_macro",
+  "sun" : 2.08,
+  "extension" : "TERRAN",
+  "sectorName" : "Gaian Prophecy"
+}, {
+  "sectorMacro" : "Cluster_115_Sector001_macro",
+  "sun" : 1.22,
+  "extension" : "TERRAN",
+  "sectorName" : "Brennan's Triumph"
+}, {
+  "sectorMacro" : "Cluster_116_Sector001_macro",
+  "sun" : 0.02,
+  "extension" : "TERRAN",
+  "sectorName" : "Oort Cloud"
+}, {
+  "sectorMacro" : "Cluster_11_Sector001_macro",
+  "sun" : 1.94,
+  "sectorName" : "Pontifex's Claim"
+}, {
+  "sectorMacro" : "Cluster_12_Sector001_macro",
+  "sun" : 0.71,
+  "sectorName" : "True Sight"
+}, {
+  "sectorMacro" : "Cluster_13_Sector001_macro",
+  "sun" : 0.59,
+  "sectorName" : "Second Contact II Flashpoint"
+}, {
+  "sectorMacro" : "Cluster_14_Sector001_macro",
+  "sun" : 1.0,
+  "sectorName" : "Argon Prime"
+}, {
+  "sectorMacro" : "Cluster_15_Sector001_macro",
+  "sun" : 1.33,
+  "sectorName" : "Ianamus Zura IV"
+}, {
+  "sectorMacro" : "Cluster_15_Sector002_macro",
+  "sun" : 1.15,
+  "sectorName" : "Ianamus Zura VII"
+}, {
+  "sectorMacro" : "Cluster_16_Sector001_macro",
+  "sun" : 2.01,
+  "sectorName" : "Matrix #451"
+}, {
+  "sectorMacro" : "Cluster_17_Sector001_macro",
+  "sun" : 1.0,
+  "sectorName" : "Matrix #9"
+}, {
+  "sectorMacro" : "Cluster_18_Sector001_macro",
+  "sun" : 1.33,
+  "sectorName" : "Trinity Sanctum III"
+}, {
+  "sectorMacro" : "Cluster_19_Sector001_macro",
+  "sun" : 1.16,
+  "sectorName" : "Hewa's Twin I"
+}, {
+  "sectorMacro" : "Cluster_19_Sector002_macro",
+  "sun" : 1.02,
+  "sectorName" : "Hewa's Twin II"
+}, {
+  "sectorMacro" : "Cluster_20_Sector001_macro",
+  "sun" : 0.83,
+  "sectorName" : "Company Regard"
+}, {
+  "sectorMacro" : "Cluster_21_Sector001_macro",
+  "sun" : 1.26,
+  "sectorName" : "Scale Plate Green I"
+}, {
+  "sectorMacro" : "Cluster_21_Sector002_macro",
+  "sun" : 1.15,
+  "sectorName" : "Scale Plate Green VII"
+}, {
+  "sectorMacro" : "Cluster_22_Sector001_macro",
+  "sun" : 1.36,
+  "sectorName" : "Pious Mists II"
+}, {
+  "sectorMacro" : "Cluster_23_Sector001_macro",
+  "sun" : 0.71,
+  "sectorName" : "Sacred Relic"
+}, {
+  "sectorMacro" : "Cluster_24_Sector001_macro",
+  "sun" : 2.08,
+  "sectorName" : "Holy Vision"
+}, {
+  "sectorMacro" : "Cluster_25_Sector001_macro",
+  "sun" : 1.77,
+  "sectorName" : "Faulty Logic I"
+}, {
+  "sectorMacro" : "Cluster_25_Sector002_macro",
+  "sun" : 1.47,
+  "sectorName" : "Faulty Logic VII"
+}, {
+  "sectorMacro" : "Cluster_26_Sector001_macro",
+  "sun" : 1.09,
+  "sectorName" : "Atiya's Misfortune I"
+}, {
+  "sectorMacro" : "Cluster_26_Sector002_macro",
+  "sun" : 0.93,
+  "sectorName" : "Atiya's Misfortune III"
+}, {
+  "sectorMacro" : "Cluster_27_Sector001_macro",
+  "sun" : 1.64,
+  "sectorName" : "The Void"
+}, {
+  "sectorMacro" : "Cluster_28_Sector001_macro",
+  "sun" : 1.26,
+  "sectorName" : "Antigone Memorial"
+}, {
+  "sectorMacro" : "Cluster_29_Sector001_macro",
+  "sun" : 1.12,
+  "sectorName" : "Hatikvah's Choice I"
+}, {
+  "sectorMacro" : "Cluster_29_Sector002_macro",
+  "sun" : 0.91,
+  "sectorName" : "Hatikvah's Choice III"
+}, {
+  "sectorMacro" : "Cluster_30_Sector001_macro",
+  "sun" : 0.76,
+  "sectorName" : "Morning Star III"
+}, {
+  "sectorMacro" : "Cluster_31_Sector001_macro",
+  "sun" : 1.81,
+  "sectorName" : "Heretic's End"
+}, {
+  "sectorMacro" : "Cluster_32_Sector001_macro",
+  "sun" : 1.42,
+  "sectorName" : "Tharka's Cascade XV"
+}, {
+  "sectorMacro" : "Cluster_32_Sector002_macro",
+  "sun" : 1.29,
+  "sectorName" : "Tharka's Cascade XVII"
+}, {
+  "sectorMacro" : "Cluster_33_Sector001_macro",
+  "sun" : 2.39,
+  "sectorName" : "Matrix #79B"
+}, {
+  "sectorMacro" : "Cluster_34_Sector001_macro",
+  "sun" : 0.79,
+  "sectorName" : "Profit Center Alpha"
+}, {
+  "sectorMacro" : "Cluster_35_Sector001_macro",
+  "sun" : 1.0,
+  "sectorName" : "Lasting Vengeance"
+}, {
+  "sectorMacro" : "Cluster_36_Sector001_macro",
+  "sun" : 0.88,
+  "sectorName" : "Cardinal's Redress"
+}, {
+  "sectorMacro" : "Cluster_37_Sector001_macro",
+  "sun" : 0.89,
+  "sectorName" : "Pious Mists IV"
+}, {
+  "sectorMacro" : "Cluster_38_Sector001_macro",
+  "sun" : 1.18,
+  "sectorName" : "Pious Mists XI"
+}, {
+  "sectorMacro" : "Cluster_39_Sector001_macro",
+  "sun" : 1.06,
+  "sectorName" : "Memory of Profit X"
+}, {
+  "sectorMacro" : "Cluster_400_Sector001_macro",
+  "sun" : 1.3,
+  "extension" : "SPLIT",
+  "sectorName" : "Wretched Skies IV Family Valka"
+}, {
+  "sectorMacro" : "Cluster_401_Sector001_macro",
+  "sun" : 0.71,
+  "extension" : "SPLIT",
+  "sectorName" : "Family Zhin"
+}, {
+  "sectorMacro" : "Cluster_402_Sector001_macro",
+  "sun" : 2.39,
+  "extension" : "SPLIT",
+  "sectorName" : "Family Kritt"
+}, {
+  "sectorMacro" : "Cluster_403_Sector001_macro",
+  "sun" : 1.23,
+  "extension" : "SPLIT",
+  "sectorName" : "Wretched Skies V Family Phi"
+}, {
+  "sectorMacro" : "Cluster_404_Sector001_macro",
+  "sun" : 1.42,
+  "extension" : "SPLIT",
+  "sectorName" : "Zyarth's Dominion I"
+}, {
+  "sectorMacro" : "Cluster_405_Sector001_macro",
+  "sun" : 2.1,
+  "extension" : "SPLIT",
+  "sectorName" : "Zyarth's Dominion IV"
+}, {
+  "sectorMacro" : "Cluster_406_Sector001_macro",
+  "sun" : 1.51,
+  "extension" : "SPLIT",
+  "sectorName" : "Zyarth's Dominion X"
+}, {
+  "sectorMacro" : "Cluster_407_Sector001_macro",
+  "sun" : 0.89,
+  "extension" : "SPLIT",
+  "sectorName" : "Family Tkr"
+}, {
+  "sectorMacro" : "Cluster_408_Sector001_macro",
+  "sun" : 0.59,
+  "extension" : "SPLIT",
+  "sectorName" : "Thuruk's Demise III"
+}, {
+  "sectorMacro" : "Cluster_408_Sector002_macro",
+  "sun" : 0.71,
+  "extension" : "SPLIT",
+  "sectorName" : "Thuruk's Demise II First Impact"
+}, {
+  "sectorMacro" : "Cluster_409_Sector001_macro",
+  "sun" : 1.09,
+  "extension" : "SPLIT",
+  "sectorName" : "Tharka's Ravine XXIV"
+}, {
+  "sectorMacro" : "Cluster_40_Sector001_macro",
+  "sun" : 0.55,
+  "sectorName" : "Second Contact VII"
+}, {
+  "sectorMacro" : "Cluster_410_Sector001_macro",
+  "sun" : 1.17,
+  "extension" : "SPLIT",
+  "sectorName" : "Tharka's Ravine XVI"
+}, {
+  "sectorMacro" : "Cluster_411_Sector001_macro",
+  "sun" : 2.45,
+  "extension" : "SPLIT",
+  "sectorName" : "Heart of Acrimony II"
+}, {
+  "sectorMacro" : "Cluster_412_Sector001_macro",
+  "sun" : 1.26,
+  "extension" : "SPLIT",
+  "sectorName" : "Tharka's Ravine VIII"
+}, {
+  "sectorMacro" : "Cluster_413_Sector001_macro",
+  "sun" : 1.31,
+  "extension" : "SPLIT",
+  "sectorName" : "Tharka's Ravine IV Tharka's Fall"
+}, {
+  "sectorMacro" : "Cluster_414_Sector001_macro",
+  "sun" : 1.63,
+  "extension" : "SPLIT",
+  "sectorName" : "Rhy's Defiance"
+}, {
+  "sectorMacro" : "Cluster_415_Sector001_macro",
+  "sun" : 0.77,
+  "extension" : "SPLIT",
+  "sectorName" : "Matrix #598"
+}, {
+  "sectorMacro" : "Cluster_416_Sector001_macro",
+  "sun" : 0.83,
+  "extension" : "SPLIT",
+  "sectorName" : "Guiding Star V"
+}, {
+  "sectorMacro" : "Cluster_416_Sector002_macro",
+  "sun" : 0.71,
+  "extension" : "SPLIT",
+  "sectorName" : "Guiding Star VII"
+}, {
+  "sectorMacro" : "Cluster_417_Sector001_macro",
+  "sun" : 1.18,
+  "extension" : "SPLIT",
+  "sectorName" : "Eleventh Hour"
+}, {
+  "sectorMacro" : "Cluster_418_Sector001_macro",
+  "sun" : 0.85,
+  "extension" : "SPLIT",
+  "sectorName" : "Family Nhuut"
+}, {
+  "sectorMacro" : "Cluster_419_Sector001_macro",
+  "sun" : 0.88,
+  "extension" : "SPLIT",
+  "sectorName" : "Open Market"
+}, {
+  "sectorMacro" : "Cluster_41_Sector001_macro",
+  "sun" : 0.47,
+  "sectorName" : "Second Contact XI"
+}, {
+  "sectorMacro" : "Cluster_420_Sector001_macro",
+  "sun" : 1.33,
+  "extension" : "SPLIT",
+  "sectorName" : "Two Grand"
+}, {
+  "sectorMacro" : "Cluster_421_Sector001_macro",
+  "sun" : 0.81,
+  "extension" : "SPLIT",
+  "sectorName" : "Fires of Defeat"
+}, {
+  "sectorMacro" : "Cluster_422_Sector001_macro",
+  "sun" : 1.08,
+  "extension" : "SPLIT",
+  "sectorName" : "Wretched Skies X"
+}, {
+  "sectorMacro" : "Cluster_423_Sector001_macro",
+  "sun" : 0.42,
+  "extension" : "SPLIT",
+  "sectorName" : "Litany of Fury IX"
+}, {
+  "sectorMacro" : "Cluster_423_Sector002_macro",
+  "sun" : 0.32,
+  "extension" : "SPLIT",
+  "sectorName" : "Litany of Fury XII"
+}, {
+  "sectorMacro" : "Cluster_424_Sector001_macro",
+  "sun" : 0.71,
+  "extension" : "SPLIT",
+  "sectorName" : "Emperor's Pride IV"
+}, {
+  "sectorMacro" : "Cluster_424_Sector002_macro",
+  "sun" : 0.65,
+  "extension" : "SPLIT",
+  "sectorName" : "Emperor's Pride VI"
+}, {
+  "sectorMacro" : "Cluster_425_Sector001_macro",
+  "sun" : 0.64,
+  "extension" : "SPLIT",
+  "sectorName" : "Heart of Acrimony I The Boneyard"
+}, {
+  "sectorMacro" : "Cluster_42_Sector001_macro",
+  "sun" : 0.86,
+  "sectorName" : "Hewa's Twin III"
+}, {
+  "sectorMacro" : "Cluster_42_Sector002_macro",
+  "sun" : 0.91,
+  "sectorName" : "Hewa's Twin IV The Cove"
+}, {
+  "sectorMacro" : "Cluster_43_Sector001_macro",
+  "sun" : 0.82,
+  "sectorName" : "Hewa's Twin V"
+}, {
+  "sectorMacro" : "Cluster_44_Sector001_macro",
+  "sun" : 1.18,
+  "sectorName" : "Silent Witness XI"
+}, {
+  "sectorMacro" : "Cluster_45_Sector001_macro",
+  "sun" : 1.47,
+  "sectorName" : "Silent Witness XII"
+}, {
+  "sectorMacro" : "Cluster_46_Sector001_macro",
+  "sun" : 0.65,
+  "sectorName" : "Morning Star IV"
+}, {
+  "sectorMacro" : "Cluster_47_Sector001_macro",
+  "sun" : 1.06,
+  "sectorName" : "Trinity Sanctum VII"
+}, {
+  "sectorMacro" : "Cluster_48_Sector001_macro",
+  "sun" : 0.93,
+  "sectorName" : "Getsu Fune"
+}, {
+  "sectorMacro" : "Cluster_49_Sector001_macro",
+  "sun" : 1.72,
+  "sectorName" : "Frontier Edge"
+}, {
+  "sectorMacro" : "Cluster_500_Sector001_macro",
+  "sun" : 13.9,
+  "extension" : "PIRATE",
+  "sectorName" : "Avarice I"
+}, {
+  "sectorMacro" : "Cluster_500_Sector002_macro",
+  "sun" : 13.9,
+  "extension" : "PIRATE",
+  "sectorName" : "Avarice V Dead End"
+}, {
+  "sectorMacro" : "Cluster_500_Sector003_macro",
+  "sun" : 13.9,
+  "extension" : "PIRATE",
+  "sectorName" : "Avarice IV"
+}, {
+  "sectorMacro" : "Cluster_501_Sector001_macro",
+  "sun" : 0.2,
+  "extension" : "PIRATE",
+  "sectorName" : "Windfall I Union Summit"
+}, {
+  "sectorMacro" : "Cluster_502_Sector001_macro",
+  "sun" : 0.16,
+  "extension" : "PIRATE",
+  "sectorName" : "Windfall III The Hoard"
+}, {
+  "sectorMacro" : "Cluster_503_Sector001_macro",
+  "sun" : 0.11,
+  "extension" : "PIRATE",
+  "sectorName" : "Windfall IV Aurora's Dream"
+}, {
+  "sectorMacro" : "Cluster_504_Sector001_macro",
+  "sun" : 0.05,
+  "extension" : "PIRATE",
+  "sectorName" : "Unknown System"
+}, {
+  "sectorMacro" : "Cluster_50_Sector001_macro",
+  "sun" : 1.41,
+  "sectorName" : "Turquoise Sea IX"
+}, {
+  "sectorMacro" : "Cluster_50_Sector002_macro",
+  "sun" : 1.28,
+  "sectorName" : "Turquoise Sea X"
+}, {
+  "sectorMacro" : "Cluster_601_Sector001_macro",
+  "sun" : 0.41,
+  "extension" : "BORON",
+  "sectorName" : "Watchful Gaze"
+}, {
+  "sectorMacro" : "Cluster_602_Sector001_macro",
+  "sun" : 0.83,
+  "extension" : "BORON",
+  "sectorName" : "Barren Shores"
+}, {
+  "sectorMacro" : "Cluster_603_Sector001_macro",
+  "sun" : 1.28,
+  "extension" : "BORON",
+  "sectorName" : "Great Reef"
+}, {
+  "sectorMacro" : "Cluster_604_Sector001_macro",
+  "sun" : 0.12,
+  "extension" : "BORON",
+  "sectorName" : "Ocean of Fantasy"
+}, {
+  "sectorMacro" : "Cluster_605_Sector001_macro",
+  "sun" : 1.74,
+  "extension" : "BORON",
+  "sectorName" : "Sanctuary of Darkness"
+}, {
+  "sectorMacro" : "Cluster_606_Sector001_macro",
+  "sun" : 1.18,
+  "extension" : "BORON",
+  "sectorName" : "Kingdom End I"
+}, {
+  "sectorMacro" : "Cluster_606_Sector002_macro",
+  "sun" : 1.18,
+  "extension" : "BORON",
+  "sectorName" : "Reflected Stars"
+}, {
+  "sectorMacro" : "Cluster_606_Sector003_macro",
+  "sun" : 1.18,
+  "extension" : "BORON",
+  "sectorName" : "Towering Wave"
+}, {
+  "sectorMacro" : "Cluster_607_Sector001_macro",
+  "sun" : 0.15,
+  "extension" : "BORON",
+  "sectorName" : "Rolk's Demise"
+}, {
+  "sectorMacro" : "Cluster_608_Sector001_macro",
+  "sun" : 0.41,
+  "extension" : "BORON",
+  "sectorName" : "Atreus' Clouds"
+}, {
+  "sectorMacro" : "Cluster_609_Sector001_macro",
+  "sun" : 2.71,
+  "extension" : "BORON",
+  "sectorName" : "Menelaus' Oasis"
+}, {
+  "sectorMacro" : "Cluster_730_Sector001_macro",
+  "sun" : 1.0,
+  "extension" : "MINI_01",
+  "sectorName" : "Third Redemption"
+}, {
+  "sectorMacro" : "Cluster_740_Sector001_macro",
+  "sun" : 2.66,
+  "extension" : "MINI_02",
+  "sectorName" : "Scarlet Star"
+}, {
+  "sectorMacro" : "cluster_701_Sector001_macro",
+  "sun" : 1.18,
+  "extension" : "TIMELINES",
+  "sectorName" : "Mitsuno's Revelation"
+}, {
+  "sectorMacro" : "cluster_702_Sector001_macro",
+  "sun" : 1.11,
+  "extension" : "TIMELINES",
+  "sectorName" : "Mitsuno's Defiance"
+}, {
+  "sectorMacro" : "cluster_703_Sector001_macro",
+  "sun" : 1.06,
+  "extension" : "TIMELINES",
+  "sectorName" : "Mitsuno's Sacrifice"
+}, {
+  "sectorMacro" : "cluster_704_Sector001_macro",
+  "sun" : 0.71,
+  "extension" : "TIMELINES",
+  "sectorName" : "President's End"
+}, {
+  "sectorMacro" : "cluster_705_Sector001_macro",
+  "sun" : 1.63,
+  "extension" : "TIMELINES",
+  "sectorName" : "Nopileos' Memorial"
+}, {
+  "sectorMacro" : "cluster_706_Sector001_macro",
+  "sun" : 0.88,
+  "extension" : "TIMELINES",
+  "sectorName" : "Hatikvah's Faith"
+}, {
+  "sectorMacro" : "cluster_708_Sector001_macro",
+  "sun" : 4.08,
+  "extension" : "TIMELINES",
+  "sectorName" : "Matrix #101"
+}, {
+  "sectorMacro" : "cluster_709_Sector001_macro",
+  "sun" : 1.24,
+  "sectorName" : "Cardinal's Domain"
+}, {
+  "sectorMacro" : "cluster_710_Sector001_macro",
+  "sun" : 0.93,
+  "sectorName" : "Moo-Kye's Revenge"
+}, {
+  "sectorMacro" : "cluster_711_Sector001_macro",
+  "sun" : 0.53,
+  "sectorName" : "Mi Ton's Refuge"
+}, {
+  "sectorMacro" : "cluster_712_Sector001_macro",
+  "sun" : 0.02,
+  "sectorName" : "Loomanckstrat's Legacy"
+}, {
+  "sectorMacro" : "cluster_713_Sector001_macro",
+  "sun" : 0.82,
+  "sectorName" : "CEO's Doubt"
+}, {
+  "sectorMacro" : "cluster_714_Sector001_macro",
+  "sun" : 2.21,
+  "sectorName" : "Freedom's Reach"
+}, {
+  "sectorMacro" : "cluster_715_Sector001_macro",
+  "sun" : 1.41,
+  "sectorName" : "Mists of Artemis"
+}, {
+  "sectorMacro" : "cluster_720_Sector001_macro",
+  "sun" : 1.34,
+  "sectorName" : "Ore Belt"
+}, {
+  "sectorMacro" : "cluster_721_Sector001_macro",
+  "sun" : 0.71,
+  "sectorName" : "Adventure's Promise"
+}, {
+  "sectorMacro" : "cluster_722_Sector001_macro",
+  "sun" : 0.89,
+  "sectorName" : "Sanctum Verge"
+}, {
+  "sectorMacro" : "cluster_723_Sector001_macro",
+  "sun" : 1.66,
+  "sectorName" : "Tempting Fumes"
+}, {
+  "sectorMacro" : "cluster_724_Sector001_macro",
+  "sun" : 1.42,
+  "sectorName" : "Circle of Deceit"
+}, {
+  "sectorMacro" : "cluster_725_Sector001_macro",
+  "sun" : 0.83,
+  "sectorName" : "Void of Opportunity"
+} ]

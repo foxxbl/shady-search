@@ -67,7 +67,8 @@ public class ShadyGuyParser {
   }
 
   /**
-   * Parses a station and searches for the black marketeer / shady guy
+   * Parses a station and searches for the black marketeer / shady guy.
+   * Combines NPC search and voice leak search into a single traversal when the shady guy is inactive.
    */
   private BlackMarketeer parseStation(Component stationComponent) {
     String stationName = getStationName(stationComponent);
@@ -86,15 +87,11 @@ public class ShadyGuyParser {
       }
     }
 
-    //parse if shady guy/black marketeer is already active for player
+    // Single-pass search: find NPC data and count voice leaks in one traversal
     if (StringUtils.hasText(blackMarketeer.getComponentId())) {
-      parseShadyGuyData(stationComponent, stationComponent.getCode(), blackMarketeer);
-
-      //parse voice leaks in case of potential shady guy inactive
+      int voiceLeaks = findShadyGuyAndLeaks(stationComponent, stationComponent.getCode(), blackMarketeer);
       if (blackMarketeer.getStatus() == ShadyGuyStatus.INACTIVE) {
-        List<String> voiceLeaks = new ArrayList<>();
-        parseRecursivelyForLeaks(stationComponent, stationComponent.getCode(), voiceLeaks);
-        blackMarketeer.setVoiceLeaks(voiceLeaks.size());
+        blackMarketeer.setVoiceLeaks(voiceLeaks);
       }
     }
 
@@ -111,43 +108,45 @@ public class ShadyGuyParser {
   }
 
   /**
-   * Parses the shady guy/black marketeer data - name and if it is active for player
+   * Combined single-pass traversal that finds the shady guy NPC and counts voice leaks.
+   * Skips connections flagged as ignored (ships, buildstorages, adjacentregions, visiblezones).
+   *
+   * @return number of voice leaks found in the station's component tree
    */
-  private static void parseShadyGuyData(Component component, String stationCode, BlackMarketeer blackMarketeer) {
+  private static int findShadyGuyAndLeaks(Component component, String stationCode, BlackMarketeer blackMarketeer) {
+    // Check if this component is the target NPC
     if (component.getClazz() == ComponentClass.NPC && component.getId().equals(blackMarketeer.getComponentId())) {
       blackMarketeer.setStatus(isShadyGuyActive(component) ? ShadyGuyStatus.ACTIVE : ShadyGuyStatus.INACTIVE);
       blackMarketeer.setName(component.getName());
       log.info("->Station {} Found Black Marketeer: {} traits: {}", stationCode, component.getName(), component.getTraits());
-    } else {
-      if (component.getConnections() != null) {
-        for (Connection connection : component.getConnections().getConnection()) {
-          for (Component childConnection : connection.getComponent()) {
-            parseShadyGuyData(childConnection, stationCode, blackMarketeer);
-          }
+      return 0;
+    }
+
+    // Check if this component is a voice leak
+    int voiceLeaks = 0;
+    if (component.getClazz() == ComponentClass.SIGNALLEAK && "voice".equals(component.getType())) {
+      log.info("->Station {} Found voice leak: {}", stationCode, component.getMacro());
+      voiceLeaks++;
+    }
+
+    // Recurse into child connections, skipping ignored types
+    if (component.getConnections() != null) {
+      for (Connection connection : component.getConnections().getConnection()) {
+        ConnectionType connectionType = ConnectionType.fromString(connection.getConnectionName());
+        if (connectionType.isIgnore()) {
+          continue;
+        }
+        for (Component child : connection.getComponent()) {
+          voiceLeaks += findShadyGuyAndLeaks(child, stationCode, blackMarketeer);
         }
       }
     }
+
+    return voiceLeaks;
   }
 
   private static boolean isShadyGuyActive(Component component) {
     return Optional.ofNullable(component.getTraits()).orElse(new Traits("")).getFlags().contains(TRADES_VISIBLE_TRAIT);
-  }
-
-  private void parseRecursivelyForLeaks(Component component, String stationCode, List<String> voiceLeaks) {
-    if (component.getClazz() == ComponentClass.SIGNALLEAK && "voice".equals(component.getType())) {
-      log.info("->Station {} Found voice leak: {}", stationCode, component.getMacro());
-      voiceLeaks.add(component.getMacro());
-    } else {
-
-      if (component.getConnections() != null) {
-        for (Connection connection : component.getConnections().getConnection()) {
-          for (Component childConnection : connection.getComponent()) {
-            parseRecursivelyForLeaks(childConnection, stationCode, voiceLeaks);
-          }
-        }
-
-      }
-    }
   }
 
 }

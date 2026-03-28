@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Desktop JavaFX application that parses **X4: Foundations** game save files (gzipped XML) to locate Black Marketeer vendors across all sectors. Built with Spring Boot for DI/data and JavaFX + MaterialFX for the UI, wired together via JavaFX-Weaver.
+Desktop JavaFX application that parses **X4: Foundations** game save files (gzipped XML) to locate Black Marketeer vendors across all sectors. Built with Spring Boot for DI and JavaFX + MaterialFX for the UI, wired together via JavaFX-Weaver.
 
 - **Group:** `eu.foxxbl.x4.gameparser`
 - **Main class:** `eu.foxxbl.x4.gameparser.shady.ShadySearchApplication`
@@ -15,13 +15,11 @@ Desktop JavaFX application that parses **X4: Foundations** game save files (gzip
 | Java | 25 (Azul Zulu FX) | Toolchain-managed via Gradle |
 | Gradle | 9.4.1 | Wrapper, Groovy DSL, version catalog `gradle/libs.versions.toml` |
 | Spring Boot | 4.0.x | Non-web (`web-application-type: none`), Spring Framework 7.0 |
-| Spring Data JPA | 4.0.x | `ListCrudRepository` interfaces |
-| Hibernate | 7.2.x | Via `spring-boot-hibernate` module |
 | JavaFX | 25 | `javafx.controls`, `javafx.fxml` modules |
 | MaterialFX | 11.17.0 | UI theming and controls (MFXTableView, MFXButton, etc.) |
 | JavaFX-Weaver | 2.0.1 | `net.rgielen:javafx-weaver-spring-boot-starter` for Spring DI in FXML controllers |
+| Jackson | 3.x | JSON deserialization of sector/faction data (via `tools.jackson.core:jackson-databind`) |
 | JAXB | Jakarta XML Bind 4.0 | XML unmarshalling of game save components |
-| HSQLDB | 2.7.x | Embedded read-only DB (`jdbc:hsqldb:res:`) for sector/faction translations |
 | Lombok | via `io.freefair.lombok` 9.2.0 plugin | `@Data`, `@Builder`, `@RequiredArgsConstructor`, `@Slf4j` |
 | Log4j2 | 2.25.x | Replaces default Logback (`spring-boot-starter-logging` excluded globally) |
 | jpackage plugin | `org.panteleyev.jpackageplugin` 2.0.1 | Native installers (MSI/DEB/PKG) |
@@ -37,10 +35,10 @@ src/main/java/
       ShadySearchConfig.java                # @ConfigurationProperties record (prefix: shady-search)
       UiConfig.java                         # Nested config record (title, width, height)
     model/
-      entity/                               # JPA entities (HSQLDB-backed, read-only at runtime)
-        FactionEntity.java                  # Faction ID -> name/shortName/mapType
-        MapSectorEntity.java                # Sector macro -> sectorName/mapType
-        MapType.java                        # Enum: DEFAULT, SPLIT, TERRAN, PIRATE, BORON, TIMELINES, MINI_01, MINI_02, UNKNOWN
+      MapType.java                          # Enum: DEFAULT, SPLIT, TERRAN, PIRATE, BORON, TIMELINES, MINI_01, MINI_02, UNKNOWN
+      json/                                 # JSON-backed data records (sector/faction translations)
+        Faction.java                        # Record: id, name, shortName, extension (from factions-en.json)
+        Sector.java                         # Record: sectorMacro, sun, extension, sectorName (from sectors-en.json)
       gamesave/                             # JAXB-annotated XML model (X4 save game structure)
         Component.java                      # Central XML element - sector/zone/station/NPC hierarchy
         ComponentClass.java                 # Enum with lookup map (GALAXY..SIGNALLEAK, OTHER)
@@ -58,18 +56,16 @@ src/main/java/
         ParsedMapSector.java                # @Builder record: per-sector parsing output
         ShadyGuyStatus.java                 # Enum: ACTIVE, INACTIVE, NONE
       ui/
-        MapSector.java                      # @Builder record: UI model combining parsed + DB data
+        MapSector.java                      # @Builder record: UI model combining parsed + JSON data
     parse/xml/
       X4SaveGameParser.java                 # StAX + JAXB streaming parser for .xml.gz game saves
       ShadyGuyParser.java                   # Recursive component tree walker for black marketeers
       filter/
         SectorFilter.java                   # StreamFilter record for XMLInputFactory.createFilteredReader
-    repository/
-      FactionRepository.java                # ListCrudRepository<FactionEntity, String>
-      MapSectorRepository.java              # ListCrudRepository<MapSectorEntity, String>
     service/
       GameParsingService.java               # Orchestrates parsing, progress reporting, timing
-      MapSectorService.java                 # Merges parsed data with DB sector/faction translations
+      JsonDataService.java                  # Loads and caches sector/faction data from bundled JSON resources
+      MapSectorService.java                 # Merges parsed data with JSON-backed sector/faction translations
     ui/
       application/
         SpringBootJavaFxApplication.java    # JavaFX Application subclass - boots Spring in init()
@@ -80,10 +76,12 @@ src/main/java/
         ParseSaveGameTask.java              # javafx.concurrent.Task - off-FX-thread parsing with progress
 
 src/main/resources/
-  application.yaml                          # Spring config (shady-search.*, spring.datasource.*, spring.jpa.*)
+  application.yaml                          # Spring config (shady-search.*, spring.main.*)
   log4j2.xml                               # Console appender, debug for eu.foxxbl package
   shady-search.ico / .png                   # Application icons
-  db/x4db.*                                 # HSQLDB embedded resource database (sector names, factions)
+  data/
+    sectors-en.json                         # Sector translations (from x4-game-parser output)
+    factions-en.json                        # Faction translations (from x4-game-parser output)
   eu/.../ui/controller/
     MainWindow.fxml                         # Main window layout (MaterialFX controls)
     SectorDialog.fxml                       # Sector detail dialog layout
@@ -112,24 +110,23 @@ Controllers are Spring `@Component` beans annotated with `@FxmlView`. JavaFX-Wea
 2. `X4SaveGameParser` opens `.xml.gz` via GZIPInputStream then StAX `XMLStreamReader` with `SectorFilter`
 3. For each `<component class="sector">`, JAXB unmarshals the subtree into a `Component` graph
 4. `ShadyGuyParser.findShadyGuys()` recursively walks zones, stations, NPCs to find black marketeers, check unlock status via traits, and count voice leaks
-5. Results: `List<ParsedMapSector>` -> `MapSectorService.populateSectors()` joins with DB -> `List<MapSector>` for UI
+5. Results: `List<ParsedMapSector>` -> `MapSectorService.populateSectors()` joins with JSON data -> `List<MapSector>` for UI
+
+### JSON Data Layer
+
+Sector and faction translations are loaded from bundled JSON resource files (`sectors-en.json`, `factions-en.json`) generated by the companion `x4-game-parser` project. `JsonDataService` loads these at startup via Jackson `JsonMapper`, caches them in memory as maps, and provides lookup methods used by `MapSectorService`.
+
+The JSON `extension` field (nullable string: `"SPLIT"`, `"TERRAN"`, `"PIRATE"`, etc.) maps to the `MapType` enum via `MapType.fromExtension()`: null → `DEFAULT`, known name → matching enum value, unknown → `UNKNOWN`.
 
 ### Threading Model
 
 Parsing runs on a daemon `Thread` via `ParseSaveGameTask` (extends `javafx.concurrent.Task`). Progress is reported back to the FX thread via `updateProgress()`. Success/failure handlers update the UI on the FX application thread.
 
-### Database
-
-Read-only embedded HSQLDB (`jdbc:hsqldb:res:`) with two tables:
-- `FACTION_ENTITY` - faction ID, translated name/shortName, MapType ordinal (TINYINT)
-- `MAP_SECTOR_ENTITY` - sector macro, translated sector name, MapType ordinal (TINYINT)
-
-MapType enum ordinals are stored as `TINYINT`. Entities use `@Enumerated(EnumType.ORDINAL)`.
-
 ## Build and Gradle Conventions
 
 - **Version catalog:** All plugin and external library versions in `gradle/libs.versions.toml`
 - **Spring Boot BOM:** Applied via `platform(SpringBootPlugin.BOM_COORDINATES)` - no explicit Spring dependency versions
+- **Jackson:** `tools.jackson.core:jackson-databind` version managed by Spring Boot BOM
 - **Logging:** `spring-boot-starter-logging` globally excluded; `spring-boot-starter-log4j2` used instead
 - **bootJar:** Produces `x4-black-marketeer-finder.jar` with implementation version/title from `gradle.properties`
 - **jpackage 2.0.1:** Platform-specific `type.set()` inside `windows {}`, `linux {}`, `mac {}` blocks
@@ -147,19 +144,22 @@ MapType enum ordinals are stored as `TINYINT`. Entities use `@Enumerated(EnumTyp
 ## JPMS Module System
 
 The project uses `module-info.java`. When adding new dependencies, add the corresponding `requires` directive. Current requires:
-- `jakarta.persistence`, `jakarta.xml.bind`, `java.xml`
+- `jakarta.xml.bind`, `java.xml`
 - `javafx.controls`, `javafx.fxml`
 - `MaterialFX`, `net.rgielen.fxweaver.core`
 - `org.slf4j`, `spring.boot`, `spring.boot.autoconfigure`, `spring.context`, `spring.core`
+- `tools.jackson.databind`
 - `static lombok`
+
+Opens: `model.json` package opened to `tools.jackson.databind` for JSON deserialization.
 
 ## Coding Conventions
 
-- **Java records** for immutable data: configuration (`ShadySearchConfig`, `UiConfig`), parsing results (`ParsedMapSector`, `MapSector`), filters (`SectorFilter`)
-- **Lombok** for boilerplate: `@Data` on mutable classes/entities, `@RequiredArgsConstructor` for constructor injection, `@Builder` for complex construction, `@Slf4j` for logging
+- **Java records** for immutable data: configuration (`ShadySearchConfig`, `UiConfig`), JSON data (`Faction`, `Sector`), parsing results (`ParsedMapSector`, `MapSector`), filters (`SectorFilter`)
+- **Lombok** for boilerplate: `@RequiredArgsConstructor` for constructor injection, `@Builder` for complex construction, `@Slf4j` for logging
 - **Constructor injection** everywhere via `@RequiredArgsConstructor` - no field `@Autowired`
-- **Enums with lookup maps** - `ComponentClass` and `ConnectionType` use `EnumSet`-based `Map<String, Enum>` with `fromString()` factory methods defaulting to `OTHER`
-- **Spring stereotypes:** `@Service` for business/parsing logic, `@Repository` for data access, `@Component` for UI controllers and listeners
+- **Enums with lookup maps** - `ComponentClass`, `ConnectionType`, and `MapType` use `Map<String, Enum>` with factory methods defaulting to a fallback value
+- **Spring stereotypes:** `@Service` for business/parsing logic, `@Component` for UI controllers and listeners
 - **FXML controllers** annotated with `@Component` + `@FxmlView`; `@FXML` fields match `fx:id` in FXML files at the same package path under `src/main/resources/`
 - **MaterialFX controls** throughout (not standard JavaFX controls): MFXTableView, MFXButton, MFXCheckbox, MFXProgressBar, MFXTextField, MFXTableRow, MFXTableRowCell
 - **2-space indentation** in Java source files
@@ -167,11 +167,10 @@ The project uses `module-info.java`. When adding new dependencies, add the corre
 
 ## Important Constraints
 
-1. **HSQLDB schema is read-only at runtime** (`ddl-auto: none`). Schema changes require editing `src/main/resources/db/x4db.script` directly.
-2. **MapType ordinals are persisted** as TINYINT - never reorder or insert enum values before existing ones; only append new values before `UNKNOWN`.
+1. **JSON data files** are generated by the `x4-game-parser` project. To update sector/faction translations, regenerate JSON and copy to `src/main/resources/data/`.
+2. **MapType enum values** must match the `extension` field values in JSON. Only append new values before `UNKNOWN`.
 3. **FXML files must mirror controller package path** - e.g., `MainWindow.java` in `eu.foxxbl.x4.gameparser.shady.ui.controller` requires `MainWindow.fxml` at the same path under `src/main/resources/`.
 4. **Game save XML structure** - the JAXB model in `model.gamesave` maps to the X4 save file format. Changes must match actual game save XML schema.
-5. **Spring Boot 4.0 property paths** - `spring.jpa.database-platform` lives at the `spring.jpa` level (not under `spring.jpa.hibernate`). Under `spring.jpa.hibernate` only `ddl-auto` and `naming.*` are valid.
-6. **jpackage plugin 2.0.1** - use `type.set()` inside platform blocks (`windows {}`, `linux {}`, `mac {}`), not at the outer jpackage level.
-7. **No web layer** - this is a desktop application; `spring.main.web-application-type=none`.
-8. **Module system** - any new dependency requires a `requires` entry in `module-info.java`.
+5. **jpackage plugin 2.0.1** - use `type.set()` inside platform blocks (`windows {}`, `linux {}`, `mac {}`), not at the outer jpackage level.
+6. **No web layer** - this is a desktop application; `spring.main.web-application-type=none`.
+7. **Module system** - any new dependency requires a `requires` entry in `module-info.java`. The `model.json` package must remain opened to `tools.jackson.databind`.

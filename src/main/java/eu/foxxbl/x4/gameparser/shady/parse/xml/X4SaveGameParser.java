@@ -9,39 +9,53 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.GZIPInputStream;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.GZIPInputStream;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class X4SaveGameParser {
 
+  private static final int BUFFER_SIZE = 65_536;
+
+  private static final JAXBContext JAXB_CONTEXT;
+
+  static {
+    try {
+      JAXB_CONTEXT = JAXBContext.newInstance(Component.class);
+    } catch (JAXBException e) {
+      throw new ExceptionInInitializerError(e);
+    }
+  }
+
+  private static final XMLInputFactory XML_INPUT_FACTORY = XMLInputFactory.newInstance();
+
   private final ShadyGuyParser shadyGuyParser;
 
   public List<ParsedMapSector> parseFileStream(ParseSaveGameTask parsingTask) throws XMLStreamException, JAXBException, IOException {
     File fileToParse = parsingTask.getFileToParse();
     log.info("Parsing file: {}, ", fileToParse);
-    try (InputStream gzipStream = new GZIPInputStream(new FileInputStream(fileToParse))) {
-      Reader decoder = new InputStreamReader(gzipStream, StandardCharsets.UTF_8);
-      BufferedReader buffered = new BufferedReader(decoder);
+    try (var gzipStream = new GZIPInputStream(new BufferedInputStream(new FileInputStream(fileToParse), BUFFER_SIZE), BUFFER_SIZE)) {
+      var decoder = new InputStreamReader(gzipStream, StandardCharsets.UTF_8);
+      var buffered = new BufferedReader(decoder, BUFFER_SIZE);
       return parseFileStreamBuffered(buffered, parsingTask);
     }
   }
@@ -50,13 +64,9 @@ public class X4SaveGameParser {
     int sectorNumber = 0;
     List<ParsedMapSector> parsedMapSectorList = new ArrayList<>();
 
-    XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-
-    XMLStreamReader xmlStreamReader = xmlInputFactory.createXMLStreamReader(buffered);
-
-    xmlStreamReader = xmlInputFactory.createFilteredReader(xmlStreamReader, new SectorFilter());
-    JAXBContext jc = JAXBContext.newInstance(Component.class);
-    Unmarshaller unmarshaller = jc.createUnmarshaller();
+    XMLStreamReader xmlStreamReader = XML_INPUT_FACTORY.createXMLStreamReader(buffered);
+    xmlStreamReader = XML_INPUT_FACTORY.createFilteredReader(xmlStreamReader, new SectorFilter());
+    Unmarshaller unmarshaller = JAXB_CONTEXT.createUnmarshaller();
 
     while (xmlStreamReader.hasNext()) {
       int xmlEvent = xmlStreamReader.next();
@@ -76,20 +86,14 @@ public class X4SaveGameParser {
   }
 
   public boolean isSector(XMLStreamReader xmlStreamReader) {
-
-    boolean isSector = false;
-
     for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
       QName name = xmlStreamReader.getAttributeName(i);
       String value = xmlStreamReader.getAttributeValue(i);
       if (name.getLocalPart().equals(ComponentClass.CLASS)) {
-        if (value.equalsIgnoreCase(ComponentClass.SECTOR.getName())) {
-          isSector = true;
-          break;
-        }
+        return value.equalsIgnoreCase(ComponentClass.SECTOR.getName());
       }
     }
-    return isSector;
+    return false;
   }
 
 }

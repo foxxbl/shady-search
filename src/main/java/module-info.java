@@ -1,5 +1,4 @@
 module shady.search {
-  requires jakarta.persistence;
   requires jakarta.xml.bind;
   requires java.xml;
   requires javafx.controls;
@@ -12,5 +11,8 @@ module shady.search {
   requires spring.context;
   requires static lombok;
   requires spring.core;
+  requires tools.jackson.databind;
+
+  opens eu.foxxbl.x4.gameparser.shady.model.json to tools.jackson.databind;
 
 }
