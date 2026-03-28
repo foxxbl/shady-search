@@ -2,6 +2,8 @@ package eu.foxxbl.x4.gameparser.shady.model.entity;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +24,7 @@ public class MapSectorEntity implements Comparable<MapSectorEntity> {
   private String sectorMacro;
 
   //Sector mapType
+  @Enumerated(EnumType.ORDINAL)
   private MapType mapType;
 
   //Translated Sector Name

@@ -1,6 +1,8 @@
 package eu.foxxbl.x4.gameparser.shady.model.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +30,7 @@ public class FactionEntity {
    */
   private String shortName;
 
+  @Enumerated(EnumType.ORDINAL)
   private MapType mapType;
 
 

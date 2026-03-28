@@ -3,9 +3,9 @@ fxveawer = '2.0.1'
 materialfx = '11.17.0'
 javafxPlugin = '0.1.0'
 
-lombokPlugin = '8.14.2'
-jpackagePlugin = '1.7.5'
-springBootPlugin = '3.5.5'
+lombokPlugin = '9.2.0'
+jpackagePlugin = '2.0.1'
+springBootPlugin = '4.0.4'
 
 [libraries]
 javafx-weaver = { module = 'net.rgielen:javafx-weaver-spring-boot-starter', version.ref = 'fxveawer' }
