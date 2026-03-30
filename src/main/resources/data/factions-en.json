@@ -1,0 +1,145 @@
+[ {
+  "id" : "player",
+  "name" : "Player",
+  "shortName" : "PL"
+}, {
+  "id" : "alliance",
+  "name" : "Alliance of the Word",
+  "shortName" : "ALI"
+}, {
+  "id" : "antigone",
+  "name" : "Antigone Republic",
+  "shortName" : "ANT"
+}, {
+  "id" : "argon",
+  "name" : "Argon Federation",
+  "shortName" : "ARG"
+}, {
+  "id" : "buccaneers",
+  "name" : "Duke's Buccaneers",
+  "shortName" : "BUC"
+}, {
+  "id" : "civilian",
+  "name" : "Civilian",
+  "shortName" : "CIV"
+}, {
+  "id" : "criminal",
+  "name" : "Criminal",
+  "shortName" : "CRI"
+}, {
+  "id" : "hatikvah",
+  "name" : "Hatikvah Free League",
+  "shortName" : "HAT"
+}, {
+  "id" : "holyorder",
+  "name" : "Holy Order of the Pontifex",
+  "shortName" : "HOP"
+}, {
+  "id" : "holyorderfanatic",
+  "name" : "Holy Order Faithful",
+  "shortName" : "HOF"
+}, {
+  "id" : "khaak",
+  "name" : "Kha'ak",
+  "shortName" : "KHK"
+}, {
+  "id" : "ministry",
+  "name" : "Ministry of Finance",
+  "shortName" : "MIN"
+}, {
+  "id" : "outlaw",
+  "name" : "Criminal",
+  "shortName" : "OUT"
+}, {
+  "id" : "ownerless",
+  "name" : "ownerless",
+  "shortName" : "OWN"
+}, {
+  "id" : "paranid",
+  "name" : "Godrealm of the Paranid",
+  "shortName" : "PAR"
+}, {
+  "id" : "scaleplate",
+  "name" : "Scale Plate Pact",
+  "shortName" : "SCA"
+}, {
+  "id" : "smuggler",
+  "name" : "Criminal",
+  "shortName" : "SMU"
+}, {
+  "id" : "teladi",
+  "name" : "Teladi Company",
+  "shortName" : "TEL"
+}, {
+  "id" : "trinity",
+  "name" : "Realm of the Trinity",
+  "shortName" : "TRI"
+}, {
+  "id" : "visitor",
+  "name" : "Visitor",
+  "shortName" : "VIS"
+}, {
+  "id" : "xenon",
+  "name" : "Xenon",
+  "shortName" : "XEN"
+}, {
+  "id" : "terran",
+  "name" : "Terran Protectorate",
+  "shortName" : "TER",
+  "extension" : "TIMELINES"
+}, {
+  "id" : "kaori",
+  "name" : "Quettanauts",
+  "shortName" : "QUE",
+  "extension" : "TIMELINES"
+}, {
+  "id" : "loanshark",
+  "name" : "Vigor Syndicate",
+  "shortName" : "VIG",
+  "extension" : "PIRATE"
+}, {
+  "id" : "scavenger",
+  "name" : "Riptide Rakers",
+  "shortName" : "RIP",
+  "extension" : "PIRATE"
+}, {
+  "id" : "boron",
+  "name" : "Queendom of Boron",
+  "shortName" : "BOR",
+  "extension" : "BORON"
+}, {
+  "id" : "court",
+  "name" : "Court of Curbs",
+  "shortName" : "CUB",
+  "extension" : "SPLIT"
+}, {
+  "id" : "fallensplit",
+  "name" : "Fallen Families",
+  "shortName" : "FAF",
+  "extension" : "SPLIT"
+}, {
+  "id" : "freesplit",
+  "name" : "Free Families",
+  "shortName" : "FRF",
+  "extension" : "SPLIT"
+}, {
+  "id" : "split",
+  "name" : "Zyarth Patriarchy",
+  "shortName" : "ZYA",
+  "extension" : "SPLIT"
+}, {
+  "id" : "pioneers",
+  "name" : "Segaris Pioneers",
+  "shortName" : "PIO",
+  "extension" : "TERRAN"
+}, {
+  "id" : "terran",
+  "name" : "Terran Protectorate",
+  "shortName" : "TER",
+  "extension" : "TERRAN"
+}, {
+  "id" : "yaki",
+  "name" : "Yaki",
+  "shortName" : "YAK",
+  "extension" : "TERRAN"
+} ]

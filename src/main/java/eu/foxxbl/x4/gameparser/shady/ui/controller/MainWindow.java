@@ -1,7 +1,7 @@
 package eu.foxxbl.x4.gameparser.shady.ui.controller;
 
 import eu.foxxbl.x4.gameparser.shady.config.ShadySearchConfig;
-import eu.foxxbl.x4.gameparser.shady.model.entity.MapType;
+import eu.foxxbl.x4.gameparser.shady.model.MapType;
 import eu.foxxbl.x4.gameparser.shady.model.ui.MapSector;
 import eu.foxxbl.x4.gameparser.shady.service.GameParsingService;
 import eu.foxxbl.x4.gameparser.shady.service.MapSectorService;
